@@ -18,3 +18,15 @@ header {
     align-items: center;
     z-index: 99;
 }
+
+.logo {
+    font-size: 2em;
+    color: #333;
+    user-select: none;
+}
+
+.admin {
+    font-size: 2em;
+    color: #333;
+    user-select: none;
+}
