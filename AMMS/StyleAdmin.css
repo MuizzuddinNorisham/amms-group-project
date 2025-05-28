@@ -7,7 +7,6 @@
 }
 
 header {
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -19,14 +18,9 @@ header {
     z-index: 99;
 }
 
-.logo {
+.logo, .admin {
     font-size: 2em;
     color: #333;
     user-select: none;
 }
 
-.admin {
-    font-size: 2em;
-    color: #333;
-    user-select: none;
-}
