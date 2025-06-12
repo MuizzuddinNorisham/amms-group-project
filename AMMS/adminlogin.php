@@ -38,7 +38,7 @@
                // Set session variables
                $_SESSION['username'] = $user['username'];
                $_SESSION['role'] = $user['role'];
-               header("Location: welcome.php"); // Redirect to a welcome page
+               header("Location: AdminHomePage.html"); // Redirect to a welcome page
                exit();
            } else {
                echo "Invalid password.";
