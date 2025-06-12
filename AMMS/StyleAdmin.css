@@ -6,12 +6,21 @@
     font-family: 'Poppins', sans-serif;
 }
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('whiteBG.jpg') no-repeat;
+    background-size: 
+}
+
 header {
     top: 0;
     left: 0;
     width: 100%;
     padding: 20px 100px;
-    background: red;
+    background: rgb(192, 107, 173);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,7 +29,7 @@ header {
 
 .logo, .admin {
     font-size: 2em;
-    color: #333;
+    color: black;
     user-select: none;
 }
 
