@@ -3,7 +3,7 @@
 session_start();
 
 // Database connection parameters
-$servername = "localhost"; // Change if your server is different
+$servername = "acrylic"; // Change if your server is different
 $username = "login_username"; // Your MySQL username
 $password = "login_password"; // Your MySQL password
 $dbname = "login"; // Your database name
