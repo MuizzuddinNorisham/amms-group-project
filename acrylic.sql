@@ -70,17 +70,17 @@ CREATE TABLE `invoice` (
 -- Table structure for table `login`
 --
 
-CREATE TABLE `login` (
-  `login_id` varchar(7) NOT NULL,
-  `login_username` varchar(20) NOT NULL,
-  `login_password` varchar(15) NOT NULL
+CREATE TABLE login (
+  login_id varchar(7) NOT NULL,
+  login_username varchar(20) NOT NULL,
+  login_password varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `login`
 --
 
-INSERT INTO `login` (`login_id`, `login_username`, `login_password`) VALUES
+INSERT INTO login (login_id, login_username, login_password) VALUES
 ('1001', 'asyrfhqkmi', 'Asyraf1234');
 
 -- --------------------------------------------------------
