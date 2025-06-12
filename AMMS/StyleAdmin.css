@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
-
+:root {
+  --pink: #e84393;
+  --bg-dark: #1e1e2f;
+  --bg-light: #2c2c3e;
+  --input-bg: #3a3a50;
+  --text-light: #f0f0f3;
+  --text-muted: #b5b5bf;
+  --radius: 12px;
+  --spacing: 16px;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
 * {
     margin: 0;
     padding: 0;
@@ -12,5 +23,5 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: rgb(197, 117, 154);
+    background: #1e1e2f;
 }
