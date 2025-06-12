@@ -46,56 +46,13 @@
         />
       </div>
 
-      <div class="form-options">
-        <label for="remember-me">
-          <input type="checkbox" id="remember-me" name="remember-me" />
-          Remember me
-        </label>
-        <a href="#" id="forgotPasswordLink" tabindex="0">Forgot password?</a>
-      </div>
-
       <button type="submit" aria-label="Sign in to your account">Sign In</button>
     </form>
 
     <footer class="login-footer" aria-label="Sign up link">
-      New here?&nbsp;<a href="#" id="createAccountLink" tabindex="0">Create an account</a>
+      New here?&nbsp;<a href="register.html" id="createAccountLink" tabindex="0">Create an account</a>
     </footer>
   </main>
 
-  <script>
-    const form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-
-      const email = form.email.value.trim();
-      const password = form.password.value;
-
-      const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-
-      if (!emailPattern.test(email)) {
-        alert('Please enter a valid email address.');
-        form.email.focus();
-        return;
-      }
-      if (password.length < 6) {
-        alert('Password must be at least 6 characters.');
-        form.password.focus();
-        return;
-      }
-
-      alert('Login successful (simulation).');
-      form.reset();
-    });
-
-    document.getElementById('forgotPasswordLink').addEventListener('click', e => {
-      e.preventDefault();
-      alert('Redirecting to password reset page (simulation).');
-    });
-
-    document.getElementById('createAccountLink').addEventListener('click', e => {
-      e.preventDefault();
-      alert('Redirecting to create account page (simulation).');
-    });
-  </script>
 </body>
 </html>
