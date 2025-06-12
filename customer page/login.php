@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     // If accessed directly, redirect to login page
-    header('Location: login.html');
+    header('Location: test.html');
     exit();
 }
 ?>
