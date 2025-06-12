@@ -10,50 +10,38 @@ $dbname = "login"; // Your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $role = isset($_POST['role']) ? $_POST['role'] : '';
-
-    echo "Username: $username, Role: $role"; // Debugging line
-
+    $login_username = $_POST['username'];
+    $login_password = $_POST['password'];
     // Prepare and bind
-    $stmt = $conn->prepare("SELECT * FROM login WHERE username = ? AND role = ?");
-    $stmt->bind_param("ss", $username, $role);
-
+    $stmt = $conn->prepare("SELECT * FROM login WHERE login_username = ?");
+    $stmt->bind_param("s", $login_username);
     // Execute the statement
     $stmt->execute();
     $result = $stmt->get_result();
-
     // Check if user exists
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         // Verify password
-        if (password_verify($password, $user['password'])) {
+        if (password_verify($login_password, $user['login_password'])) {
             // Set session variables
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
+            $_SESSION['username'] = $user['login_username'];
             header("Location: admin_dashboard.php"); // Redirect to the admin dashboard
             exit();
         } else {
-            echo "Invalid password."; // Debugging line
+            echo "Invalid password.";
         }
     } else {
-        echo "No user found."; // Debugging line
+        echo "No user found.";
     }
-
     // Close the statement
     $stmt->close();
 }
-
-
 // Close the connection
 $conn->close();
 ?>
