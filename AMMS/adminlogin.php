@@ -3,10 +3,10 @@
 session_start();
 
 // Database connection parameters
-$servername = "localhost"; // Change if your server is different
-$username = "login_username"; // Your MySQL username
-$password = "login_password"; // Your MySQL password
-$dbname = "login"; // Your database name
+$servername = localhost; // Change if your server is different
+$username = login_username; // Your MySQL username
+$password = login_password; // Your MySQL password
+$dbname = login; // Your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
