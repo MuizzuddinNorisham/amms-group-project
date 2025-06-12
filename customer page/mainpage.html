@@ -262,7 +262,7 @@
 
         <!--review section ends-->
 
-        <!--review section start-->
+        <!--contact section start-->
 
         <section class="contact" id="contact">
 
@@ -282,7 +282,32 @@
             </div>
         </section>
 
-        <!--review section ends-->
+        <!--contact section ends-->
 
+        <script>
+        document.querySelectorAll('.cart-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const name = btn.getAttribute('data-name');
+                const price = btn.getAttribute('data-price');
+                const image = btn.getAttribute('data-image');
+                // Default values for shape, font, quantity
+                const item = {
+                    name,
+                    price,
+                    image,
+                    quantity: 1,
+                    shape: 'Rectangle',
+                    font: 'Arial'
+                };
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Added to cart!');
+                // Optionally, redirect to cart page:
+                // window.location.href = 'addtocartui/addtocart.html';
+            });
+        });
+        </script>
     </body>
 </html>
