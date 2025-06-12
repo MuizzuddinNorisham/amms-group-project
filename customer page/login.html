@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Pink Themed</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <main class="login-container" role="main" aria-label="Login form">
+    <header class="login-header">
+      <h1 tabindex="0">Welcome Back</h1>
+      <p tabindex="0">Sign in to your account</p>
+    </header>
+
+    <form novalidate autocomplete="on" aria-describedby="loginInstructions">
+      <p id="loginInstructions" class="sr-only">Enter your email address and password to log in.</p>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <i class="fas fa-envelope fa-icon" aria-hidden="true"></i>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          required
+          aria-required="true"
+          placeholder="you@example.com"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <i class="fas fa-lock fa-icon" aria-hidden="true"></i>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          aria-required="true"
+          placeholder="Your password"
+        />
+      </div>
+
+      <div class="form-options">
+        <label for="remember-me">
+          <input type="checkbox" id="remember-me" name="remember-me" />
+          Remember me
+        </label>
+        <a href="#" id="forgotPasswordLink" tabindex="0">Forgot password?</a>
+      </div>
+
+      <button type="submit" aria-label="Sign in to your account">Sign In</button>
+    </form>
+
+    <footer class="login-footer" aria-label="Sign up link">
+      New here?&nbsp;<a href="#" id="createAccountLink" tabindex="0">Create an account</a>
+    </footer>
+  </main>
+
+  <script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const email = form.email.value.trim();
+      const password = form.password.value;
+
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+      if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address.');
+        form.email.focus();
+        return;
+      }
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters.');
+        form.password.focus();
+        return;
+      }
+
+      alert('Login successful (simulation).');
+      form.reset();
+    });
+
+    document.getElementById('forgotPasswordLink').addEventListener('click', e => {
+      e.preventDefault();
+      alert('Redirecting to password reset page (simulation).');
+    });
+
+    document.getElementById('createAccountLink').addEventListener('click', e => {
+      e.preventDefault();
+      alert('Redirecting to create account page (simulation).');
+    });
+  </script>
+</body>
+</html>

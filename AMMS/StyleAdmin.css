@@ -1,26 +1,16 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css')
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
-header {
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 100px;
-    background: red;
+body {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    z-index: 99;
+    min-height: 100vh;
+    background: rgb(197, 117, 154);
 }
-
-.logo, .admin {
-    font-size: 2em;
-    color: #333;
-    user-select: none;
-}
-
