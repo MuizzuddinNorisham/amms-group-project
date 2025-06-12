@@ -29,8 +29,13 @@ body {
 
 .wrapper {
     width: 420px;
-    background:#9191df;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2))
+    background-filter: blur(20px);
+    box-shadow: 0 0 10px rgba;(0, 0, 0, .2);
     color:#e8e8f4;
+    border-radius: 10px;
+    padding: 30px 40px;
 }
 
 .wrapper h1 {
@@ -51,7 +56,10 @@ body {
     border: none;
     outline: none;
     border: 2px solid rgba(255, 255, 255, .2);
-    border-radius: 40px;            
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;            
 }
 
 .input-box input: :placeholder {
@@ -62,4 +70,48 @@ body {
     position: absolute;
     right: 20px;
     top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.wrapper .remember-forgot {
+    display:flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.remember-forgot label input {
+    accent-color: #fff;
+    margin-right: 3px;
+}
+
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgbd(0,0,0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.wrapper .register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register-link p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
 }
