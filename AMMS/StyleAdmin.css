@@ -115,3 +115,15 @@ body {
 .register-link p a:hover {
     text-decoration: underline;
 }
+
+.wrapper .admin-staff {
+    display:flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.admin-staff label input {
+    accent-color: #fff;
+    margin-right: 3px;
+}
