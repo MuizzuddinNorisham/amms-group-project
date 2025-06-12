@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Create Account - Pink Themed</title>
+<title>Create Account</title>
 <!-- Font Awesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <style>
@@ -266,16 +266,11 @@
         />
       </div>
 
-      <div class="terms">
-        <input type="checkbox" id="terms" name="terms" required aria-required="true" />
-        <label for="terms">I agree to the <a href="#" tabindex="0">Terms and Conditions</a></label>
-      </div>
-
       <button type="submit" aria-label="Create new account">Create Account</button>
     </form>
 
     <footer class="create-footer" aria-label="Sign in link">
-      Already have an account?&nbsp;<a href="#" id="loginLink" tabindex="0">Log in</a>
+      Already have an account?&nbsp;<a href="login.html" id="loginLink" tabindex="0">Log in</a>
     </footer>
   </main>
 
@@ -317,21 +312,10 @@
         return;
       }
 
-      if (!termsChecked) {
-        alert('You must agree to the Terms and Conditions.');
-        form.terms.focus();
-        return;
-      }
-
       alert('Account created successfully (simulation).');
       form.reset();
     });
 
-    document.getElementById('loginLink').addEventListener('click', e => {
-      e.preventDefault();
-      alert('Redirecting to login page (simulation).');
-      // In real app, redirect to login page here
-    });
   </script>
 </body>
 </html>
