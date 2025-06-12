@@ -3,10 +3,10 @@
 session_start();
 
 // Database connection parameters
-$servername = "acrylic"; // Change if your server is different
+$servername = "localhost"; // Change if your server is different
 $username = "login_username"; // Your MySQL username
 $password = "login_password"; // Your MySQL password
-$dbname = "login"; // Your database name
+$dbname = "acrylic"; // Your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = isset($_POST['role']) ? $_POST['role'] : '';
 
     // Prepare and bind
-    $stmt = $conn->prepare("SELECT * FROM login WHERE username = ? AND role = ?");
+    $stmt = $conn->prepare("SELECT * FROM acrylic WHERE username = ? AND role = ?");
     $stmt->bind_param("ss", $username, $role);
 
     // Execute the statement
