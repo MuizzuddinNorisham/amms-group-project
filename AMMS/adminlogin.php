@@ -6,7 +6,7 @@ session_start();
 $servername = "localhost"; // Change if your server is different
 $username = "login_username"; // Your MySQL username
 $password = "login_password"; // Your MySQL password
-$dbname = "acrylic"; // Your database name
+$dbname = "login"; // Your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -22,8 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $role = isset($_POST['role']) ? $_POST['role'] : '';
 
+    echo "Username: $username, Role: $role"; // Debugging line
+
     // Prepare and bind
-    $stmt = $conn->prepare("SELECT * FROM acrylic WHERE username = ? AND role = ?");
+    $stmt = $conn->prepare("SELECT * FROM login WHERE username = ? AND role = ?");
     $stmt->bind_param("ss", $username, $role);
 
     // Execute the statement
@@ -41,15 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: admin_dashboard.php"); // Redirect to the admin dashboard
             exit();
         } else {
-            echo "Invalid password.";
+            echo "Invalid password."; // Debugging line
         }
     } else {
-        echo "No user found.";
+        echo "No user found."; // Debugging line
     }
 
     // Close the statement
     $stmt->close();
 }
+
 
 // Close the connection
 $conn->close();
