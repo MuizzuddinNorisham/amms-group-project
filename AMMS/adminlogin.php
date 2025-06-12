@@ -25,6 +25,8 @@
        // Prepare and bind
        $stmt = $conn->prepare("SELECT * FROM login WHERE username = ? AND role = ?");
        $stmt->bind_param("ss", $username, $role);
+       $hashed_password = password_hash("your_password", PASSWORD_DEFAULT);
+
 
        // Execute the statement
        $stmt->execute();
