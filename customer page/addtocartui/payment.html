@@ -16,30 +16,39 @@
             </h4>
         </div>
 
-    <form action ="#">
-        <input type ="radio" name="payment" id="visa">
-        <input type ="radio" name="payment" id="mastercard">
+        <form action ="#">
+            <input type ="radio" name="payment" id="visa">
+            <input type ="radio" name="payment" id="mastercard">
 
-    <div class="category">
-        <label for="visa" class="visaMethod">
-            <div class="imgName">
-                <div class="imgContainer visa">
-                    <img src = "image.visa.png" alt="">
-                </div>
-                <span class="name"> Visa </span>
+            <div class="category">
+                <label for="visa" class="visaMethod">
+                    <div class="imgName">
+                        <div class="imgContainer visa">
+                            <img src = "image.visa.png" alt="">
+                        </div>
+                        <span class="name"> Visa </span>
+                    </div>
+                    <span class = "check"> <i class="fa-solid fa-circle-check" style="color: #6064b6;"></i> </span>
+                </label>
+            
+                <label for="mastercard" class ="mastercardMethod">
+                    <div class="imgName">
+                        <div class="imgContainer">
+                            <img src = "image.mastercard.png" alt="">
+                        </div>
+                        <span class="name"> MasterCard </span>
+                    </div>
+                    <span class="check"> <i class="fa-solid fa-circle-check" style="color: #6064b6;"></i> </span>
+                </label>
             </div>
-            <span class = "check"> <i class="fa-solid fa-circle-check" style="color: #6064b6;"></i> </span>
-        </label>
-    
-        <label for="mastercard" class ="mastercardMethod">
-            <div class="imgName">
-                <div class="imgContainer">
-                    <img src = "image.mastercard.png" alt="">
-                </div>
-                <span class="name"> MasterCard </span>
-            </div>
-            <span class="check"> <i class="fa-solid fa-circle-check" style="color: #6064b6;"></i> </span>
-        </label>
 
+            <div class="inputFields">
+                <input type="text" id="username" name="username" placeholder="Enter your name" required>
+                <input type="tel" id="contact" name="contact" placeholder="Enter your contact number" required>
+            </div>
+
+            <button type="submit" class="confirmButton">Confirm</button>
+        </form>
+    </div>
 </body>
 </html>
