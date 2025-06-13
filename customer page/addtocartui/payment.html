@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title> Payment Method </title>
     <link rel="stylesheet" href="payment.css">
+    <style>
+        .inputFields {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+        }
+
+        .inputFields input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .confirmButton {
+            width: 100%;
+            padding: 10px;
+            background-color: rgb(97, 101, 181);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+
+        .confirmButton:hover {
+            background-color: #505a9a;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -16,9 +47,9 @@
             </h4>
         </div>
 
-        <form action ="#">
-            <input type ="radio" name="payment" id="visa">
-            <input type ="radio" name="payment" id="mastercard">
+        <form id="paymentForm" action ="#">
+            <input type ="radio" name="payment" id="visa" value="visa">
+            <input type ="radio" name="payment" id="mastercard" value="mastercard">
 
             <div class="category">
                 <label for="visa" class="visaMethod">
@@ -38,17 +69,31 @@
                         </div>
                         <span class="name"> MasterCard </span>
                     </div>
-                    <span class="check"> <i class="fa-solid fa-circle-check" style="color: #6064b6;"></i> </span>
+                    <span class = "check"> <i class="fa-solid fa-circle-check" style="color: #6064b6;"></i> </span>
                 </label>
             </div>
 
-            <div class="inputFields">
+            <div class="inputFields" id="inputFields">
                 <input type="text" id="username" name="username" placeholder="Enter your name" required>
                 <input type="tel" id="contact" name="contact" placeholder="Enter your contact number" required>
+                <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter your card number" required>
             </div>
 
-            <button type="submit" class="confirmButton">Confirm</button>
+            <button type="button" class="confirmButton" onclick="redirectToPaymentInfo()">Confirm Payment Method</button>
         </form>
     </div>
+
+    <script>
+        function redirectToPaymentInfo() {
+            const paymentOptions = document.querySelector('input[name="payment"]:checked');
+            if (paymentOptions) {
+                document.getElementById('inputFields').style.display = 'block';
+                // Redirect to paymentInfo.html
+                window.location.href = 'paymentInfo.html';
+            } else {
+                alert('Please select a payment method first.');
+            }
+        }
+    </script>
 </body>
 </html>
