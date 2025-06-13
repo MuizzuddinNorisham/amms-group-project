@@ -6,22 +6,6 @@ body {
     color: #222;
 }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.2rem 2rem;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-}
-
-.logo {
-    font-weight: bold;
-    font-size: 1.3rem;
-    color: #222;
-    text-decoration: none;
-}
-
 .cart-icon {
     text-decoration: none;
     color: #222;
@@ -183,7 +167,7 @@ nav {
 }
 
 .nav-center-title {
-    flex: 2;
+    flex: 1;
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
@@ -191,3 +175,24 @@ nav {
     letter-spacing: 1px;
 }
 
+header{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #fff;
+    padding: 2rem 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+}
+
+header .logo{
+    font-size: 3rem;
+    color: #333;
+    font-weight: bolder;
+}
+
+header .logo span{
+    color:var(--pink);
+}

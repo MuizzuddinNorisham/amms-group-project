@@ -144,7 +144,7 @@
                         </div>
                     </div>
                     <div class="content">
-                        <h3>dark gold mirror black design</h3>
+                        <h3>Dark Gold Mirror Black Design</h3>
                         <div class="price">RM60.00</div>
                     </div>
                 </div>
@@ -285,29 +285,43 @@
         <!--contact section ends-->
 
         <script>
-        document.querySelectorAll('.cart-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const name = btn.getAttribute('data-name');
-                const price = btn.getAttribute('data-price');
-                const image = btn.getAttribute('data-image');
-                // Default values for shape, font, quantity
-                const item = {
-                    name,
-                    price,
-                    image,
-                    quantity: 1,
-                    shape: 'Rectangle',
-                    font: 'Arial'
-                };
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                cart.push(item);
-                localStorage.setItem('cart', JSON.stringify(cart));
-                alert('Added to cart!');
-                // Optionally, redirect to cart page:
-                // window.location.href = 'addtocartui/addtocart.html';
+            function toTitleCase(str) {
+            return str
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+            }
+            
+            document.querySelectorAll('.cart-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Grab original attributes
+                    let name = btn.getAttribute('data-name');
+                    const price = btn.getAttribute('data-price');
+                    const image = btn.getAttribute('data-image');
+
+                    // Fix name to Title Case
+                    name = toTitleCase(name);
+
+                    // Build item object
+                    const item = {
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: 1,
+                        shape: 'Rectangle',
+                        font: 'Arial'
+                    };
+
+                    // Get or create cart
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    cart.push(item);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert(`${name} added to cart!`);
+                });
             });
-        });
         </script>
     </body>
 </html>
