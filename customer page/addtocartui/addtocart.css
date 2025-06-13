@@ -79,8 +79,6 @@ h1 {
     background: #444;
 }
 
-/* ...existing code... */
-
 .product-card {
     background: #fff;
     border: 1px solid #eee;
@@ -195,4 +193,17 @@ header .logo{
 
 header .logo span{
     color:var(--pink);
+}
+
+.back-btn {
+    background: #eee;
+    color: #222;
+    font-weight: 500;
+    border: none;
+    box-shadow: none;
+    transition: background 0.2s;
+}
+.back-btn:hover {
+    background: #ccc;
+    color: #222;
 }
