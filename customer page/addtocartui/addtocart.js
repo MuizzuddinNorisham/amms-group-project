@@ -65,7 +65,11 @@ window.onload = function() {
 
     // Proceed to payment
     document.getElementById('proceed-payment').onclick = function() {
-        alert('Proceeding to payment (simulation).');
-        // Here you would redirect to payment page or process payment
-    };
+    if (cart.length > 0) {
+        window.location.href = 'payment.html'; // Redirect to payment page
+    } else {
+        alert('Your cart is empty. Please add items to your cart before proceeding to payment.');
+    }
+};
+
 };
