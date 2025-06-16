@@ -53,8 +53,32 @@ h1 {
 }
 
 .icon-box:hover {
-  background-color: #f0f0f0;
+  background-color:#3a3a50;
   transform: scale(30);
+}
+
+.top-buttons {
+  position : absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.icon-button {
+  display: inline-block;
+  background-color: white;
+  border-radius: 8px;
+  padding: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+.button-img {
+  width: 30px;    
+  height: 30px;
+  object-fit: contain;
 }
 
 
