@@ -3,9 +3,6 @@ $cust_name = $_POST["cust_name"];
 $cust_email = $_POST["cust_email"];
 $cust_pass = $_POST["cust_pass"];
 
-// Hash password before saving
-$hashed_password = password_hash($cust_pass, PASSWORD_DEFAULT);
-
 // Database connection
 $conn = new mysqli("localhost", "root", "", "acrylic");
 
