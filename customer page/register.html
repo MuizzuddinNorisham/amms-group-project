@@ -206,7 +206,7 @@
       <p tabindex="0">Sign up to get started</p>
     </header>
 
-    <form novalidate autocomplete="on" aria-describedby="createInstructions">
+    <form novalidate autocomplete="on" aria-describedby="createInstructions" action="connect.php" method="POST">
       <p id="createInstructions" class="sr-only">Fill in the form below to create a new account.</p>
 
       <div class="form-group">
@@ -216,9 +216,7 @@
           id="fullname"
           name="fullname"
           type="text"
-          autocomplete="name"
-          required
-          aria-required="true"
+          class="form-control"
           placeholder="Your full name"
         />
       </div>
@@ -230,10 +228,7 @@
           id="email"
           name="email"
           type="email"
-          inputmode="email"
-          autocomplete="email"
-          required
-          aria-required="true"
+          class="form-control"
           placeholder="you@example.com"
         />
       </div>
@@ -245,9 +240,7 @@
           id="password"
           name="password"
           type="password"
-          autocomplete="new-password"
-          required
-          aria-required="true"
+          class="form-control"
           placeholder="Create a password"
         />
       </div>
@@ -259,9 +252,7 @@
           id="confirmPassword"
           name="confirmPassword"
           type="password"
-          autocomplete="new-password"
-          required
-          aria-required="true"
+          class="form-control"
           placeholder="Confirm your password"
         />
       </div>
