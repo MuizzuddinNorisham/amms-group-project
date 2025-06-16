@@ -1,13 +1,13 @@
 <?php
-$cust_name = $_POST["fullname"];
-$cust_email = $_POST["email"];
-$cust_pass = $_POST["password"];
+$cust_name = $_POST["cust_name"];
+$cust_email = $_POST["cust_email"];
+$cust_pass = $_POST["cust_pass"];
 
 // Hash password before saving
 $hashed_password = password_hash($cust_pass, PASSWORD_DEFAULT);
 
 // Database connection
-$conn = new mysqli("localhost", "root", "", "customer");
+$conn = new mysqli("localhost", "root", "", "acrylic");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
