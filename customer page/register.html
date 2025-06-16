@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Create Account</title>
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<style>
+  :root {
+    --pink: #e84393;
+    --bg-dark: #1e1e2f;
+    --bg-light: #2c2c3e;
+    --input-bg: #3a3a50;
+    --text-light: #f0f0f3;
+    --text-muted: #b5b5bf;
+    --radius: 12px;
+    --spacing: 16px;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+
+  /* Reset and basics */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: var(--font-family);
+    background: var(--bg-dark);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing);
+  }
+
+  .create-account-container {
+    background: var(--bg-light);
+    border-radius: var(--radius);
+    padding: calc(var(--spacing) * 2);
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 6px 25px rgba(232, 67, 147, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 1.5);
+  }
+
+  header.create-header {
+    text-align: center;
+    margin-bottom: var(--spacing);
+  }
+
+  header.create-header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--pink);
+  }
+
+  header.create-header p {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+  }
+
+  .form-group {
+    position: relative;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 40px 12px 40px;
+    font-size: 1rem;
+    background: var(--input-bg);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius);
+    color: var(--text-light);
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: var(--pink);
+    outline: none;
+    box-shadow: 0 0 8px var(--pink);
+  }
+
+  /* Icon inside input */
+  .form-group .fa-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: var(--pink);
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  /* Terms checkbox */
+  .terms {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .terms input[type="checkbox"] {
+    accent-color: var(--pink);
+    width: 18px;
+    height: 18px;
+  }
+
+  .terms a {
+    color: var(--pink);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .terms a:hover,
+  .terms a:focus {
+    color: #ffaad6;
+    outline: none;
+  }
+
+  /* Submit button */
+  button[type="submit"] {
+    background: var(--pink);
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.15s ease;
+    box-shadow: 0 5px 15px rgba(232, 67, 147, 0.5);
+  }
+
+  button[type="submit"]:hover,
+  button[type="submit"]:focus {
+    background: #ff74b0;
+    transform: scale(1.05);
+    outline: none;
+  }
+
+  /* Footer */
+  .create-footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .create-footer a {
+    color: var(--pink);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .create-footer a:hover,
+  .create-footer a:focus {
+    color: #ffaad6;
+    outline: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    body {
+      padding: 12px;
+    }
+    .create-account-container {
+      padding: var(--spacing);
+    }
+    header.create-header h1 {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="create-account-container" role="main" aria-label="Create account form">
+    <header class="create-header">
+      <h1 tabindex="0">Create Account</h1>
+      <p tabindex="0">Sign up to get started</p>
+    </header>
+
+    <form novalidate autocomplete="on" aria-describedby="createInstructions">
+      <p id="createInstructions" class="sr-only">Fill in the form below to create a new account.</p>
+
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <i class="fas fa-user fa-icon" aria-hidden="true"></i>
+        <input
+          id="fullname"
+          name="fullname"
+          type="text"
+          autocomplete="name"
+          required
+          aria-required="true"
+          placeholder="Your full name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <i class="fas fa-envelope fa-icon" aria-hidden="true"></i>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          required
+          aria-required="true"
+          placeholder="you@example.com"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <i class="fas fa-lock fa-icon" aria-hidden="true"></i>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="new-password"
+          required
+          aria-required="true"
+          placeholder="Create a password"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <i class="fas fa-lock fa-icon" aria-hidden="true"></i>
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          autocomplete="new-password"
+          required
+          aria-required="true"
+          placeholder="Confirm your password"
+        />
+      </div>
+
+      <button type="submit" aria-label="Create new account">Create Account</button>
+    </form>
+
+    <footer class="create-footer" aria-label="Sign in link">
+      Already have an account?&nbsp;<a href="login.html" id="loginLink" tabindex="0">Log in</a>
+    </footer>
+  </main>
+
+  <script>
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const fullname = form.fullname.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value;
+      const confirmPassword = form.confirmPassword.value;
+      const termsChecked = form.terms.checked;
+
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+      if (fullname.length < 2) {
+        alert('Please enter your full name.');
+        form.fullname.focus();
+        return;
+      }
+
+      if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address.');
+        form.email.focus();
+        return;
+      }
+
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters.');
+        form.password.focus();
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match.');
+        form.confirmPassword.focus();
+        return;
+      }
+
+      alert('Account created successfully (simulation).');
+      form.reset();
+    });
+
+  </script>
+</body>
+</html>
+

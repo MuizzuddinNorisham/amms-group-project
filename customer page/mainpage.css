@@ -2,8 +2,6 @@
     --pink:#e84393;
 }
 
-
-
 *{
     margin:0; padding:0;
     box-sizing: border-box;
@@ -301,8 +299,47 @@ header .fa-bars{
     padding-top: 1rem;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+.dropdown a {
+    display: flex;
+    align-items: center;
+    color: #333;
+    cursor: pointer;
+}
 
+.dropdown .content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;              /* Align dropdown to left */
+    background-color: #fff;
+    min-width: 150px;
+    box-shadow: 2px 2px 5px hsla(0, 0%, 0%, 0.2);
+    z-index: 1000;
+}
+
+.dropdown:hover .content {
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: hsl(0, 0%, 70%);
+}
+
+.dropdown .content a {
+    display: block;
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.dropdown .content a:hover {
+    background-color: hsl(0, 0%, 90%);
+}
 
 /* media queries */
 @media (max-width:991px){
@@ -376,6 +413,7 @@ header .fa-bars{
     .heading{
         font-size: 3rem;
     }
+<<<<<<< HEAD:customer page/style.css
 }
  .dropdown {
     position: relative;
@@ -420,3 +458,52 @@ header .fa-bars{
 .dropdown:focus-within .dropdown-content {
     display: block;
 }   
+=======
+}    
+
+
+
+.contact .row{
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.contact .row form{
+    flex: 1 1 40rem;
+    padding: 2rem 2.5rem;
+    box-shadow: 0.5rem 1.5rem rgba(0,0,0,.1);
+    border: .1rem solid rgba(0,0,0,.1);
+    background: #fff;
+    border-radius: .5rem;
+}
+
+.contact .row .image{
+    flex:  1 1 40rem;
+}
+
+.contact .row .image img{
+    width: 100%;
+}
+
+.contact .row form .box{
+    padding: 1rem;
+    font-size: 1.7rem;
+    color: #333;
+    text-transform: none;
+    border: .1rem solid rgba(0,0,0,.1);
+    border-radius: .5rem;
+    margin: .7rem 0;
+    width: 100%;
+}
+
+.contact .row form .box:focus{
+    border-color: var(--pink);
+}
+
+.contact .row form textarea{
+    height: 15rem;
+    resize: none;
+}
+>>>>>>> f36f348e1a1b9ba882138ce2d9cde2aca0342b3b:customer page/mainpage.css
