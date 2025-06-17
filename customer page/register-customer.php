@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssss", $name, $email, $password, $phone, $address);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Registration successful!'); window.location.href='customer-login.php';</script>";
+        echo "<script>alert('Registration successful!'); window.location.href='login-customer.php';</script>";
     } else {
         echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
     <div class="footer">
-      <p>Already have an account? <a href="customer-login.php">Login here</a></p>
+      <p>Already have an account? <a href="login-customer.php">Login here</a></p>
     </div>
   </div>
 </div>
