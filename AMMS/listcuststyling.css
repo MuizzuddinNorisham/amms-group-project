@@ -1,0 +1,26 @@
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+.orders-table th, .orders-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.orders-table th {
+    background-color: var(--pink);
+    color: #fff;
+    font-size: 2rem;
+}
+
+.orders-table tr:hover {
+    background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+.orders-table td {
+    font-size: 1.6rem;
+    color: var(--dark-gray);
+}
