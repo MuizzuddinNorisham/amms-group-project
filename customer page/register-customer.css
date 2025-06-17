@@ -41,18 +41,18 @@ body {
   gap: calc(var(--spacing) * 1.5);
 }
 
-.header {
+.registration-header {
   text-align: center;
   margin-bottom: var(--spacing);
 }
 
-.header h1 {
+.registration-header h1 {
   font-size: 2.25rem;
   font-weight: 700;
   color: var(--pink);
 }
 
-.header p {
+.registration-header p {
   margin-top: 8px;
   color: var(--text-muted);
   font-size: 1rem;
@@ -145,11 +145,11 @@ label {
 
 /* Responsive design */
 @media (max-width: 480px) {
-  .registration-card {
-    padding: 25px;
+  .registration-container {
+    padding: var(--spacing);
   }
 
-  .header h1 {
+  .registration-header h1 {
     font-size: 2rem;
   }
 

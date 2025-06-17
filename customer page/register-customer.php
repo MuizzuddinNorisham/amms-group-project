@@ -43,55 +43,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<div class="registration-container">
-  <div class="registration-card">
-    <div class="header">
-      <h1>Create Account</h1>
-      <p>Please fill in the details below</p>
+<div class="registration-container" role="main" aria-label="Customer Registration Form">
+  <header class="registration-header">
+    <h1>Create Account</h1>
+    <p>Please fill in the details below</p>
+  </header>
+
+  <form action="" method="post">
+    <div class="form-group">
+      <label for="name">Full Name:</label>
+      <div class="input-wrapper">
+        <input type="text" id="name" name="name" placeholder="Full Name" required />
+      </div>
     </div>
 
-    <form action="" method="post">
-  <div class="form-group">
-    <label for="name">Full Name:</label>
-    <div class="input-wrapper">
-      <input type="text" id="name" name="name" placeholder="Full Name" required />
+    <div class="form-group">
+      <label for="email">Email Address:</label>
+      <div class="input-wrapper">
+        <input type="email" id="email" name="email" placeholder="example@example.com" required />
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label for="email">Email Address:</label>
-    <div class="input-wrapper">
-      <input type="email" id="email" name="email" placeholder="example@example.com" required />
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <div class="input-wrapper">
+        <textarea id="address" name="address" placeholder="City, State" required></textarea>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label for="address">Address:</label>
-    <div class="input-wrapper">
-      <textarea id="address" name="address" placeholder="City,State" required></textarea>
+    <div class="form-group">
+      <label for="phone">Phone Number:</label>
+      <div class="input-wrapper">
+        <input type="tel" id="phone" name="phone" placeholder="123-456-7890" required />
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label for="phone">Phone Number:</label>
-    <div class="input-wrapper">
-      <input type="tel" id="phone" name="phone" placeholder="123-456-7890" required />
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <div class="input-wrapper">
+        <input type="password" id="password" name="password" placeholder="Enter password" required />
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label for="password">Password:</label>
-    <div class="input-wrapper">
-      <input type="password" id="password" name="password" placeholder="Enter password" required />
-    </div>
-  </div>
+    <button type="submit" class="submit-btn">Register</button>
+  </form>
 
-  <button type="submit" class="submit-btn">Register</button>
-</form>
-
-    <div class="footer">
-      <p>Already have an account? <a href="login-customer.php">Login here</a></p>
-    </div>
+  <div class="footer">
+    <p>Already have an account? <a href="login-customer.php">Login here</a></p>
   </div>
 </div>
 
