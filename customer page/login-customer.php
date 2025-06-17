@@ -33,7 +33,7 @@ try {
     $custId = 'C' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
 
     // Insert data (without password hashing)
-    $insert = $pdo->prepare("INSERT INTO customer (cust_id, cust_name, cust_address, cust_number, cust_pass) VALUES (?, ?, ?, ?, ?)");
+    $insert = $pdo->prepare("INSERT INTO customer (cust_id, cust_name, cust_address, cust_phone, cust_pass) VALUES (?, ?, ?, ?, ?)");
     $insert->execute([$custId, $fullname, $address, $number, $pass]);
 
     echo "<script>alert('Account created successfully! Your ID is $custId'); window.location.href = 'login.html';</script>";

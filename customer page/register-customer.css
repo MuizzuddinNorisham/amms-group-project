@@ -1,0 +1,160 @@
+
+/* Simple CSS styling for registration form */
+/* Add this at the top of your CSS for consistent sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.registration-container {
+  min-height: 100vh;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.registration-card {
+  background: #16213e;
+  border-radius: 15px;
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 8px 30px rgba(232, 67, 147, 0.3);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #e84393;
+  margin-bottom: 8px;
+}
+
+.header p {
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  color: #f1f5f9;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper .icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  z-index: 1;
+}
+
+.input-wrapper input,
+.input-wrapper textarea {
+  width: 100%;
+  padding: 12px 12px 12px 12px; /* Reduced left padding since icon is removed */
+  background: #0f172a;
+  border: 2px solid #334155;
+  border-radius: 10px;
+  color: #f1f5f9;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.input-wrapper input:focus,
+.input-wrapper textarea:focus {
+  outline: none;
+  border-color: #e84393;
+  box-shadow: 0 0 0 3px rgba(232, 67, 147, 0.1);
+}
+
+.input-wrapper input::placeholder,
+.input-wrapper textarea::placeholder {
+  color: #64748b;
+}
+
+.input-wrapper textarea {
+  resize: vertical;
+  min-height: 80px;
+  padding-top: 12px;
+}
+
+.submit-btn {
+  width: 100%;
+  background: #e84393;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #d63384;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(232, 67, 147, 0.4);
+}
+
+.footer {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.footer p {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.footer a {
+  color: #e84393;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  color: #f06292;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .registration-card {
+    padding: 25px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .input-wrapper input,
+  .input-wrapper textarea {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
