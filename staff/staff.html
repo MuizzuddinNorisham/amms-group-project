@@ -11,6 +11,8 @@
         <title>Staff</title>
     </head>
     <body>
+        <!--sidebar section start-->
+        
         <div class="sidebar" >
             <ul>
                 <li>
@@ -26,19 +28,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" onclick="loadContent('profile.html')">
                         <span class="icon"><i class="fas fa-user"></i></span>
                         <span class="text">Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" onclick="loadContent('products.html')">
                         <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
                         <span class="text">Products</span>
                     </a>
                 </li>
                  <li>
-                    <a href="#">
+                   <a href="#" onclick="loadContent('order.html')">
                         <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
                         <span class="text">Order</span>
                     </a>
@@ -51,5 +53,104 @@
                 </li>
             </ul>  
         </div>
+
+        <!--sidebar section ends-->
+
+        <!--update products section starts-->
+        
+        <div class="main-content" id="main-content">
+
+            <h2 align="center">Product Registration</h2>
+
+            <form id="productForm" enctype="multipart/form-data">
+                <table border="1" align="center" cellpadding="8">
+                    <tr>
+                        <td>Product Name</td>
+                        <td><input type="text" name="product_name" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Product Price (RM)</td>
+                        <td><input type="number" name="product_price" step="0.01" min="0.01" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Product Quantity</td>
+                        <td><input type="number" name="product_quantity" min="1" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Product Type</td>
+                        <td>
+                            <select name="product_type" required>
+                                <option value="">-- Select Type --</option>
+                                <option value="T-shirt">Acrylic Tag</option>
+                                <option value="Mug">Label</option>
+                                <option value="Sticker">Pouch bag</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Product Design</td>
+                        <td><input type="text" name="product_design" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Product Font</td>
+                        <td><input type="text" name="product_font" required /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button type="submit">Submit</button>
+                            <button type="reset">Reset</button>
+                            <button type="button" onclick="loadContent('products.html')">Cancel</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+<script>
+document.getElementById("productForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    fetch("add_product.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        loadContent("products.html"); // reload products page
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to submit the product.");
+    });
+});
+</script>
+
+
+        <!--update products section ends-->
+        <script>
+document.getElementById("productForm").addEventListener("submit", function(e) {
+    e.preventDefault(); // prevent full page reload
+
+    const formData = new FormData(this);
+
+    fetch("add_product.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data); // show success or error
+        loadContent("products.html"); // reload product list or form
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to submit the product.");
+    });
+});
+</script>
+
     </body>
 </html>
