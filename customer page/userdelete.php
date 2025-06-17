@@ -1,39 +1,23 @@
 <?php
-// Set the content type to JSON
-header('Content-Type: application/json');
+$data = json_decode(file_get_contents("php://input"), true);
 
-// Connect to the database
-$host = 'localhost';
-$dbname = 'acrylic';
-$username = 'root'; // Change if needed
-$password = '';     // Change if needed
+$userid = $data['userid'];
 
-$conn = new mysqli($host, $username, $password, $dbname);
+$dbc = new mysqli("localhost", "root", "", "acrylic");
 
-// Check connection
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed.']);
-    exit;
+if ($dbc->connect_error) {
+    die("Connection failed: " . $dbc->connect_error);
 }
 
-// Get the raw POST data and decode JSON
-$data = json_decode(file_get_contents('php://input'), true);
+$stmt = $dbc->prepare("DELETE FROM user WHERE userid=?");
+$stmt->bind_param("i", $userid);
 
-if (!isset($data['email'])) {
-    echo json_encode(['success' => false, 'message' => 'User email not provided.']);
-    exit;
-}
-
-$useremail = $conn->real_escape_string($data['email']);
-
-// Delete the user
-$sql = "DELETE FROM users WHERE useremail = '$useremail'";
-
-if ($conn->query($sql) === TRUE) {
-    echo json_encode(['success' => true]);
+if ($stmt->execute()) {
+    echo "User deleted successfully";
 } else {
-    echo json_encode(['success' => false, 'message' => 'Failed to delete user.']);
+    echo "Delete failed";
 }
 
-$conn->close();
+$stmt->close();
+$dbc->close();
 ?>

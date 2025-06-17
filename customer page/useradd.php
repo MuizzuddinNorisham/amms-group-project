@@ -4,6 +4,11 @@ $uemail = $_POST['useremail'];
 $upass = $_POST['userpass'];
 
 if (isset($_POST['add'])) {
+    if (empty($uname) || empty($uemail) || empty($upass)) {
+        echo '<script>alert("All fields are required.");</script>';
+        echo '<script>window.location.assign("listcustomer.php");</script>';
+        exit();
+    }
     $dbc = mysqli_connect("localhost", "root", "", "acrylic");
 
     if (mysqli_connect_errno()) {
