@@ -1,59 +1,70 @@
+:root {
+  --pink: #e84393;
+  --bg-dark: #1e1e2f;
+  --bg-light: #2c2c3e;
+  --input-bg: #3a3a50;
+  --text-light: #f0f0f3;
+  --text-muted: #b5b5bf;
+  --radius: 12px;
+  --spacing: 16px;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
 
-/* Simple CSS styling for registration form */
-/* Add this at the top of your CSS for consistent sizing */
-*,
-*::before,
-*::after {
+/* Reset and basics */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-}
-
-.registration-container {
   min-height: 100vh;
-  background: #1a1a2e;
+  font-family: var(--font-family);
+  background: var(--bg-dark);
+  color: var(--text-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--spacing);
 }
 
-.registration-card {
-  background: #16213e;
-  border-radius: 15px;
-  padding: 40px;
+.registration-container {
+  background: var(--bg-light);
+  border-radius: var(--radius);
+  padding: calc(var(--spacing) * 2);
   width: 100%;
   max-width: 450px;
-  box-shadow: 0 8px 30px rgba(232, 67, 147, 0.3);
+  box-shadow: 0 6px 25px rgba(232, 67, 147, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 1.5);
 }
 
 .header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: var(--spacing);
 }
 
 .header h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #e84393;
-  margin-bottom: 8px;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--pink);
 }
 
 .header p {
-  color: #94a3b8;
+  margin-top: 8px;
+  color: var(--text-muted);
   font-size: 1rem;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing);
 }
 
-.form-group label {
+label {
   display: block;
-  color: #f1f5f9;
+  color: var(--text-light);
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -62,32 +73,22 @@ body {
   position: relative;
 }
 
-.input-wrapper .icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 18px;
-  z-index: 1;
-}
-
 .input-wrapper input,
 .input-wrapper textarea {
   width: 100%;
-  padding: 12px 12px 12px 12px; /* Reduced left padding since icon is removed */
-  background: #0f172a;
+  padding: 12px;
+  background: var(--input-bg);
   border: 2px solid #334155;
-  border-radius: 10px;
-  color: #f1f5f9;
+  border-radius: var(--radius);
+  color: var(--text-light);
   font-size: 16px;
   transition: all 0.3s ease;
-  box-sizing: border-box; /* Ensures padding doesn't break width */
 }
 
 .input-wrapper input:focus,
 .input-wrapper textarea:focus {
   outline: none;
-  border-color: #e84393;
+  border-color: var(--pink);
   box-shadow: 0 0 0 3px rgba(232, 67, 147, 0.1);
 }
 
@@ -104,11 +105,11 @@ body {
 
 .submit-btn {
   width: 100%;
-  background: #e84393;
+  background: var(--pink);
   color: white;
   border: none;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
@@ -128,12 +129,12 @@ body {
 }
 
 .footer p {
-  color: #94a3b8;
+  color: var(--text-muted);
   font-size: 14px;
 }
 
 .footer a {
-  color: #e84393;
+  color: var(--pink);
   text-decoration: none;
   font-weight: 600;
 }

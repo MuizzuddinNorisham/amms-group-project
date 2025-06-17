@@ -1,44 +1,41 @@
 <?php
-// Database connection
-$host = '127.0.0.1';
-$dbname = 'acrylic';
-$username = 'root'; // default XAMPP/WAMP username
-$password = '';     // leave blank if no password
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Connect to database
+    $conn = new mysqli("localhost", "root", "", "acrylic");
 
-    // Form data
-    $fullname = $_POST['fullname'] ?? '';
-    $address = $_POST['address'] ?? '';
-    $number = $_POST['number'] ?? '';
-    $pass = $_POST['password'] ?? '';
-    $confirmPass = $_POST['confirmPassword'] ?? '';
-
-    // Validation
-    if (empty($fullname) || empty($address) || empty($number) || empty($pass) || empty($confirmPass)) {
-        die("<script>alert('All fields are required.'); window.history.back();</script>");
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    if ($pass !== $confirmPass) {
-        die("<script>alert('Passwords do not match.'); window.history.back();</script>");
+    // Query the customer table
+    $stmt = $conn->prepare("SELECT cust_id, cust_pass FROM customer WHERE cust_email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows === 1) {
+        $stmt->bind_result($cust_id, $db_password);
+
+        if ($stmt->fetch()) {
+            // For now, comparing plain text passwords
+            if ($password === $db_password) {
+                session_start();
+                $_SESSION['cust_id'] = $cust_id;
+                header("Location: dashboard.php"); // Redirect to dashboard or homepage
+                exit();
+            } else {
+                echo "<script>alert('Incorrect password'); window.location.href='login-customer.php';</script>";
+            }
+        }
+    } else {
+        echo "<script>alert('No user found with that email'); window.location.href='login-customer.php';</script>";
     }
 
-    // Generate unique customer ID (e.g., C001, C002)
-    $stmt = $pdo->query("SELECT MAX(cust_id) AS max_id FROM customer");
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    $lastId = $result['max_id'] ?? 'C000';
-    $nextId = intval(substr($lastId, 1)) + 1;
-    $custId = 'C' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
-
-    // Insert data (without password hashing)
-    $insert = $pdo->prepare("INSERT INTO customer (cust_id, cust_name, cust_address, cust_phone, cust_pass) VALUES (?, ?, ?, ?, ?)");
-    $insert->execute([$custId, $fullname, $address, $number, $pass]);
-
-    echo "<script>alert('Account created successfully! Your ID is $custId'); window.location.href = 'login.html';</script>";
-} catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
+    $stmt->close();
+    $conn->close();
 }
 ?>
 
@@ -46,89 +43,116 @@ try {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Create Account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Login</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      background: #1a1a2e;
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
+      justify-content: center;
+      min-height: 100vh;
     }
-    .form-container {
-      background: white;
-      padding: 20px 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 350px;
-    }
-    .form-container h2 {
-      margin-bottom: 20px;
-      color: #e84393;
-      text-align: center;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    input {
+
+    .login-container {
+      background: #16213e;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(232, 67, 147, 0.3);
       width: 100%;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      max-width: 400px;
     }
-    button {
+
+    .login-container h2 {
+      text-align: center;
+      color: #e84393;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #f1f5f9;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #334155;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #f1f5f9;
+      font-size: 16px;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #e84393;
+      box-shadow: 0 0 0 3px rgba(232, 67, 147, 0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
       background: #e84393;
       color: white;
       border: none;
-      padding: 10px;
-      width: 100%;
-      border-radius: 5px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 10px;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
-    button:hover {
-      background: #ff69b4;
+
+    .submit-btn:hover {
+      background: #d63384;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(232, 67, 147, 0.4);
     }
+
     .footer {
-      margin-top: 15px;
       text-align: center;
+      margin-top: 20px;
+    }
+
+    .footer a {
+      color: #e84393;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      color: #f06292;
     }
   </style>
 </head>
 <body>
 
-  <div class="form-container">
-    <h2>Create Account</h2>
-    <form action="register.php" method="POST">
+  <div class="login-container">
+    <h2>Login</h2>
+    <form action="login-customer.php" method="POST">
       <div class="form-group">
-        <label for="fullname">Full Name</label>
-        <input type="text" name="fullname" required />
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" placeholder="example@example.com" required />
       </div>
+
       <div class="form-group">
-        <label for="address">Address</label>
-        <input type="text" name="address" required />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
       </div>
-      <div class="form-group">
-        <label for="number">Phone Number</label>
-        <input type="text" name="number" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" name="password" required />
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" name="confirmPassword" required />
-      </div>
-      <button type="submit">Create Account</button>
+
+      <button type="submit" class="submit-btn">Login</button>
     </form>
+
     <div class="footer">
-      Already have an account? <a href="login.html">Login</a>
+      <p>Don't have an account? <a href="register.php">Register here</a></p>
     </div>
   </div>
 
