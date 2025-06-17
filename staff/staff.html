@@ -11,6 +11,8 @@
         <title>Staff</title>
     </head>
     <body>
+        <!--sidebar section start-->
+        
         <div class="sidebar" >
             <ul>
                 <li>
@@ -26,19 +28,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" onclick="loadContent('profile.html')">
                         <span class="icon"><i class="fas fa-user"></i></span>
                         <span class="text">Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" onclick="loadContent('products.html')">
                         <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
                         <span class="text">Products</span>
                     </a>
                 </li>
                  <li>
-                    <a href="#">
+                   <a href="#" onclick="loadContent('order.html')">
                         <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
                         <span class="text">Order</span>
                     </a>
@@ -51,5 +53,35 @@
                 </li>
             </ul>  
         </div>
+
+        <!--sidebar section ends-->
+
+        <!--update products section starts-->
+        
+        <div class="main-content" id="main-content">
+
+            <h2 align="center">Product Registration</h2>
+
+            <form id="productForm" enctype="multipart/form-data">
+                <table border="1" align="center" cellpadding="8">
+                    <form action="product.php" method="POST">
+    Product Name: <input type="text" name="product_name"><br>
+    Price: <input type="number" name="product_price"><br>
+    Quantity: <input type="number" name="product_quantity"><br>
+    Type: <input type="text" name="product_type"><br>
+    Design: <input type="text" name="product_design"><br>
+    Font: <input type="text" name="product_font"><br>
+    <input type="submit" value="Add Product">
+</form>
+
+                   
+                </table>
+            </form>
+        </div>
+
+
+        <!--update products section ends-->
+      
+
     </body>
 </html>
