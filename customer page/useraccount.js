@@ -1,82 +1,123 @@
-<script>
-    const users = [];
-    let editIndex = null;
+const users = [];
+let editIndex = null;
 
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
+// Form input elements
+const nameInput = document.getElementById("name"); // will hold 'username'
+const emailInput = document.getElementById("email"); // will hold 'useremail'
+const passwordInput = document.getElementById("password"); // will hold 'userpass'
 
-    const addBtn = document.getElementById("addBtn");
-    const editBtn = document.getElementById("editBtn");
-    const deleteBtn = document.getElementById("deleteBtn");
-    const userList = document.getElementById("userList");
+const addBtn = document.getElementById("addBtn");
+const editBtn = document.getElementById("editBtn");
+const deleteBtn = document.getElementById("deleteBtn");
+const userList = document.getElementById("userList");
 
-    function renderList() {
-      userList.innerHTML = "";
-      users.forEach((user, index) => {
-        const li = document.createElement("li");
-        li.textContent = `Name: ${user.name} | Email: ${user.email}`;
-        li.onclick = () => {
-          nameInput.value = user.name;
-          emailInput.value = user.email;
-          passwordInput.value = user.password;
-          editIndex = index;
-        };
-        userList.appendChild(li);
-      });
-    }
-
-    addBtn.onclick = () => {
-      const name = nameInput.value.trim();
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      if (name && email && password) {
-        users.push({ name, email, password });
-        renderList();
-        nameInput.value = "";
-        emailInput.value = "";
-        passwordInput.value = "";
-      } else {
-        alert("Please fill all fields.");
-      }
+// Render the user list on the page
+function renderList() {
+  userList.innerHTML = "";
+  users.forEach((user, index) => {
+    const li = document.createElement("li");
+    li.textContent = `Username: ${user.username} | Email: ${user.useremail}`;
+    li.onclick = () => {
+      nameInput.value = user.username;
+      emailInput.value = user.useremail;
+      passwordInput.value = user.userpass;
+      editIndex = index;
     };
+    userList.appendChild(li);
+  });
+}
 
-    editBtn.onclick = () => {
-      if (editIndex === null) {
-        alert("Please select a user to edit.");
-        return;
-      }
+// Add button - just validates (form submits through useradd.php)
+addBtn.onclick = (e) => {
+  if (!nameInput.value || !emailInput.value || !passwordInput.value) {
+    e.preventDefault(); // prevent form submission
+    alert("Please fill all fields.");
+  }
+};
 
-      const name = nameInput.value.trim();
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
+// Edit button - updates user via fetch to userupdate.php
+editBtn.onclick = () => {
+  if (editIndex === null) {
+    alert("Please select a user to update.");
+    return;
+  }
 
-      if (name && email && password) {
-        users[editIndex] = { name, email, password };
+  const username = nameInput.value.trim();
+  const useremail = emailInput.value.trim();
+  const userpass = passwordInput.value;
+
+  if (username && useremail && userpass) {
+    const originalEmail = users[editIndex].useremail;
+
+    fetch('userupdate.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        originalEmail: originalEmail,
+        username: username,
+        useremail: useremail,
+        userpass: userpass
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        users[editIndex] = { username, useremail, userpass };
         renderList();
         nameInput.value = "";
         emailInput.value = "";
         passwordInput.value = "";
         editIndex = null;
+        alert("User updated successfully.");
       } else {
-        alert("Please fill all fields.");
+        alert("Update failed: " + data.message);
       }
-    };
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert("An error occurred while updating the user.");
+    });
+  } else {
+    alert("Please fill all fields.");
+  }
+};
 
-    deleteBtn.onclick = () => {
-      if (editIndex === null) {
-        alert("Please select a user to delete.");
-        return;
-      }
+// Delete button - deletes user via fetch to userdelete.php
+deleteBtn.onclick = () => {
+  if (editIndex === null) {
+    alert("Please select a user to delete.");
+    return;
+  }
 
-      if (confirm("Are you sure you want to delete this user?")) {
+  if (confirm("Are you sure you want to delete this user?")) {
+    const userToDelete = users[editIndex];
+
+    fetch('userdelete.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ useremail: userToDelete.useremail })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         users.splice(editIndex, 1);
         renderList();
         nameInput.value = "";
         emailInput.value = "";
         passwordInput.value = "";
         editIndex = null;
+        alert("User deleted successfully.");
+      } else {
+        alert("Error deleting user: " + data.message);
       }
-    };
-  </script>
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert("An error occurred while deleting the user.");
+    });
+  }
+};
