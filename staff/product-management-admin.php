@@ -79,7 +79,7 @@ if (isset($_POST['btnsubmit'])) {
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadContent('products.html')">
+                    <a href="staff-product.html" onclick="loadContent('staff-product.html')">
                         <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
                         <span class="text">Products</span>
                     </a>

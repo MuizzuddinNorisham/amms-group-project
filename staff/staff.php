@@ -57,7 +57,7 @@ if (isset($_POST['btnsubmit'])) {
                 <li>
                     <a href="#" class="logo">
                         <span class="icon"><i class="fa-solid fa-users"></i></i></span>
-                        <span class="text">Hello, Staff</span>
+                        <span class="text">Staff</span>
                     </a>
                 </li>
                 <li>
@@ -99,7 +99,7 @@ if (isset($_POST['btnsubmit'])) {
         
         <div class="main-content" id="main-content">
             <form method="POST" action="">
-                <h2 align="center">Product Registration</h2>
+                <h2 class="header">Product Registration</h2>
                 <table border="1" align="center">
                     <tr>
                         <td>Product Name</td>
