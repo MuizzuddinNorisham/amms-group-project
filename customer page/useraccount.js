@@ -3,6 +3,8 @@ let editIndex = null;
 
 // Form input elements
 const nameInput = document.getElementById("name"); // will hold 'username'
+const phoneInput = document.getElementById("phone");
+const addressInput = document.getElementById("address");
 const emailInput = document.getElementById("email"); // will hold 'useremail'
 const passwordInput = document.getElementById("password"); // will hold 'userpass'
 
@@ -16,9 +18,11 @@ function renderList() {
   userList.innerHTML = "";
   users.forEach((user, index) => {
     const li = document.createElement("li");
-    li.textContent = `Username: ${user.username} | Email: ${user.useremail}`;
+    li.textContent = `Username: ${user.username} | Email: ${user.useremail} | Phone: ${user.phone} | Address: ${user.address}`;
     li.onclick = () => {
       nameInput.value = user.username;
+      phoneInput.value = user.phone;
+      addressInput.value = user.address;
       emailInput.value = user.useremail;
       passwordInput.value = user.userpass;
       editIndex = index;
@@ -29,9 +33,25 @@ function renderList() {
 
 // Add button - just validates (form submits through useradd.php)
 addBtn.onclick = (e) => {
-  if (!nameInput.value || !emailInput.value || !passwordInput.value) {
+  if (!nameInput.value || !emailInput.value || !passwordInput.value || !phoneInput.value || !addressInput.value) {
     e.preventDefault(); // prevent form submission
     alert("Please fill all fields.");
+  } else {
+    const username = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const address = addressInput.value.trim();
+    const useremail = emailInput.value.trim();
+    const userpass = passwordInput.value;
+
+    // Add user to the users array
+    users.push({ username, phone, address, useremail, userpass });
+    renderList();
+    nameInput.value = "";
+    phoneInput.value = "";
+    addressInput.value = "";
+    emailInput.value = "";
+    passwordInput.value = "";
+    alert("User  added successfully.");
   }
 };
 
@@ -43,10 +63,12 @@ editBtn.onclick = () => {
   }
 
   const username = nameInput.value.trim();
+  const phone = phoneInput.value.trim();
+  const address = addressInput.value.trim();
   const useremail = emailInput.value.trim();
   const userpass = passwordInput.value;
 
-  if (username && useremail && userpass) {
+  if (username && useremail && userpass && phone && address) {
     const originalEmail = users[editIndex].useremail;
 
     fetch('userupdate.php', {
@@ -58,19 +80,23 @@ editBtn.onclick = () => {
         originalEmail: originalEmail,
         username: username,
         useremail: useremail,
-        userpass: userpass
+        userpass: userpass,
+        phone: phone,
+        address: address
       })
     })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        users[editIndex] = { username, useremail, userpass };
+        users[editIndex] = { username, phone, address, useremail, userpass };
         renderList();
         nameInput.value = "";
+        phoneInput.value = "";
+        addressInput.value = "";
         emailInput.value = "";
         passwordInput.value = "";
         editIndex = null;
-        alert("User updated successfully.");
+        alert("User  updated successfully.");
       } else {
         alert("Update failed: " + data.message);
       }
@@ -107,10 +133,12 @@ deleteBtn.onclick = () => {
         users.splice(editIndex, 1);
         renderList();
         nameInput.value = "";
+        phoneInput.value = "";
+        addressInput.value = "";
         emailInput.value = "";
         passwordInput.value = "";
         editIndex = null;
-        alert("User deleted successfully.");
+        alert("User  deleted successfully.");
       } else {
         alert("Error deleting user: " + data.message);
       }
