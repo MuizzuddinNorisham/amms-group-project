@@ -1,10 +1,11 @@
-    <?php
+<?php
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form inputs
-    $name = $_POST['name'];
-    $rating = $_POST['rating'];
-    $message = $_POST['message'];
+    $name = htmlspecialchars($_POST['name']);
+    $rating = intval($_POST['rating']);
+    $message = htmlspecialchars($_POST['message']);
+
     // Database connection
     $conn = new mysqli("localhost", "root", "", "acrylic");
 
@@ -19,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         echo "<script>alert('Thank you for your feedback!'); window.location.href='feedback-customer.php';</script>";
     } else {
-        echo "<script>alert('Error submitting feedback. Please try again.');</script>";
+        echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
 
     $stmt->close();
