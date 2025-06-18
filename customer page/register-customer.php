@@ -1,29 +1,24 @@
 <?php
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Capture form inputs
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password']; // plain password
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
+    // Get form inputs
+    $name = htmlspecialchars($_POST['name']);
+    $rating = intval($_POST['rating']);
+    $message = htmlspecialchars($_POST['message']);
 
-    // Connect to MySQL database
+    // Database connection
     $conn = new mysqli("localhost", "root", "", "acrylic");
 
-    // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Insert data into customer table (without hashing)
-    $sql = "INSERT INTO customer (cust_name, cust_email, cust_pass, cust_phone, cust_address) VALUES (?, ?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $name, $email, $password, $phone, $address);
+    // Insert into feedback table
+    $stmt = $conn->prepare("INSERT INTO feedback (feedback_name, feedback_rate, feedback_details) VALUES (?, ?, ?)");
+    $stmt->bind_param("sis", $name, $rating, $message);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Registration successful!'); window.location.href='login-customer.php';</script>";
+        echo "<script>alert('Thank you for your feedback!'); window.location.href='feedback-customer.php';</script>";
     } else {
         echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
