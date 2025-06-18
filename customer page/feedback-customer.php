@@ -75,22 +75,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h2>Leave Your Feedback</h2>
 <form action="" method="POST">
     <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
 
-                <label for="rating">Rating</label>
-                <select id="rating" name="rating" required>
-                    <option value="">-- Select Rating --</option>
-                    <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
-                    <option value="4">⭐⭐⭐⭐ - Good</option>
-                    <option value="3">⭐⭐⭐ - Average</option>
-                    <option value="2">⭐⭐ - Poor</option>
-                    <option value="1">⭐ - Very Poor</option>
-                </select>
+    <label for="rating">Rating</label>
+    <select id="rating" name="rating" required>
+        <option value="">-- Select Rating --</option>
+        <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+        <option value="4">⭐⭐⭐⭐ - Good</option>
+        <option value="3">⭐⭐⭐ - Average</option>
+        <option value="2">⭐⭐ - Poor</option>
+        <option value="1">⭐ - Very Poor</option>
+    </select>
 
-                <label for="message">Your Feedback</label>
-                <textarea id="message" name="message" rows="5" placeholder="Write your feedback here..." required></textarea>
+    <label for="message">Your Feedback</label>
+    <textarea id="message" name="message" rows="5" placeholder="Write your feedback here..." required></textarea>
 
-    <button type="submit" class="btn">Submit Feedback</button>
+    <!-- Button container -->
+    <div style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.5rem;">
+        <button type="submit" class="btn">Submit Feedback</button>
+        <a href="dashboard-customer.php">
+            <button type="button" style="background: #6c757d;">Back</button>
+        </a>
+    </div>
 </form>
 </body>
 </html>
