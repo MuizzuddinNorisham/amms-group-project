@@ -30,73 +30,199 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Feedback Form</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
     <style>
+        :root {
+            --color-primary: #e84393;
+            --color-primary-dark: #d63384;
+            --color-text: #222222;
+            --color-background: #f9fafb;
+            --color-border: #d0d5dd;
+            --color-input-bg: #ffffff;
+            --radius: 12px;
+            --spacing-sm: 12px;
+            --spacing-md: 20px;
+            --spacing-lg: 32px;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        /* Reset and base */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
-            padding: 4rem;
+            margin: 0;
+            padding: var(--spacing-lg);
+            background: var(--color-background);
+            font-family: var(--font-family);
+            color: var(--color-text);
+            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        form {
+            background: var(--color-input-bg);
+            padding: var(--spacing-lg);
             max-width: 600px;
-            margin: auto;
-            background: #f9fafb;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin-top: 1rem;
-            color: #333;
-        }
-        input, textarea, select {
             width: 100%;
-            padding: 1rem;
-            margin-top: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 24px rgba(232, 67, 147, 0.17);
+            display: flex;
+            flex-direction: column;
         }
+
+        h2 {
+            font-weight: 600;
+            font-size: 2.25rem;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text);
+            user-select: none;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 6px;
+            display: block;
+            color: var(--color-text);
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            font-family: var(--font-family);
+            font-size: 1rem;
+            padding: var(--spacing-md);
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius);
+            background: var(--color-input-bg);
+            color: var(--color-text);
+            width: 100%;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 8px rgba(232, 67, 147, 0.5);
+        }
+
+        select option {
+            padding: 0.75rem;
+        }
+
+        /* Replace star emojis with textual stars for accessibility */
+        option[value="5"]::before { content: '★★★★★ - '; }
+        option[value="4"]::before { content: '★★★★ - '; }
+        option[value="3"]::before { content: '★★★ - '; }
+        option[value="2"]::before { content: '★★ - '; }
+        option[value="1"]::before { content: '★ - '; }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-lg);
+        }
+
         button {
-            margin-top: 1.5rem;
-            padding: 1rem 2rem;
-            background: #e84393;
-            color: white;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
             border: none;
-            border-radius: 8px;
-            font-size: 1.6rem;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.3rem;
+            padding: 10px 24px;
+            border-radius: var(--radius);
             cursor: pointer;
+            transition:
+                background-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.2s ease;
+            user-select: none;
+            min-width: 100px;
+            flex: none;
         }
-        button:hover {
-            background: #d63384;
+        button:first-child {
+            background: #cccccc;
+            color: #333333;
+        }
+        button:first-child:hover,
+        button:first-child:focus {
+            background: #bbbbbb;
+            box-shadow: none;
+            outline: none;
+            transform: none;
+            color: #111111;
+        }
+
+        button:hover,
+        button:focus {
+            background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+            box-shadow: 0 8px 20px rgba(232, 67, 147, 0.5);
+            outline-offset: 2px;
+            outline: 3px solid rgba(232, 67, 147, 0.7);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive typography scaling */
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.75rem;
+            }
+            button {
+                font-size: 1.2rem;
+                padding: 8px 20px;
+                min-width: 90px;
+            }
         }
     </style>
 </head>
 <body>
-<h2>Leave Your Feedback</h2>
-<form action="" method="POST">
-    <label for="name">Full Name</label>
-    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+    <form action="" method="POST" aria-label="Feedback Form">
+        <h2>Leave Your Feedback</h2>
 
-    <label for="rating">Rating</label>
-    <select id="rating" name="rating" required>
-        <option value="">-- Select Rating --</option>
-        <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
-        <option value="4">⭐⭐⭐⭐ - Good</option>
-        <option value="3">⭐⭐⭐ - Average</option>
-        <option value="2">⭐⭐ - Poor</option>
-        <option value="1">⭐ - Very Poor</option>
-    </select>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required autocomplete="name" aria-required="true" />
 
-    <label for="message">Your Feedback</label>
-    <textarea id="message" name="message" rows="5" placeholder="Write your feedback here..." required></textarea>
+        <label for="rating">Rating</label>
+        <select id="rating" name="rating" required aria-required="true" aria-describedby="ratingHelp">
+            <option value="" disabled selected>-- Select Rating --</option>
+            <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+            <option value="4">⭐⭐⭐⭐ - Good</option>
+            <option value="3">⭐⭐⭐ - Average</option>
+            <option value="2">⭐⭐ - Poor</option>
+            <option value="1">⭐ - Very Poor</option>
+        </select>
+        <small id="ratingHelp" style="color:#666; font-size:0.875rem; margin-top:4px; display:block;">Choose a rating from 1 to 5 stars.</small>
 
-    <!-- Button container -->
-    <div style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.5rem;">
-        <button type="submit" class="btn">Submit Feedback</button>
-        <a href="dashboard-customer.php">
-            <button type="button" style="background: #6c757d;">Back</button>
-        </a>
-    </div>
-</form>
+        <label for="message">Your Feedback</label>
+        <textarea id="message" name="message" rows="5" placeholder="Write your feedback here..." required aria-required="true"></textarea>
+
+        <div class="button-container">
+            <button type="button" onclick="goBack()">Back</button>
+            <div style="margin-left:auto">
+                <button type="submit" class="btn">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 </html>
+
