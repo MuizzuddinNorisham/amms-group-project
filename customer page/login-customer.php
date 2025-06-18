@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($password === $db_password) {
                 session_start();
                 $_SESSION['cust_id'] = $cust_id;
-                header("Location: dashboard.php"); // Redirect to dashboard or homepage
+                header("Location: dashboard-customer.php"); // Redirect to dashboard or homepage
                 exit();
             } else {
                 echo "<script>alert('Incorrect password'); window.location.href='login-customer.php';</script>";
@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Customer Login</title>
+  <link rel="stylesheet" href="login-customer.css"/>
   <style>
     body {
       margin: 0;
