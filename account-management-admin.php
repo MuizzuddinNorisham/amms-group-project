@@ -23,7 +23,7 @@ if ($action === 'add') {
         $sql = "INSERT INTO staff (staff_name, staff_email, staff_pass, staff_phone, staff_address)
                 VALUES ('$username', '$useremail', '$userpass', '$userphone', '$useraddress')";
         if ($dbc->query($sql)) {
-            $message = "User added successfully.";
+            $message = "User  added successfully.";
         } else {
             $message = "Error adding user: " . $dbc->error;
         }
@@ -36,7 +36,7 @@ if ($action === 'delete') {
     if ($useremail) {
         $sql = "DELETE FROM staff WHERE staff_email = '$useremail'";
         if ($dbc->query($sql)) {
-            $message = "User deleted successfully.";
+            $message = "User  deleted successfully.";
         } else {
             $message = "Error deleting user: " . $dbc->error;
         }
@@ -64,7 +64,7 @@ if ($action === 'update') {
                 WHERE staff_email = '$originalEmail'";
 
         if ($dbc->query($sql)) {
-            $message = "User updated successfully.";
+            $message = "User  updated successfully.";
         } else {
             $message = "Error updating user: " . $dbc->error;
         }
@@ -78,6 +78,15 @@ $result = $dbc->query($sql);
 while ($row = $result->fetch_assoc()) {
     $users[] = $row;
 }
+
+// Fetch all customers (NEW CODE)
+$customers = [];
+$sql = "SELECT * FROM customer"; // Query to fetch customers
+$result = $dbc->query($sql);
+while ($row = $result->fetch_assoc()) {
+    $customers[] = $row; // Store customer data
+}
+
 $dbc->close();
 ?>
 
@@ -144,7 +153,7 @@ $dbc->close();
 
   <hr>
 
-  <!-- User List -->
+  <!-- Staff List -->
   <h3>Staff List</h3>
   <ul>
     <?php foreach ($users as $user): ?>
@@ -156,6 +165,21 @@ $dbc->close();
         <br>
         <a href="?edit=<?= urlencode($user['staff_email']) ?>">Edit</a> |
         <a href="?action=delete&email=<?= urlencode($user['staff_email']) ?>" onclick="return confirm('Are you sure?')">Delete</a>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+
+  <hr>
+
+  <!-- Customer List (NEW CODE) -->
+  <h3>Customer List</h3>
+  <ul>
+    <?php foreach ($customers as $customer): ?>
+      <li>
+        <strong><?= htmlspecialchars($customer['cust_name']) ?></strong> |
+        <?= htmlspecialchars($customer['cust_email']) ?> |
+        <?= htmlspecialchars($customer['cust_phone']) ?> |
+        <?= htmlspecialchars($customer['cust_address']) ?>
       </li>
     <?php endforeach; ?>
   </ul>
