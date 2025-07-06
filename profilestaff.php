@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +72,7 @@
             <h3 id="info-title" class="info-title">Information</h3>
             <div class="info-row">
                 <div class="info-label"><i class="fas fa-id-badge" style="margin-right: 6px;"></i>ID</div>
-                <div class="info-value">1001</div>
+                <div class="info-value"></div>
             </div>
             <div class="info-row">
                 <div class="info-label"><i class="fas fa-user" style="margin-right: 6px;"></i>Full Name</div>
