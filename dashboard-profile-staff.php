@@ -3,7 +3,7 @@ session_start();
 
 // Check if user is logged in
 if (!isset($_SESSION['staff_id'])) {
-    header("Location: main-page.php"); // Redirect to login page
+    header("Location: login-administrator.php"); // Redirect to login page
     exit();
 }
 
@@ -16,7 +16,6 @@ if ($dbc->connect_error) {
 
 // Get staff info from session
 $staff_id = $_SESSION['staff_id'];
-
 // Fetch user data
 $stmt = $dbc->prepare("SELECT staff_id, staff_name, staff_phone, staff_address, staff_email FROM staff WHERE staff_id = ?");
 $stmt->bind_param("i", $staff_id);
