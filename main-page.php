@@ -1,57 +1,7 @@
 <?php
+// Optional: Start session if you plan to use $_SESSION variables later
 session_start();
-if (!isset($_SESSION['cust_id'])) {
-    echo json_encode(['success' => false, 'message' => 'You must log in first']);
-    exit();
-}
-
-// Check if required POST data exists
-if (!isset($_POST['product_id']) || !isset($_POST['product_price'])) {
-    echo json_encode(['success' => false, 'message' => 'Missing product ID or price']);
-    exit();
-}
-
-$cust_id = $_SESSION['cust_id'];
-$product_id = intval($_POST['product_id']);
-$quantity = 50; // Default quantity
-$price = floatval($_POST['product_price']);
-$total = $price * $quantity;
-
-$conn = new mysqli("localhost", "root", "", "acrylic");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if product already in cart
-$check = $conn->prepare("SELECT cart_id FROM cart WHERE cust_id = ? AND product_id = ?");
-$check->bind_param("ii", $cust_id, $product_id);
-$check->execute();
-$check->store_result();
-
-if ($check->num_rows > 0) {
-    echo json_encode(['success' => false, 'message' => 'Product already in cart']);
-    $check->close();
-    $conn->close();
-    exit();
-}
-$check->close();
-
-// Insert into cart
-$stmt = $conn->prepare("INSERT INTO cart (cart_status, cart_quantity, cart_created, cart_total, cust_id, product_id)
-                        VALUES (?, ?, NOW(), ?, ?, ?)");
-$status = "Pending";
-$stmt->bind_param("sidii", $status, $quantity, $total, $cust_id, $product_id);
-
-if ($stmt->execute()) {
-    echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Failed to add to cart']);
-}
-
-$stmt->close();
-$conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
