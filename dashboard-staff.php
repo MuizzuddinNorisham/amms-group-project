@@ -39,7 +39,6 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
                     </a>
                 </li>
                 <li>
-                    <a href="admin-product.html">
                     <a href="dashboard-profile-staff.php" >
                         <span class="icon"><i class="fas fa-user"></i></span>
                         <span class="text">Profile</span>
