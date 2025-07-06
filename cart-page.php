@@ -29,7 +29,7 @@ session_start();
             <div id="cart-items"></div>
             <div id="cart-total" style="text-align:right; font-size:1.2rem; font-weight:600; margin-top:1.5rem;"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
-                <a href="../mainpage.html" class="proceed-btn back-btn">&#8592; Back</a>
+                <a href="main-page.php" class="proceed-btn back-btn">&#8592; Back</a>
                 <button id="proceed-payment" class="proceed-btn">Proceed to Payment</button>
             </div>
         </main>
