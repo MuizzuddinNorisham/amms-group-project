@@ -39,7 +39,6 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
                     </a>
                 </li>
                 <li>
-<<<<<<< HEAD:AMMS/admin-dashboard.html
                     <a href="admin-account.html">
                         <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
                         <span class="text">User Account</span>
@@ -47,7 +46,6 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
                 </li>
                 <li>
                     <a href="admin-product.html">
-=======
                     <a href="dashboard-profile-staff.php" >
                         <span class="icon"><i class="fas fa-user"></i></span>
                         <span class="text">Profile</span>
@@ -55,7 +53,6 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
                 </li>
                 <li>
                     <a href="dashboard-product-staff.php">
->>>>>>> a06dfee9b76c823806d95a2c2992dfabee7580ab:dashboard-staff.php
                         <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
                         <span class="text">Products</span>
                     </a>
