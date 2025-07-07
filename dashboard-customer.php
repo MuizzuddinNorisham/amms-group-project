@@ -1,107 +1,72 @@
 <?php
-// Start session to check if user is logged in
+// Optional: Start session if you plan to use $_SESSION variables later
 session_start();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="dashboard-customer.css">
-  <title>Customer Dashboard</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Material Icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="dashboard-customer.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- CSS File -->
-  <link rel="stylesheet" href="main-page.css">
-
-  <!-- Inline Styling for Dashboard Cards (Optional) -->
-  <style>
-    main {
-      padding: 10rem 9% 4rem;
-      display: grid;
-      gap: 2rem;
-      grid-template-columns: 1fr;
-    }
-
-    @media (min-width: 768px) {
-      main {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .card {
-      background-color: #f9fafb; 
-      border-radius: 1rem;
-      box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
-      padding: 2rem;
-      text-align: center;
-      transition: box-shadow .2s ease, transform .2s ease;
-      cursor: pointer;
-    }
-
-    .card:hover {
-      box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
-      transform: translateY(-0.5rem);
-    }
-
-    .card-icon {
-      font-family: 'Material Icons';
-      font-size: 4rem;
-      color: var(--pink);
-      margin-bottom: 1rem;
-    }
-
-    .card-title {
-      font-size: 2.5rem;
-      color: #333;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-description {
-      font-size: 1.5rem;
-      color: #666;
-      margin-bottom: 1rem;
-    }
-
-    .card-metric {
-      font-size: 2rem;
-      color: var(--pink);
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Header -->
-  <header>
-    <div class="logo">Customer<span>Dashboard</span></div>
-    <nav class="navbar">
-      <a href="main-page.php">Home</a>
-      <a href="#">Profile</a>
-    </nav>
-  </header>
-
-  <!-- Main Content -->
-  <main>
-    <!-- Choose Design Card -->
-    <div class="card">
-      <div class="card-icon">edit_square</div>
-      <div class="card-title">Choose Design</div>
-      <div class="card-description">Customize and select your preferred product design.</div>
-      <div class="card-metric"><a href="productlist.html">Go to Designs</a></div>
-    </div>
-
-    <!-- Add Feedback Card -->
-    <div class="card">
-      <div class="card-icon">rate_review</div>
-      <div class="card-title">Add Feedback</div>
-      <div class="card-description">Share your thoughts and experiences about our products.</div>
-      <div class="card-metric"><a href="feedback-customer.php">Submit Feedback</a></div>
-    </div>
-  </main>
-
-</body>
+        <title>Customer Dashboard</title>
+    </head>
+    <body>
+        <!--sidebar section start-->
+        
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="#" class="logo">
+                        <span class="icon"><i class="fa-solid fa-users"></i></span>
+                        <span class="text">Customer</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard-customer.php">
+                        <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard-profile-customer.php">
+                        <span class="icon"><i class="fas fa-user"></i></span>
+                        <span class="text">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard-product-customer.php">
+                        <span class="icon"><i class="fa-solid fa-bag-shopping"></i></span>
+                        <span class="text">Product</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard-cart-customer.php">
+                        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
+                        <span class="text">Cart</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard-feedback-customer.php">
+                        <span class="icon"><i class="fa-solid fa-comments"></i></span>
+                        <span class="text">Feedback</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="login-customer.php" class="logout">
+                        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+                        <span class="text">Log out</span>
+                    </a>
+                </li>
+            </ul>  
+        </div>
+        <div class="content">
+            <h1 class="page-title">Customer Dashboard</h1>
+        </div>
+    
+    </body>
 </html>
