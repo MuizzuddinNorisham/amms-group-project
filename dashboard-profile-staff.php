@@ -69,12 +69,6 @@ $dbc->close();
             </a>
         </li>
         <li>
-            <a href="order.html">
-                <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
-                <span class="text">Order</span>
-            </a>
-        </li>
-        <li>
             <a href="main-page.php" class="logout">
                 <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
                 <span class="text">Log out</span>
