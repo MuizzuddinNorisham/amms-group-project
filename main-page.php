@@ -115,15 +115,6 @@ session_start();
                   
                     <div class="image">
                         <img src="asset/prod1.jpg" alt="">
-                        <div class="icons">
-                            <a href="#" 
-                            class="cart-btn" 
-                            data-name="rose gold mirror black design" 
-                            data-price="RM60.00" 
-                            data-image="prod2.jpg">
-                            Add to cart
-                            </a>
-                        </div>
                     </div>
                     <div class="content">
                         <h3>rose gold mirror black design</h3>

@@ -103,52 +103,75 @@ $dbc->close();
 
     <!-- CSS -->
     <link rel="stylesheet" href="dashboard-customer.css">
+    <link rel="stylesheet" href="main-page.css">
     <style>
-        .products-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
+    .products-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
 
-        .product-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        }
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1rem;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.06);
+        height: 100%;
+    }
 
-        .product-info {
-            display: flex;
-            flex-direction: column;
-        }
+    .product-info {
+        margin-bottom: 1rem;
+    }
 
-        .product-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
+    .product-name {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+    }
 
-        .product-price {
-            color: green;
-            font-size: 1rem;
-        }
+    .product-price {
+        color: #10b981;
+        font-size: 1rem;
+        font-weight: 500;
+    }
 
-        .add-to-cart-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+    .add-to-cart-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 0.6rem;
+        cursor: pointer;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
 
-        .add-to-cart-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    .add-to-cart-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: left;
+        margin-bottom: 1rem;
+        color: #1e293b;
+    }
+    .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+</style>
+
 </head>
 <body>
 
@@ -197,6 +220,36 @@ $dbc->close();
 <!-- Main Content -->
 <div class="content">
     <h1 class="page-title">Available Products</h1>
+    <div class="products-container">
+    
+    <div class="product-card">
+        <img src="images/badge-rosegold.png" alt="Rose Gold Acrylic Badge" class="product-image">
+        <div class="product-info">
+            <span class="product-name">Rose Gold Mirror Black</span>
+            <span class="product-price">RM60.00</span>
+        </div>
+        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card">
+        <img src="images/badge-goldline.png" alt="Gold Line Badge" class="product-image">
+        <div class="product-info">
+            <span class="product-name">Gold Line Engraved</span>
+            <span class="product-price">RM55.00</span>
+        </div>
+        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card">
+        <img src="asset/prod6.jpg" alt="Clear Lettering on Black Background" class="product-image">
+        <div class="product-info">
+            <span class="product-name">Clear Lettering Black</span>
+            <span class="product-price">RM45.00</span>
+        </div>
+        <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+</div>
 
     <?php if ($result->num_rows > 0): ?>
         <div class="products-container">
