@@ -8,9 +8,8 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
       display: flex;
+      margin: 0;
       background-color: #f0f0f0;
     }
 
@@ -57,8 +56,8 @@
 
     th, td {
       padding: 12px;
-      text-align: left;
       border: 1px solid #ccc;
+      text-align: left;
     }
 
     th {
@@ -66,7 +65,6 @@
       color: white;
     }
 
-    /* Modal Background */
     .modal {
       display: none;
       position: fixed;
@@ -75,20 +73,20 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(2px);
+      background-color: rgba(0,0,0,0.4);
     }
 
-    /* Modal Box */
     .modal-content {
-      background-color: #fff;
-      margin: 80px auto;
+      background: #fff;
+      margin: 50px auto;
       padding: 30px;
-      width: 500px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 10px;
       position: relative;
-      animation: fadeIn 0.3s ease-in-out;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     .close {
@@ -96,73 +94,65 @@
       right: 20px;
       top: 15px;
       font-size: 28px;
-      color: #aaa;
       cursor: pointer;
-      font-weight: bold;
+      color: #aaa;
     }
 
     .close:hover {
-      color: #333;
+      color: #000;
     }
 
-    .modal-content h2.header {
-      margin-top: 0;
-      margin-bottom: 20px;
-      color: #333;
+    .modal-content h2 {
       text-align: center;
+      margin-top: 0;
     }
 
     .modal-content input,
     .modal-content select {
       width: 100%;
-      padding: 10px 12px;
+      padding: 10px;
       margin: 8px 0;
-      border: 1px solid #ccc;
       border-radius: 8px;
+      border: 1px solid #ccc;
       box-sizing: border-box;
-      font-size: 14px;
     }
 
     .modal-content input[type="submit"],
     .modal-content input[type="reset"] {
-      width: 120px;
+      width: 48%;
       background-color: #3cc;
       color: white;
       border: none;
-      cursor: pointer;
       margin-top: 15px;
-      transition: background-color 0.3s ease;
+      cursor: pointer;
     }
 
     .modal-content input[type="reset"] {
       background-color: #888;
-      margin-left: 10px;
     }
 
-    .modal-content input[type="submit"]:hover {
-      background-color: #2bb;
+    .modal-content input:hover {
+      opacity: 0.9;
     }
 
-    .modal-content input[type="reset"]:hover {
-      background-color: #666;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @media (max-width: 480px) {
+      .modal-content {
+        padding: 20px;
+        max-height: 80vh;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- Sidebar (unchanged) -->
+<!-- Sidebar -->
 <div class="sidebar">
   <ul>
     <li><a href="#" class="logo"><span class="icon"><i class="fa-solid fa-users"></i></span><span class="text">Staff</span></a></li>
     <li><a href="#"><span class="icon"><i class="fa-solid fa-table-columns"></i></span><span class="text">Dashboard</span></a></li>
     <li><a href="#"><span class="icon"><i class="fas fa-user"></i></span><span class="text">Profile</span></a></li>
     <li><a href="#"><span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span><span class="text">Products</span></a></li>
-    <li><a href="#" class="logout"><span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span><span class="text">Log out</span></a></li>
+    <li><a href="login-administrator.php" class="logout"><span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span><span class="text">Log out</span></a></li>
   </ul>
 </div>
 
@@ -177,12 +167,11 @@
       </div>
     </div>
 
-    <!-- Static Product Table -->
     <table>
       <thead>
         <tr>
           <th>ID</th>
-          <th>Product Name</th>
+          <th>Name</th>
           <th>Price (RM)</th>
           <th>Quantity</th>
           <th>Type</th>
@@ -191,22 +180,14 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Sample row -->
         <tr>
           <td>1</td>
-          <td>Example Tag</td>
-          <td>10.00</td>
-          <td>50</td>
-          <td>Acrylic tag</td>
-          <td>Star Design</td>
-          <td>Roboto</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Custom Label</td>
-          <td>3.50</td>
+          <td>Acrylic Keychain</td>
+          <td>5.00</td>
           <td>100</td>
-          <td>Label</td>
-          <td>Minimalist</td>
+          <td>Tag</td>
+          <td>Round</td>
           <td>Arial</td>
         </tr>
       </tbody>
@@ -214,24 +195,24 @@
   </div>
 </div>
 
-<!-- Modal Form -->
+<!-- Modal -->
 <div id="productModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <form>
-      <h2 class="header">Add Product</h2>
+      <h2>Add Product</h2>
 
       <label>Product Name</label>
-      <input type="text" name="product_name" required />
+      <input type="text" name="product_name" required>
 
       <label>Product Price (RM)</label>
-      <input type="number" step="0.01" min="0.01" required />
+      <input type="number" step="0.01" min="0.01" name="product_price" required>
 
       <label>Product Quantity</label>
-      <input type="number" min="1" required />
+      <input type="number" min="1" name="product_quantity" required>
 
       <label>Product Type</label>
-      <select required>
+      <select name="product_type" required>
         <option value="">-- Select Type --</option>
         <option value="Acrylic tag">Acrylic tag</option>
         <option value="Label">Label</option>
@@ -240,38 +221,27 @@
       </select>
 
       <label>Product Design</label>
-      <input type="text" required />
+      <input type="text" name="product_design" required>
 
       <label>Product Font</label>
-      <input type="text" required />
+      <input type="text" name="product_font" required>
 
-      <div style="text-align: center;">
-        <input type="submit" value="Submit" />
-        <input type="reset" value="Reset" />
+      <div style="display: flex; justify-content: space-between;">
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
       </div>
     </form>
   </div>
 </div>
 
-<!-- Modal Script -->
 <script>
   const modal = document.getElementById("productModal");
-  const addBtn = document.querySelector(".add-product");
-  const closeBtn = document.querySelector(".close");
+  const btn = document.querySelector(".add-product");
+  const span = document.querySelector(".close");
 
-  addBtn.onclick = () => {
-    modal.style.display = "block";
-  };
-
-  closeBtn.onclick = () => {
-    modal.style.display = "none";
-  };
-
-  window.onclick = (event) => {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
+  btn.onclick = () => modal.style.display = "block";
+  span.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
 </script>
 
 </body>

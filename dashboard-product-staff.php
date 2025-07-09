@@ -193,7 +193,7 @@ $products = $dbc->query("SELECT * FROM product");
 <div class="content-wrapper">
   <div class="container">
     <div class="header">
-      <h1>Product Management</h1>
+      <h3>Product Management</h3>
       <div class="search-container">
         <input type="text" placeholder="Search" />
         <button class="add-product">Add Product</button>
