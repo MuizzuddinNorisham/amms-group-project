@@ -85,7 +85,7 @@ if (isset($_POST['add_to_cart'])) {
 
 // Fetch all products again
 $dbc = new mysqli("localhost", "root", "", "acrylic");
-$sql = "SELECT product_id, product_name, product_price FROM product";
+$sql = "SELECT product_id, product_name, product_price, product_image, product_quantity FROM product";
 $result = $dbc->query($sql);
 $dbc->close();
 ?>
@@ -106,7 +106,7 @@ $dbc->close();
     <link rel="stylesheet" href="main-page.css">
     <style>
     .products-container {
-        display: grid;
+        display: flex;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 1.5rem;
         margin-top: 2rem;
@@ -128,7 +128,7 @@ $dbc->close();
     }
 
     .product-name {
-        font-size: 1.1rem;
+        font-size: 1.7rem;
         font-weight: bold;
         color: #1f2937;
         margin-bottom: 0.5rem;
@@ -136,7 +136,13 @@ $dbc->close();
 
     .product-price {
         color: #10b981;
-        font-size: 1rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+
+    .product-quantity {
+        color:rgb(106, 106, 106);
+        font-size: 1.3rem;
         font-weight: 500;
     }
 
@@ -232,14 +238,10 @@ $dbc->close();
                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
                 <div class="product-card">
                     <div class="product-info">
-                        <img 
-                            src="asset/<?= htmlspecialchars($row['product_image']) ?>" 
-                            width="80" 
-                            style="border-radius: 8px;" 
-                            onerror="this.src='asset/default.png';"
-                        >
+                        <img src="<?= htmlspecialchars($row['product_image']) ?>" width="220" >
                         <span class="product-name"><?= htmlspecialchars($row['product_name']) ?></span>
                         <span class="product-price">RM <?= number_format($row['product_price'], 2) ?></span>
+                        <span class="product-quantity"> <?= htmlspecialchars($row['product_quantity'], 2) ?>/1pack</span>
                     </div>
                     <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
                 </div>
