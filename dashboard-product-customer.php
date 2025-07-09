@@ -106,56 +106,75 @@ $dbc->close();
     <link rel="stylesheet" href="main-page.css">
     <style>
     .products-container {
-        display: flex;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
 
-    .product-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 1rem;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.06);
-        height: 100%;
-    }
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.06);
+    height: 100%;
+    width: 100%;
+    max-width: 300px;
+}
+
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.product-name { 
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    color: #10b981;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.product-quantity {
+    color: rgb(106, 106, 106);
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
 
     .product-info {
-        margin-bottom: 1rem;
-    }
-
-    .product-name {
-        font-size: 1.7rem;
-        font-weight: bold;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-    }
-
-    .product-price {
-        color: #10b981;
-        font-size: 1.5rem;
-        font-weight: 500;
-    }
-
-    .product-quantity {
-        color:rgb(106, 106, 106);
-        font-size: 1.3rem;
-        font-weight: 500;
-    }
+    margin-bottom: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
     .add-to-cart-btn {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 0.6rem;
-        cursor: pointer;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: background-color 0.3s ease;
-    }
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-top: auto; /* Push to bottom */
+    width: 100%; /* Optional: make button full width */
+}
 
     .add-to-cart-btn:hover {
         background-color: #0056b3;
@@ -168,14 +187,7 @@ $dbc->close();
         margin-bottom: 1rem;
         color: #1e293b;
     }
-    .product-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-}
-
+   
 </style>
 
 </head>
