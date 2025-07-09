@@ -111,25 +111,39 @@ $dbc->close();
     <link rel="stylesheet" href="dashboard-customer.css">
     <link rel="stylesheet" href="main-page.css">
     <style>
-    .products-container {
+  
+.products-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
     margin-top: 2rem;
+    width: 100%;
 }
-<style>
+
 .product-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     text-align: center;
-    padding: 1rem;
+    padding: 1.2rem;
     background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.06);
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
     width: 100%;
-    height: 100%;
-    align-self: stretch; /* Important to let card fill grid cell vertically */
+    min-height: 380px;
+    transition: box-shadow 0.2s;
+}
+.product-card:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+}
+
+.product-image img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    background: #f3f3f3;
 }
 
 .product-info {
@@ -138,51 +152,50 @@ $dbc->close();
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.product-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 1rem;
+    flex: 1 1 auto;
 }
 
 .product-name {
     font-size: 1.7rem;
     font-weight: bold;
     color: #1f2937;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
+    word-break: break-word;
 }
 
 .product-price {
     color: #10b981;
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
 }
 
 .product-quantity {
-    color: rgb(106, 106, 106);
+    color: #6a6a6a;
     font-size: 1.3rem;
     font-weight: 500;
+    margin-bottom: 0.5rem;
 }
 
 .add-to-cart-btn {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 0.6rem;
+    padding: 0.7rem 0;
     cursor: pointer;
     border-radius: 8px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
-    margin-top: auto; /* Stick to bottom of flex container */
+    transition: background 0.2s;
+    margin-top: auto;
     width: 100%;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
 }
 
 .add-to-cart-btn:hover {
-    background-color: #0056b3;
+    background: linear-gradient(90deg, #0056b3 0%, #007bff 100%);
 }
+
 </style>
 
 </head>
