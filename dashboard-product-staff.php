@@ -12,9 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_id'])) {
     $stmt->bind_param("i", $deleteId);
     $stmt->execute();
     $stmt->close();
+<<<<<<< HEAD
+    $dbc->close();
+
+=======
     echo "<script>alert('Product deleted successfully.'); window.location.href='dashboard-product-staff.php';</script>";
     exit();
 }
+>>>>>>> 4815ace9a7ccb4fd27e97bc74ca5fa39a9cbcf17
 
 // Handle insert/update
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_name'])) {
