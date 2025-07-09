@@ -40,14 +40,6 @@ if (isset($_POST['add_to_cart'])) {
         $quantity = 1;
         $total = $price * $quantity;
 
-<<<<<<< HEAD
-        // ✅ Always insert a new cart item — no check for existing entries
-        $insert_sql = "INSERT INTO cart (cart_status, cart_quantity, cart_created, cart_total, cust_id, product_id)
-                       VALUES (?, ?, NOW(), ?, ?, ?)";
-        $insert_stmt = $dbc->prepare($insert_sql);
-        $status = "Pending";
-        $insert_stmt->bind_param("sidii", $status, $quantity, $total, $cust_id, $product_id);
-=======
         // Check if product is already in cart
         $check_sql = "SELECT cart_id, cart_quantity FROM cart WHERE cust_id = ? AND product_id = ?";
         $check_stmt = $dbc->prepare($check_sql);
@@ -60,7 +52,6 @@ if (isset($_POST['add_to_cart'])) {
             $row = $check_result->fetch_assoc();
             $new_quantity = $row['cart_quantity'] + 1;
             $new_total = $price * $new_quantity;
->>>>>>> adf4cc2eba50dff20cc99d5bfb8bf00c888a4630
 
             $update_sql = "UPDATE cart SET cart_quantity = ?, cart_total = ? WHERE cart_id = ?";
             $update_stmt = $dbc->prepare($update_sql);
@@ -96,13 +87,6 @@ if (isset($_POST['add_to_cart'])) {
     
     $stmt->close();
     $dbc->close();
-<<<<<<< HEAD
-
-    // Redirect to prevent form resubmission
-    header("Location: dashboard-product-customer.php");
-    exit();
-=======
->>>>>>> adf4cc2eba50dff20cc99d5bfb8bf00c888a4630
 }
 
 // Fetch all products again
@@ -133,7 +117,7 @@ $dbc->close();
     gap: 1.5rem;
     margin-top: 2rem;
 }
-
+<style>
 .product-card {
     display: flex;
     flex-direction: column;
@@ -143,11 +127,18 @@ $dbc->close();
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0,0,0,0.06);
-    height: 100%;
     width: 100%;
-    max-width: 300px;
+    height: 100%;
+    align-self: stretch; /* Important to let card fill grid cell vertically */
 }
 
+.product-info {
+    margin-bottom: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .product-image {
     width: 100%;
@@ -157,7 +148,7 @@ $dbc->close();
     margin-bottom: 1rem;
 }
 
-.product-name { 
+.product-name {
     font-size: 1.7rem;
     font-weight: bold;
     color: #1f2937;
@@ -176,16 +167,7 @@ $dbc->close();
     font-weight: 500;
 }
 
-
-    .product-info {
-    margin-bottom: 1rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-    .add-to-cart-btn {
+.add-to-cart-btn {
     background-color: #007bff;
     color: white;
     border: none;
@@ -194,22 +176,13 @@ $dbc->close();
     border-radius: 8px;
     font-weight: 600;
     transition: background-color 0.3s ease;
-    margin-top: auto; /* Push to bottom */
-    width: 100%; /* Optional: make button full width */
+    margin-top: auto; /* Stick to bottom of flex container */
+    width: 100%;
 }
 
-    .add-to-cart-btn:hover {
-        background-color: #0056b3;
-    }
-
-    .page-title {
-        font-size: 2rem;
-        font-weight: bold;
-        text-align: left;
-        margin-bottom: 1rem;
-        color: #1e293b;
-    }
-   
+.add-to-cart-btn:hover {
+    background-color: #0056b3;
+}
 </style>
 
 </head>
