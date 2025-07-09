@@ -2,132 +2,357 @@
 // Database connection
 $dbc = new mysqli("localhost", "root", "", "acrylic");
 if ($dbc->connect_error) {
-  die("Connection failed: " . $dbc->connect_error);
+    die("Connection failed: " . $dbc->connect_error);
 }
 
-    // Use prepared statement to prevent SQL injection
-    $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font) 
-                           VALUES (?, ?, ?, ?, ?, ?)");
-    
-    $stmt->bind_param("sdssss", $pname, $pprice, $pquantity, $ptype, $pdesign, $font);
-
-    if ($stmt->execute()) {
-        echo '<script>alert("Record Has Been Added");</script>';
-        echo '<script>window.location.assign("dashboard-product-staff.php");</script>';
-    } else {
-        echo '<script>alert("Data Is Invalid, No Record Has Been Added");</script>';
-        echo '<script>window.location.assign("dashboard-product-staff.php");</script>';
-    }
-
+// Handle deletion
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_id'])) {
+    $deleteId = $_POST['delete_id'];
+    $stmt = $dbc->prepare("DELETE FROM product WHERE product_id = ?");
+    $stmt->bind_param("i", $deleteId);
+    $stmt->execute();
     $stmt->close();
+<<<<<<< HEAD
     $dbc->close();
 
+=======
+    echo "<script>alert('Product deleted successfully.'); window.location.href='dashboard-product-staff.php';</script>";
+    exit();
+}
+>>>>>>> 4815ace9a7ccb4fd27e97bc74ca5fa39a9cbcf17
 
+// Handle insert/update
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_name'])) {
+    $id = $_POST['product_id'] ?? '';
+    $name = $_POST['product_name'];
+    $price = $_POST['product_price'];
+    $quantity = $_POST['product_quantity'];
+    $type = $_POST['product_type'];
+    $design = $_POST['product_design'];
+    $font = $_POST['product_font'];
+
+    if ($id) {
+        $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=? WHERE product_id=?");
+        $stmt->bind_param("sdisssi", $name, $price, $quantity, $type, $design, $font, $id);
+        $stmt->execute();
+        $stmt->close();
+        echo "<script>alert('Product updated successfully.'); window.location.href='dashboard-product-staff.php';</script>";
+        exit();
+    } else {
+        $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sdisss", $name, $price, $quantity, $type, $design, $font);
+        $stmt->execute();
+        $stmt->close();
+        echo "<script>alert('Product added successfully.'); window.location.href='dashboard-product-staff.php';</script>";
+        exit();
+    }
+}
+
+// Fetch products
 $products = $dbc->query("SELECT * FROM product");
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f0f0f0;
+      display: flex;
+    }
 
-        <link rel="stylesheet" href="dashboard-staff.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    .main-wrapper {
+      display: flex;
+      width: 100%;
+    }
 
-        <title>Staff</title>
-    </head>
-    <body>
-        <!--sidebar section start-->
-        
-        <div class="sidebar" >
-            <ul>
-                <li>
-                    <a href="#" class="logo">
-                        <span class="icon"><i class="fa-solid fa-users"></i></i></span>
-                        <span class="text">Staff</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-staff.php">
-                        <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-profile-staff.php" >
-                        <span class="icon"><i class="fas fa-user"></i></span>
-                        <span class="text">Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-product-staff.php">
-                        <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
-                        <span class="text">Products</span>
-                    </a>
-                </li>
-                 <li>
-                   <a href="order.html">
-                        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
-                        <span class="text">Order</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="login-administrator.php" class="logout">
-                        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></i></span>
-                        <span class="text">Log out</span>
-                    </a>
-                </li>
-            </ul>  
+    /* Sidebar Styles (Original kept) */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 200px;
+      background: #333;
+      overflow-x: hidden;
+      padding-top: 10px;
+      transition: 0.6s ease;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+    }
+
+    .sidebar ul li:hover {
+      background: #06e6e6;
+    }
+
+    .sidebar ul li a .icon {
+      width: 30px;
+      text-align: center;
+    }
+
+    .sidebar ul li a .text {
+      margin-left: 10px;
+      font-weight: 500;
+    }
+
+    /* Main content */
+    .content-wrapper {
+      margin-left: 200px;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .search-container input {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .add-product {
+      padding: 10px 20px;
+      background-color: #3cc;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #3cc;
+      color: white;
+    }
+
+    .edit-btn, .delete-btn {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background-color: green;
+    }
+
+    .delete-btn {
+      background-color: red;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background: #fff;
+      margin: 50px auto;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .modal-content input,
+    .modal-content select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content input[type="submit"],
+    .modal-content input[type="reset"] {
+      width: 48%;
+      background-color: #3cc;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .modal-content input[type="reset"] {
+      background-color: #888;
+    }
+  </style>
+</head>
+<body>
+<div class="main-wrapper">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul>
+      <li><a href="#"><span class="icon"><i class="fa-solid fa-users"></i></span><span class="text">Staff</span></a></li>
+      <li><a href="dashboard-staff.php"><span class="icon"><i class="fa-solid fa-table-columns"></i></span><span class="text">Dashboard</span></a></li>
+      <li><a href="dashboard-profile-staff.php"><span class="icon"><i class="fas fa-user"></i></span><span class="text">Profile</span></a></li>
+      <li><a href="dashboard-product-staff.php"><span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span><span class="text">Products</span></a></li>
+      <li><a href="main-page.php"><span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span><span class="text">Log out</span></a></li>
+    </ul>
+  </div>
+
+  <!-- Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="header">
+        <h1>Product Management</h1>
+        <div class="search-container">
+          <input type="text" placeholder="Search">
+          <button class="add-product">Add Product</button>
         </div>
+      </div>
 
-        <!--sidebar section ends-->
-        
-        <div class="content" id="product">
-            <form method="POST" action="">
-                <h2 class="header">Product Registration</h2>
-                <table border="1" align="center">
-                    <tr>
-                        <td>Product Name</td>
-                        <td><input type="text" name="product_name" size="50" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Product Price (RM)</td>
-                        <td><input type="number" name="product_price" step="0.01" min="0.01" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Product Quantity</td>
-                        <td><input type="number" name="product_quantity" min="1" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Product Type</td>
-                        <td>
-                            <select name="product_type" required>
-                                    <option value="">-- Select Type --</option>
-                                    <option value="T-shirt">Acrylic tag</option>
-                                    <option value="Mug">Label</option>
-                                    <option value="Sticker">Pouch bag</option>
-                                    <option value="Other">Card</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Product Design</td>
-                        <td><input type="text" name="product_design" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Product Font</td>
-                        <td><input type="text" name="product_font" required /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center">
-                            <input type="submit" name="btnsubmit" value="Submit" />
-                            <input type="reset" value="Reset" />
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </body>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Type</th><th>Design</th><th>Font</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php while ($row = $products->fetch_assoc()): ?>
+          <tr data-product='<?= json_encode($row) ?>'>
+            <td><?= $row['product_id'] ?></td>
+            <td><?= $row['product_name'] ?></td>
+            <td><?= number_format($row['product_price'], 2) ?></td>
+            <td><?= $row['product_quantity'] ?></td>
+            <td><?= $row['product_type'] ?></td>
+            <td><?= $row['product_design'] ?></td>
+            <td><?= $row['product_font'] ?></td>
+            <td>
+              <button class="edit-btn">Edit</button>
+              <form method="POST" style="display:inline;" onsubmit="return confirm('Are you sure?')">
+                <input type="hidden" name="delete_id" value="<?= $row['product_id'] ?>">
+                <button type="submit" class="delete-btn">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <?php endwhile; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form method="POST">
+      <h2>Product</h2>
+      <input type="hidden" name="product_id" id="edit-id">
+      <label>Name</label>
+      <input type="text" name="product_name" required>
+      <label>Price (RM)</label>
+      <input type="number" step="0.01" name="product_price" required>
+      <label>Quantity</label>
+      <input type="number" name="product_quantity" required>
+      <label>Type</label>
+      <select name="product_type" required>
+        <option value="">--Select--</option>
+        <option value="Acrylic tag">Acrylic tag</option>
+        <option value="Label">Label</option>
+        <option value="Pouch bag">Pouch bag</option>
+        <option value="Card">Card</option>
+      </select>
+      <label>Design</label>
+      <input type="text" name="product_design" required>
+      <label>Font</label>
+      <input type="text" name="product_font" required>
+      <div style="display: flex; justify-content: space-between;">
+        <input type="submit" value="Save">
+        <input type="reset" value="Reset">
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Script -->
+<script>
+  const modal = document.getElementById("productModal");
+  const addBtn = document.querySelector(".add-product");
+  const closeBtn = document.querySelector(".close");
+  const form = modal.querySelector("form");
+
+  addBtn.onclick = () => {
+    form.reset();
+    form.product_id.value = "";
+    modal.style.display = "block";
+  };
+
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = e => { if (e.target == modal) modal.style.display = "none"; };
+
+  document.querySelectorAll(".edit-btn").forEach(btn => {
+    btn.onclick = function () {
+      const row = this.closest("tr");
+      const data = JSON.parse(row.dataset.product);
+      form.product_id.value = data.product_id;
+      form.product_name.value = data.product_name;
+      form.product_price.value = data.product_price;
+      form.product_quantity.value = data.product_quantity;
+      form.product_type.value = data.product_type;
+      form.product_design.value = data.product_design;
+      form.product_font.value = data.product_font;
+      modal.style.display = "block";
+    };
+  });
+</script>
+</body>
 </html>

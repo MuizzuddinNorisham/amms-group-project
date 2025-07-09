@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+// Debug message
+if (isset($_SESSION['cart_debug'])) {
+    echo "<div style='color:red; margin:20px;'>".$_SESSION['cart_debug']."</div>";
+    unset($_SESSION['cart_debug']);
+}
+
 // Check if customer is logged in
 if (!isset($_SESSION['cust_id'])) {
     header("Location: login-customer.php");
@@ -70,7 +76,7 @@ if (isset($_POST['remove_item'])) {
     $stmt->close();
 }
 
-// Fetch updated cart items
+// Fetch updated cart items (without filtering by status for now)
 $sql = "
     SELECT 
         c.cart_id,
@@ -81,7 +87,7 @@ $sql = "
         p.product_price
     FROM cart c
     JOIN product p ON c.product_id = p.product_id
-    WHERE c.cust_id = ? AND c.cart_status = 'Pending'
+    WHERE c.cust_id = ? AND c.cart_status = 'pending'
 ";
 
 $stmt = $dbc->prepare($sql);
@@ -89,6 +95,7 @@ $stmt->bind_param("i", $cust_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
+$cart_items = [];
 while ($row = $result->fetch_assoc()) {
     $cart_items[] = $row;
     $grand_total += $row['cart_total'];
@@ -99,20 +106,31 @@ $dbc->close();
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link rel="stylesheet" href="dashboard-customer.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dashboard-customer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css "
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Cart</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ccc; text-align: left; }
+        .total-box { margin-top: 20px; font-size: 1.2rem; }
+        .checkout-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 
-        <title>Cart</title>
-    </head>
-    <body>
-        <!--sidebar section start-->
-        
-        <div class="sidebar">
+<!-- Sidebar -->
+<div class="sidebar">
             <ul>
                 <li>
                     <a href="#" class="logo">
@@ -158,11 +176,13 @@ $dbc->close();
                 </li>
             </ul>  
         </div>
-        <div class="content">
-            <h1 class="page-title">Customer Dashboard</h1>
-        </div>
+<<<<<<< HEAD
     
         <!-- Main Content -->
+=======
+
+<!-- Main Content -->
+>>>>>>> 3ec713098c660c0bd088080da0b8636ebb21caff
 <div class="content">
     <h1>My Shopping Cart</h1>
 
@@ -192,7 +212,7 @@ $dbc->close();
                         <td>
                             <form method="post" style="display:inline;">
                                 <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
-                                <button type="submit" name="remove_item" class="btn btn-remove">Remove</button>
+                                <button type="submit" name="remove_item">Remove</button>
                             </form>
                         </td>
                     </tr>
@@ -214,6 +234,4 @@ $dbc->close();
 </div>
 
 </body>
-</html>
-    </body>
 </html>
