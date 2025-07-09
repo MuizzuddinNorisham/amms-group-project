@@ -76,7 +76,7 @@ if (isset($_POST['remove_item'])) {
     $stmt->close();
 }
 
-// Fetch updated cart items (without filtering by status for now)
+// Fetch updated cart items
 $sql = "
     SELECT 
         c.cart_id,
@@ -110,38 +110,166 @@ $dbc->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dashboard-customer.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css "
-        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Cart</title>
     <style>
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; border-bottom: 1px solid #ccc; text-align: left; }
-        .total-box { margin-top: 20px; font-size: 1.2rem; }
-        .checkout-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: green;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+        body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+.content {
+  margin-left: 200px;
+  padding: 2rem;
+  max-width: calc(100% - 200px);
+}
+
+h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+/* TABLE STYLING */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+}
+
+thead {
+  background-color: #f3f4f6;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+th, td {
+  padding: 1rem;
+  background-color: white;
+  text-align: center;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  vertical-align: middle;
+}
+
+tr {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ROUNDED CORNERS FOR FIRST/LAST CELL */
+td:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+td:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* QUANTITY INPUT */
+input[type="number"] {
+  width: 60px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background-color: #f9fafb;
+  text-align: center;
+  transition: 0.2s ease-in-out;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  border-color: #db2777;
+  box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.2);
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
+}
+
+/* REMOVE BUTTON */
+button[name="remove_item"] {
+  background-color: #f87171;
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+button[name="remove_item"]:hover {
+  background-color: #dc2626;
+}
+
+button[name="remove_item"] i {
+  font-size: 0.9rem;
+}
+
+/* GRAND TOTAL */
+/* GRAND TOTAL & PAYMENT WRAPPER */
+.total-payment-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1.5rem;
+}
+
+/* GRAND TOTAL TEXT */
+.total-text {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1e293b;
+}
+
+/* PAYMENT BUTTON */
+.checkout-btn {
+  padding: 14px 28px;
+  background-color: #db2777;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.checkout-btn:hover {
+  background-color: #be185d;
+  transform: translateY(-1px);
+}
+
+
+p {
+  font-size: 1rem;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 3rem;
+}
+
     </style>
 </head>
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar">
             <ul>
                 <li>
                     <a href="#" class="logo">
                         <span class="icon"><i class="fa-solid fa-users"></i></span>
                         <span class="text">Customer</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-customer.php">
-                        <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
-                        <span class="text">Dashboard</span>
                     </a>
                 </li>
                 <li>
@@ -176,15 +304,9 @@ $dbc->close();
                 </li>
             </ul>  
         </div>
-<<<<<<< HEAD
-    
-        <!-- Main Content -->
-=======
 
-<!-- Main Content -->
->>>>>>> 3ec713098c660c0bd088080da0b8636ebb21caff
 <div class="content">
-    <h1>My Shopping Cart</h1>
+    <h3>Your Cart</h3>
 
     <?php if (count($cart_items) > 0): ?>
         <table>
@@ -205,14 +327,14 @@ $dbc->close();
                         <td>
                             <form method="post" style="display:inline;">
                                 <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
-                                <input type="number" name="quantity" value="<?= $item['cart_quantity'] ?>" min="1" style="width:60px;" onchange="this.form.submit()">
+                                <input type="number" name="quantity" value="<?= $item['cart_quantity'] ?>" min="1" onchange="this.form.submit()">
                             </form>
                         </td>
                         <td>RM <?= number_format($item['cart_total'], 2) ?></td>
                         <td>
                             <form method="post" style="display:inline;">
                                 <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
-                                <button type="submit" name="remove_item">Remove</button>
+                                <button type="submit" name="remove_item"><i class="fas fa-trash"></i> Remove</button>
                             </form>
                         </td>
                     </tr>
@@ -220,12 +342,12 @@ $dbc->close();
             </tbody>
         </table>
 
-        <div class="total-box">
-            <strong>Grand Total: RM <?= number_format($grand_total, 2) ?></strong>
+        <div class="total">
+            Grand Total: RM <?= number_format($grand_total, 2) ?>
         </div>
 
         <form action="payment-customer.php" method="post">
-            <button type="submit" class="checkout-btn">Proceed to Payment</button>
+            <button type="submit" class="checkout-btn">Proceed To Payment</button>
         </form>
 
     <?php else: ?>
