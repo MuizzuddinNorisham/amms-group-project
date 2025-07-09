@@ -75,10 +75,12 @@ $dbc->close();
             </a>
         </li>
         <li>
-            <a href="main-page.php" class="logout">
-                <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
-                <span class="text">Log out</span>
-            </a>
+            <li>
+    <a href="login-administrator.php" class="logout" onclick="confirmLogout(event)">
+        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+        <span class="text">Log out</span>
+    </a>
+</li>
         </li>
     </ul>
 </div>
@@ -124,5 +126,21 @@ $dbc->close();
         </article>
     </section>
 </main>
+
+<!-- Logout Script -->
+<script>
+    function confirmLogout(e) {
+        e.preventDefault(); // Stop the link from navigating immediately
+
+        // Show confirmation dialog
+        const isConfirmed = confirm("Are you sure you want to log out?");
+
+        if (isConfirmed) {
+            alert("You have been logged out successfully.");
+            window.location.href = "login-administrator.php"; // Redirect to login page
+        }
+    }
+</script>
+
 </body>
 </html>

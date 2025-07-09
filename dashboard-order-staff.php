@@ -119,11 +119,11 @@ $payment_result = $dbc->query($payment_query);
             </a>
         </li>
         <li>
-            <a href="login-administrator.php" class="logout">
-                <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
-                <span class="text">Log out</span>
-            </a>
-        </li>
+    <a href="login-administrator.php" class="logout" onclick="confirmLogout(event)">
+        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+        <span class="text">Log out</span>
+    </a>
+</li>
     </ul>
 </div>
 
@@ -197,6 +197,21 @@ $payment_result = $dbc->query($payment_query);
         </div>
     </div>
 </div>
+
+<!-- Logout Script -->
+<script>
+    function confirmLogout(e) {
+        e.preventDefault(); // Stop the link from navigating immediately
+
+        // Show confirmation dialog
+        const isConfirmed = confirm("Are you sure you want to log out?");
+
+        if (isConfirmed) {
+            alert("You have been logged out successfully.");
+            window.location.href = "login-administrator.php"; // Redirect to login page
+        }
+    }
+</script>
 
 </body>
 </html>
