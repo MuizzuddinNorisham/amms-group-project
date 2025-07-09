@@ -1,6 +1,12 @@
 <?php
-// Optional: Start session if you plan to use $_SESSION variables later
 session_start();
+
+if (isset($_SESSION['payment_success'])) {
+    echo "<div style='text-align:center; color:green; margin-top:20px;'>";
+    echo $_SESSION['payment_success'];
+    echo "</div>";
+    unset($_SESSION['payment_success']); // Clear message after showing once
+}
 ?>
 
 <!DOCTYPE html>
