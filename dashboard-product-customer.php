@@ -226,23 +226,30 @@ $dbc->close();
 </div>
 
     <?php if ($result->num_rows > 0): ?>
-        <div class="products-container">
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <form method="POST" action="">
-                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
-                    <div class="product-card">
-                        <div class="product-info">
-                            <span class="product-name"><?= htmlspecialchars($row['product_name']) ?></span>
-                            <span class="product-price">RM <?= number_format($row['product_price'], 2) ?></span>
-                        </div>
-                        <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
+    <div class="products-container">
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <form method="POST" action="">
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
+                <div class="product-card">
+                    <div class="product-info">
+                        <img 
+                            src="asset/<?= htmlspecialchars($row['product_image']) ?>" 
+                            width="80" 
+                            style="border-radius: 8px;" 
+                            onerror="this.src='asset/default.png';"
+                        >
+                        <span class="product-name"><?= htmlspecialchars($row['product_name']) ?></span>
+                        <span class="product-price">RM <?= number_format($row['product_price'], 2) ?></span>
                     </div>
-                </form>
-            <?php endwhile; ?>
-        </div>
-    <?php else: ?>
-        <p>No products available at the moment.</p>
-    <?php endif; ?>
+                    <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </form>
+        <?php endwhile; ?>
+    </div>
+<?php else: ?>
+    <p>No products available at the moment.</p>
+<?php endif; ?>
+
 </div>
 
 </body>

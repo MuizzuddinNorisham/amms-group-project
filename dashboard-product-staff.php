@@ -17,6 +17,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_id'])) {
 }
 
 // Handle insert/update
+$product_image_path = '';
+if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
+    $uploadDir = 'asset/';
+    $filename = basename($_FILES['product_image']['name']);
+    $targetPath = $uploadDir . time() . '_' . $filename;
+
+    if (move_uploaded_file($_FILES['product_image']['tmp_name'], $targetPath)) {
+        $product_image_path = $targetPath;
+    } else {
+        echo "<script>alert('Failed to upload image.');</script>";
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_name'])) {
     $id = $_POST['product_id'] ?? '';
     $name = $_POST['product_name'];
@@ -27,15 +40,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_name'])) {
     $font = $_POST['product_font'];
 
     if ($id) {
-        $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=? WHERE product_id=?");
-        $stmt->bind_param("sdisssi", $name, $price, $quantity, $type, $design, $font, $id);
+        if (!empty($product_image_path)) {
+            $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=?, product_image=? WHERE product_id=?");
+            $stmt->bind_param("sdissssi", $name, $price, $quantity, $type, $design, $font, $product_image_path, $id);
+        } else {
+            $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=? WHERE product_id=?");
+            $stmt->bind_param("sdisssi", $name, $price, $quantity, $type, $design, $font, $id);
+        }
         $stmt->execute();
         $stmt->close();
         echo "<script>alert('Product updated successfully.'); window.location.href='dashboard-product-staff.php';</script>";
         exit();
     } else {
-        $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sdisss", $name, $price, $quantity, $type, $design, $font);
+        $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font, product_image) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sdissss", $name, $price, $quantity, $type, $design, $font, $product_image_path);
         $stmt->execute();
         $stmt->close();
         echo "<script>alert('Product added successfully.'); window.location.href='dashboard-product-staff.php';</script>";
@@ -46,6 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_name'])) {
 // Fetch products
 $products = $dbc->query("SELECT * FROM product");
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -279,15 +299,22 @@ $products = $dbc->query("SELECT * FROM product");
 <div id="productModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       <h2>Product</h2>
       <input type="hidden" name="product_id" id="edit-id">
+
+      <label>Upload Image</label>
+      <input type="file" name="product_image" accept="image/*" required>
+
       <label>Name</label>
       <input type="text" name="product_name" required>
+
       <label>Price (RM)</label>
       <input type="number" step="0.01" name="product_price" required>
+
       <label>Quantity</label>
       <input type="number" name="product_quantity" required>
+
       <label>Type</label>
       <select name="product_type" required>
         <option value="">--Select--</option>
@@ -296,10 +323,13 @@ $products = $dbc->query("SELECT * FROM product");
         <option value="Pouch bag">Pouch bag</option>
         <option value="Card">Card</option>
       </select>
+
       <label>Design</label>
       <input type="text" name="product_design" required>
+
       <label>Font</label>
       <input type="text" name="product_font" required>
+
       <div style="display: flex; justify-content: space-between;">
         <input type="submit" value="Save">
         <input type="reset" value="Reset">
@@ -307,6 +337,7 @@ $products = $dbc->query("SELECT * FROM product");
     </form>
   </div>
 </div>
+
 
 <!-- Script -->
 <script>
