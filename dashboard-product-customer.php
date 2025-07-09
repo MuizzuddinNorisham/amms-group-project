@@ -127,6 +127,14 @@ $dbc->close();
         margin-bottom: 1rem;
     }
 
+    .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    }
+
     .product-name {
         font-size: 1.7rem;
         font-weight: bold;
@@ -168,13 +176,7 @@ $dbc->close();
         margin-bottom: 1rem;
         color: #1e293b;
     }
-    .product-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-}
+    
 
 </style>
 
