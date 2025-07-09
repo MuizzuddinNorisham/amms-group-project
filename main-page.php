@@ -126,6 +126,17 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod2.jpg" alt="">
+                        <div class="icons">
+                            <a href="#" class="fas fa-heart"></a>
+                            <a href="#" 
+                            class="cart-btn" 
+                            data-name="rose gold mirror black design" 
+                            data-price="RM60.00" 
+                            data-image="prod2.jpg">
+                            Add to cart
+                            </a>
+                            <a href="#" class="fa-solid fa-circle-info"></a>
+                        </div>
                     </div>
                     <div class="content">
                         <h3>rose gold mirror black design</h3>
@@ -136,6 +147,16 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod3.jpg" alt="">
+                        <div class="icons">
+                            <a href="#" class="fas fa-heart"></a>
+                            <a href="#" 
+                            class="cart-btn" 
+                            data-name="gold line engraved design" 
+                            data-price="RM60.00" 
+                            data-image="prod3.jpg">
+                            Add to cart
+                            </a>
+                            <a href="#" class="fa-solid fa-circle-info"></a>
                         </div>
                     </div>
                     <div class="content">
@@ -147,6 +168,16 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod4.jpg" alt="">
+                        <div class="icons">
+                            <a href="#" class="fas fa-heart"></a>
+                            <a href="#" 
+                            class="cart-btn" 
+                            data-name="clear lettering black background" 
+                            data-price="RM45.00" 
+                            data-image="prod4.jpg">
+                            Add to cart
+                            </a>
+                            <a href="#" class="fa-solid fa-circle-info"></a>
                         </div>
                     </div>
                     <div class="content">
@@ -158,6 +189,16 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod5.jpg" alt="">
+                        <div class="icons">
+                            <a href="#" class="fas fa-heart"></a>
+                            <a href="#" 
+                            class="cart-btn" 
+                            data-name="clear color infill" 
+                            data-price="RM60.00" 
+                            data-image="prod5.jpg">
+                            Add to cart
+                            </a>
+                            <a href="#" class="fa-solid fa-circle-info"></a>
                         </div>
                     </div>
                     <div class="content">
@@ -169,7 +210,18 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod6.jpg" alt="">
+                        <div class="icons">
+                            <a href="#" class="fas fa-heart"></a>
+                            <a href="#" 
+                            class="cart-btn" 
+                            data-name="rose gold mirror clear design" 
+                            data-price="RM60.00" 
+                            data-image="prod6.jpg">
+                            Add to cart
+                            </a>
+                            <a href="#" class="fa-solid fa-circle-info"></a>
                         </div>
+                    </div>
                     <div class="content">
                         <h3>rose gold mirror clear design</h3>
                         <div class="price">RM60.00</div>
