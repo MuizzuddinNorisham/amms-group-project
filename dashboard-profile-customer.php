@@ -7,6 +7,13 @@ if (!isset($_SESSION['cust_id'])) {
     exit();
 }
 
+if (isset($_SESSION['payment_success'])) {
+    echo "<div style='text-align:center; color:green; margin-top:20px;'>";
+    echo $_SESSION['payment_success'];
+    echo "</div>";
+    unset($_SESSION['payment_success']); // Clear message after showing once
+}
+
 // Connect to database
 $dbc = new mysqli("localhost", "root", "", "acrylic");
 

@@ -74,9 +74,13 @@ if (isset($_POST['remove_item'])) {
     }
 
     $stmt->close();
+
+    // Redirect to refresh page
+    header("Location: dashboard-cart-customer.php");
+    exit();
 }
 
-// Fetch updated cart items
+// Fetch updated cart items - ONLY PENDING ITEMS
 $sql = "
     SELECT 
         c.cart_id,
@@ -109,204 +113,212 @@ $dbc->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dashboard-customer.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Cart</title>
+    <title>My Shopping Cart</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css "
+          integrity="sha512-pV1pHpZ5gF..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="dashboard-customer.css">
+
+
+    <!-- Custom CSS -->
     <style>
         body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9fafb;
-  color: #1f2937;
-}
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
 
-.content {
-  margin-left: 200px;
-  padding: 2rem;
-  max-width: calc(100% - 200px);
-}
+        .content {
+            margin-left: 220px;
+            padding: 2rem;
+        }
 
-h3 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 2rem;
-  text-align: left;
-}
+        h1 {
+            font-size: 2rem;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
 
-/* TABLE STYLING */
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 12px;
-}
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-thead {
-  background-color: #f3f4f6;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  color: #6b7280;
-}
+        thead {
+            background-color: #f3f4f6;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
 
-th, td {
-  padding: 1rem;
-  background-color: white;
-  text-align: center;
-  font-size: 0.95rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  vertical-align: middle;
-}
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            vertical-align: middle;
+        }
 
-tr {
-  border-radius: 10px;
-  overflow: hidden;
-}
+        tr {
+            background-color: #ffffff;
+            border-radius: 10px;
+        }
 
-/* ROUNDED CORNERS FOR FIRST/LAST CELL */
-td:first-child {
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-}
-td:last-child {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
+        /* Product Name */
+        .product-name {
+            font-weight: bold;
+            color: #1e293b;
+        }
 
-/* QUANTITY INPUT */
-input[type="number"] {
-  width: 60px;
-  padding: 6px 10px;
-  font-size: 1rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  background-color: #f9fafb;
-  text-align: center;
-  transition: 0.2s ease-in-out;
-}
+        /* Price */
+        .product-price {
+            color: green;
+            font-weight: 600;
+        }
 
-input[type="number"]:focus {
-  outline: none;
-  border-color: #db2777;
-  box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.2);
-}
+        /* Quantity input */
+        input[type="number"] {
+            width: 60px;
+            padding: 6px 10px;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
 
-input[type="number"]::-webkit-inner-spin-button {
-  margin: 0;
-}
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
 
-/* REMOVE BUTTON */
-button[name="remove_item"] {
-  background-color: #f87171;
-  border: none;
-  color: white;
-  font-size: 0.9rem;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: background-color 0.2s ease;
-}
+        /* Action buttons */
+        .action-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
 
-button[name="remove_item"]:hover {
-  background-color: #dc2626;
-}
+        .btn-update {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease;
+        }
 
-button[name="remove_item"] i {
-  font-size: 0.9rem;
-}
+        .btn-update:hover {
+            background-color: #2563eb;
+        }
 
-/* GRAND TOTAL */
-/* GRAND TOTAL & PAYMENT WRAPPER */
-.total-payment-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 2rem;
-  gap: 1.5rem;
-}
+        .btn-remove {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease;
+        }
 
-/* GRAND TOTAL TEXT */
-.total-text {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #1e293b;
-}
+        .btn-remove:hover {
+            background-color: #dc2626;
+        }
 
-/* PAYMENT BUTTON */
-.checkout-btn {
-  padding: 14px 28px;
-  background-color: #db2777;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-.checkout-btn:hover {
-  background-color: #be185d;
-  transform: translateY(-1px);
-}
+        .total-box {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            text-align: right;
+            font-weight: bold;
+            color: #1e293b;
+        }
 
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 12px 20px;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-p {
-  font-size: 1rem;
-  color: #6b7280;
-  text-align: center;
-  margin-top: 3rem;
-}
+        .checkout-btn:hover {
+            background-color: #059669;
+        }
 
+        p {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.1rem;
+            margin-top: 3rem;
+        }
     </style>
 </head>
 <body>
 
+<!-- Sidebar -->
 <div class="sidebar">
-            <ul>
-                <li>
-                    <a href="#" class="logo">
-                        <span class="icon"><i class="fa-solid fa-users"></i></span>
-                        <span class="text">Customer</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-profile-customer.php">
-                        <span class="icon"><i class="fas fa-user"></i></span>
-                        <span class="text">Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-product-customer.php">
-                        <span class="icon"><i class="fa-solid fa-bag-shopping"></i></span>
-                        <span class="text">Product</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-cart-customer.php">
-                        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
-                        <span class="text">Cart</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-feedback-customer.php">
-                        <span class="icon"><i class="fa-solid fa-comments"></i></span>
-                        <span class="text">Feedback</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="login-customer.php" class="logout">
-                        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
-                        <span class="text">Log out</span>
-                    </a>
-                </li>
-            </ul>  
-        </div>
+    <ul>
+        <li>
+            <a href="#" class="logo">
+                <span class="icon"><i class="fa-solid fa-user"></i></span>
+                <span class="text">Customer</span>
+            </a>
+        </li>
+        <li>
+            <a href="dashboard-profile-customer.php">
+                <span class="icon"><i class="fas fa-user"></i></span>
+                <span class="text">Profile</span>
+            </a>
+        </li>
+        <li>
+            <a href="dashboard-product-customer.php" class="active">
+                <span class="icon"><i class="fa-solid fa-bag-shopping"></i></span>
+                <span class="text">Product</span>
+            </a>
+        </li>
+        <li>
+            <a href="dashboard-cart-customer.php">
+                <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
+                <span class="text">Cart</span>
+            </a>
+        </li>
+        <li>
+            <a href="dashboard-feedback-customer.php">
+                <span class="icon"><i class="fa-solid fa-comments"></i></span>
+                <span class="text">Feedback</span>
+            </a>
+        </li>
+        <li>
+            <a href="login-customer.php" class="logout">
+                <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+                <span class="text">Log out</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
+<!-- Main Content -->
 <div class="content">
-    <h3>Your Cart</h3>
+    <h1>My Shopping Cart</h1>
 
     <?php if (count($cart_items) > 0): ?>
         <table>
@@ -322,19 +334,19 @@ p {
             <tbody>
                 <?php foreach ($cart_items as $item): ?>
                     <tr>
-                        <td><?= htmlspecialchars($item['product_name']) ?></td>
-                        <td>RM <?= number_format($item['product_price'], 2) ?></td>
+                        <td><span class="product-name"><?= htmlspecialchars($item['product_name']) ?></span></td>
+                        <td><span class="product-price">RM <?= number_format($item['product_price'], 2) ?></span></td>
                         <td>
-                            <form method="post" style="display:inline;">
+                            <form method="post" style="display: flex; align-items: center; gap: 10px;">
                                 <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
                                 <input type="number" name="quantity" value="<?= $item['cart_quantity'] ?>" min="1" onchange="this.form.submit()">
                             </form>
                         </td>
                         <td>RM <?= number_format($item['cart_total'], 2) ?></td>
                         <td>
-                            <form method="post" style="display:inline;">
+                            <form method="post" style="display: inline-block;">
                                 <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
-                                <button type="submit" name="remove_item"><i class="fas fa-trash"></i> Remove</button>
+                                <button type="submit" name="remove_item" class="btn-remove">Remove</button>
                             </form>
                         </td>
                     </tr>
@@ -342,12 +354,12 @@ p {
             </tbody>
         </table>
 
-        <div class="total">
-            Grand Total: RM <?= number_format($grand_total, 2) ?>
+        <div class="total-box">
+            <strong>Grand Total: RM <?= number_format($grand_total, 2) ?></strong>
         </div>
 
         <form action="payment-customer.php" method="post">
-            <button type="submit" class="checkout-btn">Proceed To Payment</button>
+            <button type="submit" class="checkout-btn">Proceed to Payment</button>
         </form>
 
     <?php else: ?>
