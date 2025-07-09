@@ -31,8 +31,6 @@ session_start();
       <a href="#contact">Contact</a>
     </nav>
     <div class="icons">
-      <a href="#" class="fas fa-heart"></a>
-      <a href="cart-page.php" class="fas fa-shopping-cart"></a>
       <div class="dropdown">
         <a href="#" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-user" style="font-size: 2.5rem; color: #333;"></i>
