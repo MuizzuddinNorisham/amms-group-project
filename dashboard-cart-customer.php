@@ -326,7 +326,7 @@ $dbc->close();
                 <tr>
                     <th>Product</th>
                     <th>Price</th>
-                    <th>Quantity</th>
+                    <th>Quantity/Pack</th>
                     <th>Total</th>
                     <th>Action</th>
                 </tr>
