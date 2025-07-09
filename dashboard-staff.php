@@ -50,12 +50,6 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
                         <span class="text">Products</span>
                     </a>
                 </li>
-                 <li>
-                   <a href="order.html">
-                        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
-                        <span class="text">Order</span>
-                    </a>
-                </li>
                 <li>
                     <a href="login-administrator.php" class="logout">
                         <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></i></span>
