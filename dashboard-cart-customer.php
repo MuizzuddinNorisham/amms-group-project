@@ -176,8 +176,13 @@ $dbc->close();
                 </li>
             </ul>  
         </div>
+<<<<<<< HEAD
+    
+        <!-- Main Content -->
+=======
 
 <!-- Main Content -->
+>>>>>>> 3ec713098c660c0bd088080da0b8636ebb21caff
 <div class="content">
     <h1>My Shopping Cart</h1>
 

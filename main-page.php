@@ -113,7 +113,7 @@ session_start();
             
                 <div class="box">
                     <div class="image">
-                        <img src="prod1.jpg" alt="">
+                        <img src="asset/prod1.jpg" alt="">
                     </div>
                     <div class="content">
                         <h3>rose gold mirror black design</h3>
@@ -123,7 +123,7 @@ session_start();
 
                 <div class="box">
                     <div class="image">
-                        <img src="prod2.jpg" alt="">
+                        <img src="asset/prod2.jpg" alt="">
                     </div>
                     <div class="content">
                         <h3>rose gold mirror black design</h3>
@@ -133,7 +133,7 @@ session_start();
 
                 <div class="box">
                     <div class="image">
-                        <img src="prod3.jpg" alt="">
+                        <img src="asset/prod3.jpg" alt="">
                     </div>
                     <div class="content">
                         <h3>gold line engraved design</h3>
@@ -143,7 +143,7 @@ session_start();
 
                 <div class="box">
                     <div class="image">
-                        <img src="prod4.jpg" alt="">
+                        <img src="asset/prod4.jpg" alt="">
                     </div>
                     <div class="content">
                         <h3>clear lettering black background</h3>
@@ -153,7 +153,7 @@ session_start();
 
                 <div class="box">
                     <div class="image">
-                        <img src="prod5.jpg" alt="">
+                        <img src="asset/prod5.jpg" alt="">
                     </div>
                     <div class="content">
                         <h3>clear color infill</h3>
@@ -163,11 +163,29 @@ session_start();
 
                 <div class="box">
                     <div class="image">
-                        <img src="prod6.jpg" alt="">
+                        <img src="asset/prod6.jpg" alt="">
                     </div>
                     <div class="content">
                         <h3>rose gold mirror clear design</h3>
                         <div class="price">RM60.00</div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="image">
+                        <img src="asset/prod4.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <h3>clear lettering black background</h3>
+                        <div class="price">RM45.00</div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="image">
+                        <img src="asset/prod4.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <h3>clear lettering black background</h3>
+                        <div class="price">RM45.00</div>
                     </div>
                 </div>
             </div>

@@ -52,9 +52,61 @@ $products = $dbc->query("SELECT * FROM product");
   <meta charset="UTF-8" />
   <title>Product Management</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="dashboard-staff.css">
-
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f0f0f0;
+      display: flex;
+    }
+
+    .main-wrapper {
+      display: flex;
+      width: 100%;
+    }
+
+    /* Sidebar Styles (Original kept) */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 200px;
+      background: #333;
+      overflow-x: hidden;
+      padding-top: 10px;
+      transition: 0.6s ease;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+    }
+
+    .sidebar ul li:hover {
+      background: #06e6e6;
+    }
+
+    .sidebar ul li a .icon {
+      width: 30px;
+      text-align: center;
+    }
+
+    .sidebar ul li a .text {
+      margin-left: 10px;
+      font-weight: 500;
+    }
+
     /* Main content */
     .content-wrapper {
       margin-left: 200px;
@@ -180,41 +232,16 @@ $products = $dbc->query("SELECT * FROM product");
 </head>
 <body>
 <div class="main-wrapper">
-  <!-- Sidebar Section -->
-<div class="sidebar">
+  <!-- Sidebar -->
+  <div class="sidebar">
     <ul>
-        <li>
-            <a href="#" class="logo">
-                <span class="icon"><i class="fa-solid fa-users"></i></span>
-                <span class="text">Staff</span>
-            </a>
-        </li>
-        <li>
-            <a href="dashboard-staff.php">
-                <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
-                <span class="text">Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="dashboard-profile-staff.php" class="active">
-                <span class="icon"><i class="fas fa-user"></i></span>
-                <span class="text">Profile</span>
-            </a>
-        </li>
-        <li>
-            <a href="dashboard-product-staff.php">
-                <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
-                <span class="text">Products</span>
-            </a>
-        </li>
-        <li>
-            <a href="main-page.php" class="logout">
-                <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
-                <span class="text">Log out</span>
-            </a>
-        </li>
+      <li><a href="#"><span class="icon"><i class="fa-solid fa-users"></i></span><span class="text">Staff</span></a></li>
+      <li><a href="dashboard-staff.php"><span class="icon"><i class="fa-solid fa-table-columns"></i></span><span class="text">Dashboard</span></a></li>
+      <li><a href="dashboard-profile-staff.php"><span class="icon"><i class="fas fa-user"></i></span><span class="text">Profile</span></a></li>
+      <li><a href="dashboard-product-staff.php"><span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span><span class="text">Products</span></a></li>
+      <li><a href="main-page.php"><span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span><span class="text">Log out</span></a></li>
     </ul>
-</div>
+  </div>
 
   <!-- Content -->
   <div class="content-wrapper">
