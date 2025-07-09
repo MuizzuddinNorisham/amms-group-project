@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_payment'])) {
             
             // ✅ Redirect after success
             $_SESSION['payment_success'] = "Payment processed successfully!";
-            header("Location: dashboard-customer.php");
+            header("Location: dashboard-profile-customer.php");
             exit();
         } else {
             $error = "Error processing payment.";
