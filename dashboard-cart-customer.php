@@ -158,9 +158,6 @@ $dbc->close();
                 </li>
             </ul>  
         </div>
-        <div class="content">
-            <h1 class="page-title">Customer Dashboard</h1>
-        </div>
     
         <!-- Main Content -->
 <div class="content">

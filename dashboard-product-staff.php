@@ -5,7 +5,6 @@ if ($dbc->connect_error) {
     die("Connection failed: " . $dbc->connect_error);
 }
 
-<<<<<<< HEAD
 // Handle deletion
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_id'])) {
     $deleteId = $_POST['delete_id'];
@@ -15,24 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_id'])) {
     $stmt->close();
     echo "<script>alert('Product deleted successfully.'); window.location.href='dashboard-product-staff.php';</script>";
     exit();
-=======
-    // Use prepared statement to prevent SQL injection
-    $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font) 
-                           VALUES (?, ?, ?, ?, ?, ?)");
-    
-    $stmt->bind_param("sdssss", $pname, $pprice, $pquantity, $ptype, $pdesign, $font);
-
-    if ($stmt->execute()) {
-        echo '<script>alert("Record Has Been Added");</script>';
-        echo '<script>window.location.assign("dashboard-product-staff.php");</script>';
-    } else {
-        echo '<script>alert("Data Is Invalid, No Record Has Been Added");</script>';
-        echo '<script>window.location.assign("dashboard-product-staff.php");</script>';
-    }
-
-    $stmt->close();
-    $dbc->close();
->>>>>>> 24b373321642d088cc3c22905636a7e1b95cc5a5
 }
 
 // Handle insert/update
@@ -45,35 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_name'])) {
     $design = $_POST['product_design'];
     $font = $_POST['product_font'];
 
-    $imagePath = '';
-    if (!empty($_FILES['product_image']['name'])) {
-        $targetDir = "uploads/";
-        if (!is_dir($targetDir)) mkdir($targetDir);
-
-        $fileName = basename($_FILES["product_image"]["name"]);
-        $fileTmp = $_FILES["product_image"]["tmp_name"];
-        $targetFile = $targetDir . time() . "_" . $fileName;
-
-        if (move_uploaded_file($fileTmp, $targetFile)) {
-            $imagePath = $targetFile;
-        }
-    }
-
     if ($id) {
-        if ($imagePath) {
-            $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=?, product_image=? WHERE product_id=?");
-            $stmt->bind_param("sdissssi", $name, $price, $quantity, $type, $design, $font, $imagePath, $id);
-        } else {
-            $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=? WHERE product_id=?");
-            $stmt->bind_param("sdisssi", $name, $price, $quantity, $type, $design, $font, $id);
-        }
+        $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=? WHERE product_id=?");
+        $stmt->bind_param("sdisssi", $name, $price, $quantity, $type, $design, $font, $id);
         $stmt->execute();
         $stmt->close();
         echo "<script>alert('Product updated successfully.'); window.location.href='dashboard-product-staff.php';</script>";
         exit();
     } else {
-        $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font, product_image) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sdissss", $name, $price, $quantity, $type, $design, $font, $imagePath);
+        $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sdisss", $name, $price, $quantity, $type, $design, $font);
         $stmt->execute();
         $stmt->close();
         echo "<script>alert('Product added successfully.'); window.location.href='dashboard-product-staff.php';</script>";
@@ -84,15 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_name'])) {
 // Fetch products
 $products = $dbc->query("SELECT * FROM product");
 ?>
-<!-- HTML CODE STARTS BELOW (same as before, update form to include enctype and image input, and show image in table) -->
-
-
-// Fetch products
-$products = $dbc->query("SELECT * FROM product");
-?>
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
 <head>
   <meta charset="UTF-8" />
   <title>Product Management</title>
@@ -395,108 +350,4 @@ $products = $dbc->query("SELECT * FROM product");
   });
 </script>
 </body>
-=======
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link rel="stylesheet" href="dashboard-staff.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-        <title>Staff</title>
-    </head>
-    <body>
-        <!--sidebar section start-->
-        
-        <div class="sidebar" >
-            <ul>
-                <li>
-                    <a href="#" class="logo">
-                        <span class="icon"><i class="fa-solid fa-users"></i></i></span>
-                        <span class="text">Staff</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-staff.php">
-                        <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-profile-staff.php" >
-                        <span class="icon"><i class="fas fa-user"></i></span>
-                        <span class="text">Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-product-staff.php">
-                        <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
-                        <span class="text">Products</span>
-                    </a>
-                </li>
-                 <li>
-                   <a href="order.html">
-                        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
-                        <span class="text">Order</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="login-administrator.php" class="logout">
-                        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></i></span>
-                        <span class="text">Log out</span>
-                    </a>
-                </li>
-            </ul>  
-        </div>
-
-        <!--sidebar section ends-->
-        
-        <div class="content" id="product">
-            <form method="POST" action="">
-                <h2 class="header">Product Registration</h2>
-                <table border="1" align="center">
-                    <tr>
-                        <td>Product Name</td>
-                        <td><input type="text" name="product_name" size="50" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Product Price (RM)</td>
-                        <td><input type="number" name="product_price" step="0.01" min="0.01" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Product Quantity</td>
-                        <td><input type="number" name="product_quantity" min="1" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Product Type</td>
-                        <td>
-                            <select name="product_type" required>
-                                    <option value="">-- Select Type --</option>
-                                    <option value="T-shirt">Acrylic tag</option>
-                                    <option value="Mug">Label</option>
-                                    <option value="Sticker">Pouch bag</option>
-                                    <option value="Other">Card</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Product Design</td>
-                        <td><input type="text" name="product_design" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Product Font</td>
-                        <td><input type="text" name="product_font" required /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center">
-                            <input type="submit" name="btnsubmit" value="Submit" />
-                            <input type="reset" value="Reset" />
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </body>
->>>>>>> 24b373321642d088cc3c22905636a7e1b95cc5a5
 </html>
