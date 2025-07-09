@@ -34,53 +34,29 @@ if (isset($_POST['add_to_cart'])) {
         $quantity = 1;
         $total = $price * $quantity;
 
-        // Check if product is already in cart
-        $check_sql = "SELECT cart_id, cart_quantity FROM cart WHERE cust_id = ? AND product_id = ?";
-        $check_stmt = $dbc->prepare($check_sql);
-        $check_stmt->bind_param("ii", $cust_id, $product_id);
-        $check_stmt->execute();
-        $check_result = $check_stmt->get_result();
+        // ✅ Always insert a new cart item — no check for existing entries
+        $insert_sql = "INSERT INTO cart (cart_status, cart_quantity, cart_created, cart_total, cust_id, product_id)
+                       VALUES (?, ?, NOW(), ?, ?, ?)";
+        $insert_stmt = $dbc->prepare($insert_sql);
+        $status = "Pending";
 
-        if ($check_result->num_rows > 0) {
-            // Product exists, update quantity
-            $row = $check_result->fetch_assoc();
-            $new_quantity = $row['cart_quantity'] + 1;
-            $new_total = $price * $new_quantity;
+        $insert_stmt->bind_param("sidii", $status, $quantity, $total, $cust_id, $product_id);
 
-            $update_sql = "UPDATE cart SET cart_quantity = ?, cart_total = ? WHERE cart_id = ?";
-            $update_stmt = $dbc->prepare($update_sql);
-            $update_stmt->bind_param("idi", $new_quantity, $new_total, $row['cart_id']);
-
-            if ($update_stmt->execute()) {
-                echo "<script>alert('Cart updated successfully!');</script>";
-            } else {
-                echo "<script>alert('Error updating cart. Please try again.');</script>";
-            }
-
-            $update_stmt->close();
+        if ($insert_stmt->execute()) {
+            echo "<script>alert('Product added to cart successfully!');</script>";
         } else {
-            // Product not in cart, insert new
-            $insert_sql = "INSERT INTO cart (cart_status, cart_quantity, cart_created, cart_total, cust_id, product_id)
-                           VALUES (?, ?, NOW(), ?, ?, ?)";
-            $insert_stmt = $dbc->prepare($insert_sql);
-            $status = "Pending";
-
-            $insert_stmt->bind_param("sidii", $status, $quantity, $total, $cust_id, $product_id);
-
-            if ($insert_stmt->execute()) {
-                echo "<script>alert('Product added to cart successfully!');</script>";
-            } else {
-                echo "<script>alert('Error adding to cart. Please try again.');</script>";
-            }
-
-            $insert_stmt->close();
+            echo "<script>alert('Error adding to cart. Please try again.');</script>";
         }
 
-        $check_stmt->close();
+        $insert_stmt->close();
     }
-    
+
     $stmt->close();
     $dbc->close();
+
+    // Optional: Prevent form resubmission on refresh
+    header("Location: dashboard-product-customer.php");
+    exit();
 }
 
 // Fetch all products again
@@ -103,75 +79,53 @@ $dbc->close();
 
     <!-- CSS -->
     <link rel="stylesheet" href="dashboard-customer.css">
-    <link rel="stylesheet" href="main-page.css">
+
     <style>
-    .products-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
+        .products-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
 
-    .product-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 1rem;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.06);
-        height: 100%;
-    }
+        .product-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
 
-    .product-info {
-        margin-bottom: 1rem;
-    }
+        .product-info {
+            display: flex;
+            flex-direction: column;
+        }
 
-    .product-name {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-    }
+        .product-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
 
-    .product-price {
-        color: #10b981;
-        font-size: 1rem;
-        font-weight: 500;
-    }
+        .product-price {
+            color: green;
+            font-size: 0.95rem;
+        }
 
-    .add-to-cart-btn {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 0.6rem;
-        cursor: pointer;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: background-color 0.3s ease;
-    }
+        .add-to-cart-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    .add-to-cart-btn:hover {
-        background-color: #0056b3;
-    }
-
-    .page-title {
-        font-size: 2rem;
-        font-weight: bold;
-        text-align: left;
-        margin-bottom: 1rem;
-        color: #1e293b;
-    }
-    .product-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-}
-
-</style>
-
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
@@ -220,10 +174,6 @@ $dbc->close();
 <!-- Main Content -->
 <div class="content">
     <h1 class="page-title">Available Products</h1>
-    <div class="products-container">
-    
-    
-</div>
 
     <?php if ($result->num_rows > 0): ?>
         <div class="products-container">
