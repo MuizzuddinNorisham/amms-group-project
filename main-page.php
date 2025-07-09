@@ -116,17 +116,6 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod1.jpg" alt="">
-                        <div class="icons">
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" 
-                            class="cart-btn" 
-                            data-name="rose gold mirror black design" 
-                            data-price="RM60.00" 
-                            data-image="prod1.jpg">
-                            Add to cart
-                            </a>
-                            <a href="#" class="fa-solid fa-circle-info"></a>
-                        </div>
                     </div>
                     <div class="content">
                         <h3>rose gold mirror black design</h3>
