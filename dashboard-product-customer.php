@@ -222,33 +222,7 @@ $dbc->close();
     <h1 class="page-title">Available Products</h1>
     <div class="products-container">
     
-    <div class="product-card">
-        <img src="images/badge-rosegold.png" alt="Rose Gold Acrylic Badge" class="product-image">
-        <div class="product-info">
-            <span class="product-name">Rose Gold Mirror Black</span>
-            <span class="product-price">RM60.00</span>
-        </div>
-        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-    </div>
-
-    <div class="product-card">
-        <img src="images/badge-goldline.png" alt="Gold Line Badge" class="product-image">
-        <div class="product-info">
-            <span class="product-name">Gold Line Engraved</span>
-            <span class="product-price">RM55.00</span>
-        </div>
-        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-    </div>
-
-    <div class="product-card">
-        <img src="asset/prod6.jpg" alt="Clear Lettering on Black Background" class="product-image">
-        <div class="product-info">
-            <span class="product-name">Clear Lettering Black</span>
-            <span class="product-price">RM45.00</span>
-        </div>
-        <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
-    </div>
-
+    
 </div>
 
     <?php if ($result->num_rows > 0): ?>
