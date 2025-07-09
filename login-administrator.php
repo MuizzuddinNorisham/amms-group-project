@@ -44,6 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         session_start();
         $_SESSION['user'] = $username;
         $_SESSION['role'] = $role;
+        $row = $result->fetch_assoc();
+
+        if ($role === 'staff') {
+            $_SESSION['staff_id'] = $row['staff_id'];
+        } elseif ($role === 'admin') {
+            $_SESSION['admin_id'] = $row['admin_id'];
+        }
 
         // Redirect based on the role
         if ($role === 'admin') {

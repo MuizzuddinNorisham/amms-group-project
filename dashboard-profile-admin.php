@@ -2,8 +2,8 @@
 session_start();
 
 // Check if user is logged in
-if (!isset($_SESSION['staff_id'])) {
-    header("Location: login-administrator.php"); // Redirect to login page
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: main-page.php"); // Redirect to login page
     exit();
 }
 
@@ -14,19 +14,20 @@ if ($dbc->connect_error) {
     die("Connection failed: " . $dbc->connect_error);
 }
 
-// Get staff info from session
-$staff_id = $_SESSION['staff_id'];
-// Fetch user data
-$stmt = $dbc->prepare("SELECT staff_id, staff_name, staff_phone, staff_address, staff_email FROM staff WHERE staff_id = ?");
-$stmt->bind_param("i", $staff_id);
+// Get admin info from session
+$admin_id = $_SESSION['admin_id'];
+
+// Fetch admin data
+$stmt = $dbc->prepare("SELECT admin_id, admin_name, admin_phone, admin_email FROM admin WHERE admin_id = ?");
+$stmt->bind_param("i", $admin_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    die("User not found.");
+    die("User  not found.");
 }
 
-$user = $result->fetch_assoc();
+$admin = $result->fetch_assoc();
 $dbc->close();
 ?>
 
@@ -35,9 +36,9 @@ $dbc->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dashboard-staff.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"  crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Staff Profile</title>
+    <link rel="stylesheet" href="dashboard-admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Admin Profile</title>
 </head>
 <body>
 
@@ -46,26 +47,32 @@ $dbc->close();
     <ul>
         <li>
             <a href="#" class="logo">
-                <span class="icon"><i class="fa-solid fa-users"></i></span>
-                <span class="text">Staff</span>
+                <span class="icon"><i class="fa-solid fa-user-shield"></i></span>
+                <span class="text">Admin</span>
             </a>
         </li>
         <li>
-            <a href="dashboard-staff.php">
+            <a href="dashboard-admin.php">
                 <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
                 <span class="text">Dashboard</span>
             </a>
         </li>
         <li>
-            <a href="dashboard-profile-staff.php" class="active">
+            <a href="dashboard-profile-admin.php" class="active">
                 <span class="icon"><i class="fas fa-user"></i></span>
                 <span class="text">Profile</span>
             </a>
         </li>
         <li>
-            <a href="dashboard-product-staff.php">
+            <a href="dashboard-user-admin.php">
                 <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
-                <span class="text">Products</span>
+                <span class="text">User </span>
+            </a>
+        </li>
+        <li>
+            <a href="dashboard-feedback-admin.php">
+                <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
+                <span class="text">Feedback</span>
             </a>
         </li>
         <li>
@@ -80,40 +87,36 @@ $dbc->close();
 <!-- Main Content -->
 <main class="content">
     <h1 class="page-title">Your Profile</h1>
-    <section class="profile-container" aria-label="User Profile Information">
+    <section class="profile-container" aria-label="Admin Profile Information">
         <article class="profile-card" role="region" aria-labelledby="profile-name">
             <img
-                src="https://placehold.co/140x140/png?text=<?= urlencode($user['staff_name']) ?>"
-                alt="Avatar illustration for <?= htmlspecialchars($user['staff_name']) ?>"
+                src="https://placehold.co/140x140/png?text=<?= urlencode($admin['admin_name']) ?>"
+                alt="Avatar illustration for <?= htmlspecialchars($admin['admin_name']) ?>"
                 width="140"
                 height="140"
                 loading="lazy"
             />
-            <h2 id="profile-name" class="profile-name"><?= htmlspecialchars($user['staff_name']) ?></h2>
-            <p class="profile-role">Staff Member</p>
+            <h2 id="profile-name" class="profile-name"><?= htmlspecialchars($admin['admin_name']) ?></h2>
+            <p class="profile-role">Admin Member</p>
         </article>
 
         <article class="info-card" role="region" aria-labelledby="info-title">
             <h3 id="info-title" class="info-title">Information</h3>
             <div class="info-row">
                 <div class="info-label"><i class="fas fa-id-badge" style="margin-right: 6px;"></i>ID</div>
-                <div class="info-value"><?= htmlspecialchars($user['staff_id']) ?></div>
+                <div class="info-value"><?= htmlspecialchars($admin['admin_id']) ?></div>
             </div>
             <div class="info-row">
                 <div class="info-label"><i class="fas fa-user" style="margin-right: 6px;"></i>Full Name</div>
-                <div class="info-value"><?= htmlspecialchars($user['staff_name']) ?></div>
+                <div class="info-value"><?= htmlspecialchars($admin['admin_name']) ?></div>
             </div>
             <div class="info-row">
                 <div class="info-label"><i class="fas fa-envelope" style="margin-right: 6px;"></i>Email</div>
-                <div class="info-value"><?= htmlspecialchars($user['staff_email']) ?></div>
+                <div class="info-value"><?= htmlspecialchars($admin['admin_email']) ?></div>
             </div>
             <div class="info-row">
                 <div class="info-label"><i class="fas fa-phone" style="margin-right: 6px;"></i>Phone</div>
-                <div class="info-value"><?= htmlspecialchars($user['staff_phone']) ?></div>
-            </div>
-            <div class="info-row">
-                <div class="info-label"><i class="fas fa-map-marker-alt" style="margin-right: 6px;"></i>Address</div>
-                <div class="info-value"><?= htmlspecialchars($user['staff_address']) ?></div>
+                <div class="info-value"><?= htmlspecialchars($admin['admin_phone']) ?></div>
             </div>
         </article>
     </section>

@@ -1,117 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
 
-        :root {
-            --pink: #e84393;
-        }
+body {
+    background: #edeaea;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            outline: none;
-            border: none;
-            text-decoration: none;
-            text-transform: capitalize;
-            transition: .2s linear;
-        }
+/* Sidebar styles start */
 
-        html {
-            font-size: 62.5%;
-            scroll-behavior: smooth;
-            scroll-padding-top: 6rem;
-            overflow-x: hidden;
-        }
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px;
+    background: #333;
+    overflow-x: hidden;
+    padding-top: 10px;
+    transition: 0.6s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
 
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #fff;
-            padding: 2rem 9%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-        }
+.sidebar ul {
+    position: relative;
+    height: 97vh;
+}
 
-        header .logo {
-            font-size: 3rem;
-            color: #333;
-            font-weight: bolder;
-        }
+.sidebar ul li {
+    list-style: none;
+    margin: 5px 0;
+}
 
-        header .logo span {
-            color: var(--pink);
-        }
+.sidebar ul li:hover {
+    background: #06e6e6;
+    transition: 0.3s ease;
+}
 
-        header .navbar {
-            font-size: 2rem;
-            padding: 0 1.5rem;
-            color: #666;
-        }
+.sidebar ul li a {
+    position: relative;
+    display: flex;
+    white-space: nowrap;
+    text-decoration: none;
+    color: #fff;
+}
 
-        header .navbar a:hover {
-            color: var(--pink);
-        }
+.sidebar ul li .logo {
+    margin-bottom: 80px;
+}
 
-        main {
-            padding: 6rem 9% 2rem;
-            display: grid;
-            gap: 2rem;
-            grid-template-columns: 1fr;
-        }
+.sidebar ul li .logo .text {
+    font-size: 20px;
+    font-weight: 600;
+}
 
-        @media (min-width: 768px) {
-            main {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+.sidebar ul li .logout {
+    margin-top: 130px;
+}
 
-        @media (min-width: 1024px) {
-            main {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
+.sidebar ul li a .icon {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 75px;
+    height: 60px;
+    font-size: 22px;
+}
 
-        .card {
-            background-color: #f9fafb;
-            border-radius: 1rem;
-            box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
-            padding: 2rem;
-            text-align: center;
-            transition: box-shadow .2s ease, transform .2s ease;
-            cursor: pointer;
-        }
+.sidebar ul li a .text {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 500;
+}
 
-        .card:hover {
-            box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
-            transform: translateY(-0.5rem);
-        }
+/* Content styles */
+.content {
+    margin-left: 210px;
+    padding: 20px;
+}
 
-        .card-icon {
-            font-family: 'Material Icons';
-            font-size: 4rem;
-            color: var(--pink);
-            margin-bottom: 1rem;
-        }
+h1.page-title {
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: #111827;
+}
 
-        .card-title {
-            font-size: 2.5rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 40px; /* Add space below the table */
+}
 
-        .card-description {
-            font-size: 1.5rem;
-            color: #666;
-            margin-bottom: 1rem;
-        }
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px; /* Increase padding for better spacing */
+    text-align: left;
+}
 
-        .card-metric {
-            font-size: 2rem;
-            color: var(--pink);
-            font-weight: bold;
-        }
-    
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+form {
+    margin-bottom: 20px; /* Add space below the form */
+}
+
+h2, h3 {
+    margin-top: 40px; /* Add space above headings */
+}
+
+/* Profile styles start */
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #111827;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    /* Header and footer styles */
+    header, footer {
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-weight: 600;
+    }
+    header {
+      font-size: 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      width: 100%;
+      /* For desktop to avoid stretching too wide */
+      box-sizing: border-box;
+    }
+
+    h1.page-title {
+      font-weight: 700;
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      color: #111827;
+    }
+
+    /* Profile container */
+    .profile-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+    }
+
+    /* Desktop layout: two columns */
+    @media (min-width: 768px) {
+      .profile-container {
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+
+    /* Left profile card */
+    .profile-card {
+      background: #f9fafb;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 2rem 1.5rem 2rem 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: inset 0 0 8px #e0e7ff;
+      min-height: 320px;
+      justify-content: center;
+    }
+
+    .profile-card img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 2px solid #3b82f6;
+      background: #e0e7ff;
+    }
+
+    .profile-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.3rem;
+      user-select: none;
+    }
+
+    .profile-role {
+      font-size: 0.975rem;
+      font-weight: 400;
+      color: #6b7280;
+      user-select: none;
+    }
+
+    /* Right information card */
+    .info-card {
+      background: #f9fafb;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      box-shadow: inset 0 0 8px #e0e7ff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 320px;
+    }
+
+    .info-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #94a3b8;
+      padding-bottom: 0.4rem;
+      user-select: none;
+    }
+
+    /* Info rows */
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 0.95rem;
+      user-select: none;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #374151;
+      min-width: 110px;
+    }
+
+    .info-value {
+      color: #4b5563;
+      text-align: right;
+      max-width: 65%;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    /* Profile styles ends */
