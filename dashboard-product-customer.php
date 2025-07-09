@@ -127,70 +127,6 @@ $dbc->close();
     <link rel="stylesheet" href="dashboard-customer.css">
     <link rel="stylesheet" href="main-page.css">
     <style>
-<<<<<<< HEAD
-        .products-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .product-card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            padding: 1rem;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .product-name {
-            font-size: 1.7rem;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-price {
-            color: #10b981;
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-
-        .product-quantity {
-            color: rgb(106, 106, 106);
-            font-size: 1.3rem;
-            font-weight: 500;
-        }
-
-        .product-image img {
-            width: 100%;
-            max-width: 200px;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .add-to-cart-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .add-to-cart-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
-=======
     .products-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -276,7 +212,6 @@ $dbc->close();
    
 </style>
 
->>>>>>> adf4cc2eba50dff20cc99d5bfb8bf00c888a4630
 </head>
 <body>
 
