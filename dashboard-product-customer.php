@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+// Debug message
+if (isset($_SESSION['cart_debug'])) {
+    echo "<div style='color:red; margin:20px;'>".$_SESSION['cart_debug']."</div>";
+    unset($_SESSION['cart_debug']);
+}
+
 // Check if customer is logged in
 if (!isset($_SESSION['cust_id'])) {
     header("Location: login-customer.php");
@@ -39,7 +45,6 @@ if (isset($_POST['add_to_cart'])) {
                        VALUES (?, ?, NOW(), ?, ?, ?)";
         $insert_stmt = $dbc->prepare($insert_sql);
         $status = "Pending";
-
         $insert_stmt->bind_param("sidii", $status, $quantity, $total, $cust_id, $product_id);
 
         if ($insert_stmt->execute()) {
@@ -54,7 +59,7 @@ if (isset($_POST['add_to_cart'])) {
     $stmt->close();
     $dbc->close();
 
-    // Optional: Prevent form resubmission on refresh
+    // Redirect to prevent form resubmission
     header("Location: dashboard-product-customer.php");
     exit();
 }
@@ -81,66 +86,52 @@ $dbc->close();
     <link rel="stylesheet" href="dashboard-customer.css">
 
     <style>
-<<<<<<< HEAD
         .products-container {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
+            margin-top: 2rem;
         }
-=======
-    .products-container {
-        display: flex;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
->>>>>>> 36fea3ec0e1d5e2c7f0ecea77e0a00c3766a4f26
 
         .product-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease;
         }
 
-        .product-info {
-            display: flex;
-            flex-direction: column;
+        .product-card:hover {
+            transform: translateY(-5px);
         }
 
-<<<<<<< HEAD
         .product-name {
+            font-size: 1.7rem;
             font-weight: bold;
-            font-size: 1.1rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
         }
 
         .product-price {
-            color: green;
-            font-size: 0.95rem;
+            color: #10b981;
+            font-size: 1.5rem;
+            font-weight: 500;
         }
-=======
-    .product-name {
-        font-size: 1.7rem;
-        font-weight: bold;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-    }
 
-    .product-price {
-        color: #10b981;
-        font-size: 1.5rem;
-        font-weight: 500;
-    }
+        .product-quantity {
+            color: rgb(106, 106, 106);
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
 
-    .product-quantity {
-        color:rgb(106, 106, 106);
-        font-size: 1.3rem;
-        font-weight: 500;
-    }
->>>>>>> 36fea3ec0e1d5e2c7f0ecea77e0a00c3766a4f26
+        .product-image img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
 
         .add-to-cart-btn {
             background-color: #007bff;
@@ -150,6 +141,7 @@ $dbc->close();
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            font-size: 1rem;
         }
 
         .add-to-cart-btn:hover {
@@ -206,26 +198,27 @@ $dbc->close();
     <h1 class="page-title">Available Products</h1>
 
     <?php if ($result->num_rows > 0): ?>
-    <div class="products-container">
-        <?php while ($row = $result->fetch_assoc()): ?>
-            <form method="POST" action="">
-                <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
-                <div class="product-card">
-                    <div class="product-info">
-                        <img src="<?= htmlspecialchars($row['product_image']) ?>" width="220" >
-                        <span class="product-name"><?= htmlspecialchars($row['product_name']) ?></span>
-                        <span class="product-price">RM <?= number_format($row['product_price'], 2) ?></span>
-                        <span class="product-quantity"> <?= htmlspecialchars($row['product_quantity'], 2) ?>/1pack</span>
+        <div class="products-container">
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <form method="POST" action="">
+                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="<?= htmlspecialchars($row['product_image']) ?>" alt="<?= htmlspecialchars($row['product_name']) ?>">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-name"><?= htmlspecialchars($row['product_name']) ?></span>
+                            <span class="product-price">RM <?= number_format($row['product_price'], 2) ?></span>
+                            <span class="product-quantity"><?= htmlspecialchars($row['product_quantity']) ?> / pack</span>
+                        </div>
+                        <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
                     </div>
-                    <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </form>
-        <?php endwhile; ?>
-    </div>
-<?php else: ?>
-    <p>No products available at the moment.</p>
-<?php endif; ?>
-
+                </form>
+            <?php endwhile; ?>
+        </div>
+    <?php else: ?>
+        <p>No products available at the moment.</p>
+    <?php endif; ?>
 </div>
 
 </body>
