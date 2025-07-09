@@ -21,7 +21,7 @@ if ($dbc->connect_error) {
 
     $stmt->close();
     $dbc->close();
-}
+
 
 $products = $dbc->query("SELECT * FROM product");
 ?>
