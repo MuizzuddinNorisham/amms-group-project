@@ -170,7 +170,6 @@ session_start();
                     <div class="image">
                         <img src="prod6.jpg" alt="">
                         </div>
-                    </div>
                     <div class="content">
                         <h3>rose gold mirror clear design</h3>
                         <div class="price">RM60.00</div>
