@@ -61,6 +61,209 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
         <div class="content">
             <h1 class="page-title">Dashboard</h1>
         </div>
-    
+
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="dashboard-admin.css">
+  <title>Dashboard</title>
+  <style>
+    /* Reset & base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #ffffff;
+      color: #000;
+    }
+
+    h1 {
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Dashboard container */
+    .dashboard {
+    margin-left: 200px;
+    padding: 2rem;
+    width: calc(100% - 200px);
+    background: #fff;
+    }
+
+    /* Stats cards container */
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Single card style */
+    .stat-item {
+      background: #dedede;
+      border-radius: 15px;
+      padding: 1rem 1.5rem;
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      min-width: 120px;
+    }
+
+    /* Card label */
+    .stat-item label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Card value blue text */
+    .stat-item .value {
+      font-size: 2.3rem;
+      font-weight: 400;
+      color: #0cb4c6;
+      letter-spacing: 0.05em;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Recent orders heading */
+    .recent-orders {
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+
+    /* Recent orders table container */
+    .orders-table {
+      display: flex;
+      background: #dedede;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* Table column */
+    .order-column {
+      flex: 1;
+      min-width: 100px;
+      background: #fff;
+      margin: 10px;
+      border-radius: 8px;
+      box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Column header */
+    .order-column-header {
+      padding: 0.7rem;
+      font-size: 0.85rem;
+      color: #555;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      user-select: none;
+      font-weight: 600;
+      background: #fafafa;
+    }
+
+    /* Empty content area below header */
+    .order-column-content {
+      flex-grow: 1;
+      padding: 0.7rem;
+      /* empty area, white background */
+    }
+
+  </style>
+</head>
+<body>
+
+    <!-- Sidebar Section -->
+<div class="sidebar">
+    <ul>
+        <li>
+            <a href="#" class="logo">
+                <span class="icon"><i class="fa-solid fa-users"></i></span>
+                <span class="text">Staff</span>
+            </a>
+        </li>
+        <li>
+            <a href="dashboard-staff.php">
+                <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
+                <span class="text">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="dashboard-profile-staff.php" class="active">
+                <span class="icon"><i class="fas fa-user"></i></span>
+                <span class="text">Profile</span>
+            </a>
+        </li>
+        <li>
+            <a href="dashboard-product-staff.php">
+                <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+                <span class="text">Products</span>
+            </a>
+        </li>
+        <li>
+            <a href="main-page.php" class="logout">
+                <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+                <span class="text">Log out</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+  <section class="dashboard" aria-label="Dashboard overview">
+
+    <div class="stats" role="list" aria-label="Key statistics">
+      <div class="stat-item" role="listitem" aria-label="Users count">
+        <label for="usersCount">Users</label>
+        <div id="usersCount" class="value" aria-live="polite" aria-atomic="true">000</div>
+      </div>
+      <div class="stat-item" role="listitem" aria-label="Total product sold">
+        <label for="productsSold">Total Product Sold</label>
+        <div id="productsSold" class="value" aria-live="polite" aria-atomic="true">000</div>
+      </div>
+      <div class="stat-item" role="listitem" aria-label="Total revenue">
+        <label for="totalRevenue">Total Revenue</label>
+        <div id="totalRevenue" class="value" aria-live="polite" aria-atomic="true">RM000</div>
+      </div>
+    </div>
+
+    <div class="recent-orders" tabindex="0" aria-label="Recent Orders">
+      Recent Orders
+    </div>
+
+    <div class="orders-table" role="table" aria-label="Recent orders details">
+      <div class="order-column" role="columnheader">
+        <div class="order-column-header">Customer Name</div>
+        <div class="order-column-content" aria-readonly="true"></div>
+      </div>
+      <div class="order-column" role="columnheader">
+        <div class="order-column-header">Product Name</div>
+        <div class="order-column-content" aria-readonly="true"></div>
+      </div>
+      <div class="order-column" role="columnheader">
+        <div class="order-column-header">Quantity</div>
+        <div class="order-column-content" aria-readonly="true"></div>
+      </div>
+      <div class="order-column" role="columnheader">
+        <div class="order-column-header">Price (RM)</div>
+        <div class="order-column-content" aria-readonly="true"></div>
+      </div>
+      <div class="order-column" role="columnheader">
+        <div class="order-column-header">Type</div>
+        <div class="order-column-content" aria-readonly="true"></div>
+      </div>
+      <div class="order-column" role="columnheader">
+        <div class="order-column-header">Status</div>
+        <div class="order-column-content" aria-readonly="true"></div>
+      </div>
+    </div>
+
+  </section>
+</body>
+</html>
     </body>
 </html>

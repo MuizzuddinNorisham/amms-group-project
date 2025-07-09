@@ -31,8 +31,6 @@ session_start();
       <a href="#contact">Contact</a>
     </nav>
     <div class="icons">
-      <a href="#" class="fas fa-heart"></a>
-      <a href="cart-page.php" class="fas fa-shopping-cart"></a>
       <div class="dropdown">
         <a href="#" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-user" style="font-size: 2.5rem; color: #333;"></i>
@@ -116,17 +114,6 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod1.jpg" alt="">
-                        <div class="icons">
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" 
-                            class="cart-btn" 
-                            data-name="rose gold mirror black design" 
-                            data-price="RM60.00" 
-                            data-image="prod1.jpg">
-                            Add to cart
-                            </a>
-                            <a href="#" class="fa-solid fa-circle-info"></a>
-                        </div>
                     </div>
                     <div class="content">
                         <h3>rose gold mirror black design</h3>
@@ -137,17 +124,6 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod2.jpg" alt="">
-                        <div class="icons">
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" 
-                            class="cart-btn" 
-                            data-name="rose gold mirror black design" 
-                            data-price="RM60.00" 
-                            data-image="prod2.jpg">
-                            Add to cart
-                            </a>
-                            <a href="#" class="fa-solid fa-circle-info"></a>
-                        </div>
                     </div>
                     <div class="content">
                         <h3>rose gold mirror black design</h3>
@@ -158,17 +134,6 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod3.jpg" alt="">
-                        <div class="icons">
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" 
-                            class="cart-btn" 
-                            data-name="gold line engraved design" 
-                            data-price="RM60.00" 
-                            data-image="prod3.jpg">
-                            Add to cart
-                            </a>
-                            <a href="#" class="fa-solid fa-circle-info"></a>
-                        </div>
                     </div>
                     <div class="content">
                         <h3>gold line engraved design</h3>
@@ -179,17 +144,6 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod4.jpg" alt="">
-                        <div class="icons">
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" 
-                            class="cart-btn" 
-                            data-name="clear lettering black background" 
-                            data-price="RM45.00" 
-                            data-image="prod4.jpg">
-                            Add to cart
-                            </a>
-                            <a href="#" class="fa-solid fa-circle-info"></a>
-                        </div>
                     </div>
                     <div class="content">
                         <h3>clear lettering black background</h3>
@@ -200,17 +154,6 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod5.jpg" alt="">
-                        <div class="icons">
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" 
-                            class="cart-btn" 
-                            data-name="clear color infill" 
-                            data-price="RM60.00" 
-                            data-image="prod5.jpg">
-                            Add to cart
-                            </a>
-                            <a href="#" class="fa-solid fa-circle-info"></a>
-                        </div>
                     </div>
                     <div class="content">
                         <h3>clear color infill</h3>
@@ -221,17 +164,6 @@ session_start();
                 <div class="box">
                     <div class="image">
                         <img src="prod6.jpg" alt="">
-                        <div class="icons">
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" 
-                            class="cart-btn" 
-                            data-name="rose gold mirror clear design" 
-                            data-price="RM60.00" 
-                            data-image="prod6.jpg">
-                            Add to cart
-                            </a>
-                            <a href="#" class="fa-solid fa-circle-info"></a>
-                        </div>
                     </div>
                     <div class="content">
                         <h3>rose gold mirror clear design</h3>
