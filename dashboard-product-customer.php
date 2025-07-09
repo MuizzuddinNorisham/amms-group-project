@@ -162,6 +162,14 @@ $dbc->close();
         margin-bottom: 1rem;
         color: #1e293b;
     }
+    .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
 </style>
 
 </head>
@@ -212,7 +220,37 @@ $dbc->close();
 <!-- Main Content -->
 <div class="content">
     <h1 class="page-title">Available Products</h1>
+    <div class="products-container">
     
+    <div class="product-card">
+        <img src="images/badge-rosegold.png" alt="Rose Gold Acrylic Badge" class="product-image">
+        <div class="product-info">
+            <span class="product-name">Rose Gold Mirror Black</span>
+            <span class="product-price">RM60.00</span>
+        </div>
+        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card">
+        <img src="images/badge-goldline.png" alt="Gold Line Badge" class="product-image">
+        <div class="product-info">
+            <span class="product-name">Gold Line Engraved</span>
+            <span class="product-price">RM55.00</span>
+        </div>
+        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card">
+        <img src="asset/prod6.jpg" alt="Clear Lettering on Black Background" class="product-image">
+        <div class="product-info">
+            <span class="product-name">Clear Lettering Black</span>
+            <span class="product-price">RM45.00</span>
+        </div>
+        <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+</div>
+
     <?php if ($result->num_rows > 0): ?>
         <div class="products-container">
             <?php while ($row = $result->fetch_assoc()): ?>
