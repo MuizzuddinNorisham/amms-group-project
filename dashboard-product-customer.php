@@ -34,23 +34,51 @@ if (isset($_POST['add_to_cart'])) {
         $quantity = 1;
         $total = $price * $quantity;
 
-        // Insert into cart
-        $insert_sql = "INSERT INTO cart (cart_status, cart_quantity, cart_created, cart_total, cust_id, product_id)
-                       VALUES (?, ?, NOW(), ?, ?, ?)";
-        $insert_stmt = $dbc->prepare($insert_sql);
-        $status = "Pending";
+        // Check if product is already in cart
+        $check_sql = "SELECT cart_id, cart_quantity FROM cart WHERE cust_id = ? AND product_id = ?";
+        $check_stmt = $dbc->prepare($check_sql);
+        $check_stmt->bind_param("ii", $cust_id, $product_id);
+        $check_stmt->execute();
+        $check_result = $check_stmt->get_result();
 
-        $insert_stmt->bind_param("sidii", $status, $quantity, $total, $cust_id, $product_id);
+        if ($check_result->num_rows > 0) {
+            // Product exists, update quantity
+            $row = $check_result->fetch_assoc();
+            $new_quantity = $row['cart_quantity'] + 1;
+            $new_total = $price * $new_quantity;
 
-        if ($insert_stmt->execute()) {
-            echo "<script>alert('Product added to cart successfully!');</script>";
+            $update_sql = "UPDATE cart SET cart_quantity = ?, cart_total = ? WHERE cart_id = ?";
+            $update_stmt = $dbc->prepare($update_sql);
+            $update_stmt->bind_param("idi", $new_quantity, $new_total, $row['cart_id']);
+
+            if ($update_stmt->execute()) {
+                echo "<script>alert('Cart updated successfully!');</script>";
+            } else {
+                echo "<script>alert('Error updating cart. Please try again.');</script>";
+            }
+
+            $update_stmt->close();
         } else {
-            echo "<script>alert('Error adding to cart. Please try again.');</script>";
+            // Product not in cart, insert new
+            $insert_sql = "INSERT INTO cart (cart_status, cart_quantity, cart_created, cart_total, cust_id, product_id)
+                           VALUES (?, ?, NOW(), ?, ?, ?)";
+            $insert_stmt = $dbc->prepare($insert_sql);
+            $status = "Pending";
+
+            $insert_stmt->bind_param("sidii", $status, $quantity, $total, $cust_id, $product_id);
+
+            if ($insert_stmt->execute()) {
+                echo "<script>alert('Product added to cart successfully!');</script>";
+            } else {
+                echo "<script>alert('Error adding to cart. Please try again.');</script>";
+            }
+
+            $insert_stmt->close();
         }
 
-        $insert_stmt->close();
+        $check_stmt->close();
     }
-
+    
     $stmt->close();
     $dbc->close();
 }
