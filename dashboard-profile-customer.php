@@ -55,12 +55,6 @@ $dbc->close();
                     </a>
                 </li>
                 <li>
-                    <a href="dashboard-customer.php">
-                        <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
-                <li>
                     <a href="dashboard-profile-customer.php">
                         <span class="icon"><i class="fas fa-user"></i></span>
                         <span class="text">Profile</span>
