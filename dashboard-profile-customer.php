@@ -92,8 +92,6 @@ $dbc->close();
                 </li>
             </ul>  
         </div>
-
-    
     </body>
 </html>
 
