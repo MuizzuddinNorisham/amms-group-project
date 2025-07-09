@@ -219,6 +219,12 @@ $products = $dbc->query("SELECT * FROM product");
             </a>
         </li>
         <li>
+                    <a href="dashboard-order-staff.php">
+                        <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+                        <span class="text">Order</span>
+                    </a>
+                </li>
+        <li>
             <a href="main-page.php" class="logout">
                 <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
                 <span class="text">Log out</span>
