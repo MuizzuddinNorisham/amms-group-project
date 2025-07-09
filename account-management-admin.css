@@ -166,3 +166,15 @@ a:hover {
 strong {
   color: white;
 }
+
+/* New CSS for side-by-side layout */
+.list-container {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between columns */
+  gap: var(--spacing); /* Space between columns */
+}
+
+.list-column {
+  flex: 1; /* Allow columns to grow equally */
+  min-width: 200px; /* Minimum width for each column */
+}
