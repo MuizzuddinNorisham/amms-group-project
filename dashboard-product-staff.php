@@ -5,60 +5,158 @@ if ($dbc->connect_error) {
     die("Connection failed: " . $dbc->connect_error);
 }
 
-// Handle product deletion
-if (isset($_GET['delete'])) {
-    $id = (int)$_GET['delete'];
-    $dbc->query("DELETE FROM product WHERE product_id = $id");
-    header("Location: dashboard-product-staff.php");
+<<<<<<< HEAD
+// Handle deletion
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_id'])) {
+    $deleteId = $_POST['delete_id'];
+    $stmt = $dbc->prepare("DELETE FROM product WHERE product_id = ?");
+    $stmt->bind_param("i", $deleteId);
+    $stmt->execute();
+    $stmt->close();
+    echo "<script>alert('Product deleted successfully.'); window.location.href='dashboard-product-staff.php';</script>";
     exit();
-}
+=======
+    // Use prepared statement to prevent SQL injection
+    $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font) 
+                           VALUES (?, ?, ?, ?, ?, ?)");
+    
+    $stmt->bind_param("sdssss", $pname, $pprice, $pquantity, $ptype, $pdesign, $font);
 
-// Handle product addition
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_product'])) {
-    $name = $_POST['product_name'] ?? '';
-    $price = $_POST['product_price'] ?? '';
-    $quantity = $_POST['product_quantity'] ?? '';
-    $type = $_POST['product_type'] ?? '';
-    $design = $_POST['product_design'] ?? '';
-    $font = $_POST['product_font'] ?? '';
-
-    // Handle image upload
-    $imagePath = '';
-    if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
-        $targetDir = "uploads/";
-        $fileName = basename($_FILES['product_image']['name']);
-        $targetFilePath = $targetDir . time() . "_" . $fileName;
-        move_uploaded_file($_FILES['product_image']['tmp_name'], $targetFilePath);
-        $imagePath = $targetFilePath;
+    if ($stmt->execute()) {
+        echo '<script>alert("Record Has Been Added");</script>';
+        echo '<script>window.location.assign("dashboard-product-staff.php");</script>';
+    } else {
+        echo '<script>alert("Data Is Invalid, No Record Has Been Added");</script>';
+        echo '<script>window.location.assign("dashboard-product-staff.php");</script>';
     }
 
-    if ($name && $price && $quantity && $type && $design && $font) {
+    $stmt->close();
+    $dbc->close();
+>>>>>>> 24b373321642d088cc3c22905636a7e1b95cc5a5
+}
+
+// Handle insert/update
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_name'])) {
+    $id = $_POST['product_id'] ?? '';
+    $name = $_POST['product_name'];
+    $price = $_POST['product_price'];
+    $quantity = $_POST['product_quantity'];
+    $type = $_POST['product_type'];
+    $design = $_POST['product_design'];
+    $font = $_POST['product_font'];
+
+    $imagePath = '';
+    if (!empty($_FILES['product_image']['name'])) {
+        $targetDir = "uploads/";
+        if (!is_dir($targetDir)) mkdir($targetDir);
+
+        $fileName = basename($_FILES["product_image"]["name"]);
+        $fileTmp = $_FILES["product_image"]["tmp_name"];
+        $targetFile = $targetDir . time() . "_" . $fileName;
+
+        if (move_uploaded_file($fileTmp, $targetFile)) {
+            $imagePath = $targetFile;
+        }
+    }
+
+    if ($id) {
+        if ($imagePath) {
+            $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=?, product_image=? WHERE product_id=?");
+            $stmt->bind_param("sdissssi", $name, $price, $quantity, $type, $design, $font, $imagePath, $id);
+        } else {
+            $stmt = $dbc->prepare("UPDATE product SET product_name=?, product_price=?, product_quantity=?, product_type=?, product_design=?, product_font=? WHERE product_id=?");
+            $stmt->bind_param("sdisssi", $name, $price, $quantity, $type, $design, $font, $id);
+        }
+        $stmt->execute();
+        $stmt->close();
+        echo "<script>alert('Product updated successfully.'); window.location.href='dashboard-product-staff.php';</script>";
+        exit();
+    } else {
         $stmt = $dbc->prepare("INSERT INTO product (product_name, product_price, product_quantity, product_type, product_design, product_font, product_image) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sdissss", $name, $price, $quantity, $type, $design, $font, $imagePath);
         $stmt->execute();
         $stmt->close();
-        header("Location: dashboard-product-staff.php");
+        echo "<script>alert('Product added successfully.'); window.location.href='dashboard-product-staff.php';</script>";
         exit();
-    } else {
-        echo "<script>alert('All fields are required.');</script>";
     }
 }
 
 // Fetch products
 $products = $dbc->query("SELECT * FROM product");
 ?>
+<!-- HTML CODE STARTS BELOW (same as before, update form to include enctype and image input, and show image in table) -->
 
+
+// Fetch products
+$products = $dbc->query("SELECT * FROM product");
+?>
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Product Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
       margin: 0;
+      background-color: #f0f0f0;
+      display: flex;
+    }
+
+    .main-wrapper {
+      display: flex;
+      width: 100%;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 200px;
+      background: #333;
+      padding-top: 10px;
+      overflow-y: auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 5px 0;
+    }
+
+    .sidebar ul li:hover {
+      background: #06e6e6;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+    }
+
+    .sidebar ul li a .icon {
+      width: 30px;
+      text-align: center;
+    }
+
+    .sidebar ul li a .text {
+      margin-left: 10px;
+      font-weight: 500;
+    }
+
+    .content-wrapper {
+      margin-left: 200px;
       padding: 20px;
+      flex: 1;
     }
 
     .container {
@@ -68,37 +166,38 @@ $products = $dbc->query("SELECT * FROM product");
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    h1 {
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 20px;
     }
 
-    input[type="text"], input[type="number"], select, input[type="file"] {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 12px;
-      border-radius: 4px;
+    .search-container input {
+      padding: 10px;
+      border-radius: 5px;
       border: 1px solid #ccc;
     }
 
-    input[type="submit"], button {
+    .add-product {
       padding: 10px 20px;
       background-color: #3cc;
-      color: white;
       border: none;
-      border-radius: 4px;
+      color: white;
+      border-radius: 5px;
       cursor: pointer;
+      margin-left: 10px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
     }
 
     th, td {
       padding: 12px;
+      border: 1px solid #ccc;
       text-align: left;
-      border-bottom: 1px solid #ddd;
     }
 
     th {
@@ -106,102 +205,298 @@ $products = $dbc->query("SELECT * FROM product");
       color: white;
     }
 
-    .thumbnail {
-      width: 80px;
-      height: auto;
+    .edit-btn, .delete-btn {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
     }
 
-    #modal {
-      position: fixed;
-      top: 10%;
-      left: 30%;
-      background: white;
-      padding: 20px;
-      border: 1px solid #ccc;
-      z-index: 1000;
+    .edit-btn {
+      background-color: green;
+    }
+
+    .delete-btn {
+      background-color: red;
+    }
+
+    .modal {
       display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background: #fff;
+      margin: 50px auto;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .modal-content input,
+    .modal-content select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
       border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content input[type="submit"],
+    .modal-content input[type="reset"] {
+      width: 48%;
+      background-color: #3cc;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .modal-content input[type="reset"] {
+      background-color: #888;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Product Management</h1>
-
-    <!-- Search bar -->
-    <input type="text" id="searchInput" placeholder="Search by product name..." onkeyup="filterTable()" />
-    <button onclick="document.getElementById('modal').style.display='block'">Add Product</button>
-
-    <table id="productTable">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Qty</th>
-          <th>Type</th>
-          <th>Design</th>
-          <th>Font</th>
-          <th>Image</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php while ($row = $products->fetch_assoc()): ?>
-        <tr>
-          <td><?= $row['product_id'] ?></td>
-          <td><?= htmlspecialchars($row['product_name']) ?></td>
-          <td><?= number_format($row['product_price'], 2) ?></td>
-          <td><?= $row['product_quantity'] ?></td>
-          <td><?= $row['product_type'] ?></td>
-          <td><?= $row['product_design'] ?></td>
-          <td><?= $row['product_font'] ?></td>
-          <td>
-            <?php if ($row['product_image']): ?>
-              <img src="<?= $row['product_image'] ?>" class="thumbnail">
-            <?php else: ?>
-              No image
-            <?php endif; ?>
-          </td>
-          <td>
-            <a href="edit-product.php?id=<?= $row['product_id'] ?>">Edit</a>
-            <a href="?delete=<?= $row['product_id'] ?>" onclick="return confirm('Delete this product?')">Delete</a>
-          </td>
-        </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
+<div class="main-wrapper">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul>
+      <li><a href="#"><span class="icon"><i class="fa-solid fa-users"></i></span><span class="text">Staff</span></a></li>
+      <li><a href="dashboard-staff.php"><span class="icon"><i class="fa-solid fa-table-columns"></i></span><span class="text">Dashboard</span></a></li>
+      <li><a href="dashboard-profile-staff.php"><span class="icon"><i class="fas fa-user"></i></span><span class="text">Profile</span></a></li>
+      <li><a href="dashboard-product-staff.php"><span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span><span class="text">Products</span></a></li>
+      <li><a href="main-page.php"><span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span><span class="text">Log out</span></a></li>
+    </ul>
   </div>
 
-  <!-- Modal Form -->
-  <div id="modal">
-    <form method="POST" enctype="multipart/form-data">
-      <h2>Add Product</h2>
-      <input type="hidden" name="add_product" value="1">
-      <label>Name</label><input type="text" name="product_name" required>
-      <label>Price</label><input type="number" step="0.01" name="product_price" required>
-      <label>Quantity</label><input type="number" name="product_quantity" required>
-      <label>Type</label><input type="text" name="product_type" required>
-      <label>Design</label><input type="text" name="product_design" required>
-      <label>Font</label><input type="text" name="product_font" required>
-      <label>Image</label><input type="file" name="product_image">
-      <br><br>
-      <input type="submit" value="Add">
-      <button type="button" onclick="document.getElementById('modal').style.display='none'">Cancel</button>
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="header">
+        <h1>Product Management</h1>
+        <div class="search-container">
+          <input type="text" placeholder="Search">
+          <button class="add-product">Add Product</button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Type</th><th>Design</th><th>Font</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php while ($row = $products->fetch_assoc()): ?>
+          <tr data-product='<?= json_encode($row) ?>'>
+            <td><?= $row['product_id'] ?></td>
+            <td><?= $row['product_name'] ?></td>
+            <td><?= number_format($row['product_price'], 2) ?></td>
+            <td><?= $row['product_quantity'] ?></td>
+            <td><?= $row['product_type'] ?></td>
+            <td><?= $row['product_design'] ?></td>
+            <td><?= $row['product_font'] ?></td>
+            <td>
+              <button class="edit-btn">Edit</button>
+              <form method="POST" style="display:inline;" onsubmit="return confirm('Are you sure?')">
+                <input type="hidden" name="delete_id" value="<?= $row['product_id'] ?>">
+                <button type="submit" class="delete-btn">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <?php endwhile; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form method="POST">
+      <h2>Product</h2>
+      <input type="hidden" name="product_id" id="edit-id">
+      <label>Name</label>
+      <input type="text" name="product_name" required>
+      <label>Price (RM)</label>
+      <input type="number" step="0.01" name="product_price" required>
+      <label>Quantity</label>
+      <input type="number" name="product_quantity" required>
+      <label>Type</label>
+      <select name="product_type" required>
+        <option value="">--Select--</option>
+        <option value="Acrylic tag">Acrylic tag</option>
+        <option value="Label">Label</option>
+        <option value="Pouch bag">Pouch bag</option>
+        <option value="Card">Card</option>
+      </select>
+      <label>Design</label>
+      <input type="text" name="product_design" required>
+      <label>Font</label>
+      <input type="text" name="product_font" required>
+      <div style="display: flex; justify-content: space-between;">
+        <input type="submit" value="Save">
+        <input type="reset" value="Reset">
+      </div>
     </form>
   </div>
+</div>
 
-  <script>
-    function filterTable() {
-      const input = document.getElementById('searchInput');
-      const filter = input.value.toLowerCase();
-      const rows = document.querySelectorAll('#productTable tbody tr');
+<!-- Script -->
+<script>
+  const modal = document.getElementById("productModal");
+  const addBtn = document.querySelector(".add-product");
+  const closeBtn = document.querySelector(".close");
+  const form = modal.querySelector("form");
 
-      rows.forEach(row => {
-        const name = row.cells[1].textContent.toLowerCase();
-        row.style.display = name.includes(filter) ? '' : 'none';
-      });
-    }
-  </script>
+  addBtn.onclick = () => {
+    form.reset();
+    form.product_id.value = "";
+    modal.style.display = "block";
+  };
+
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = e => { if (e.target == modal) modal.style.display = "none"; };
+
+  document.querySelectorAll(".edit-btn").forEach(btn => {
+    btn.onclick = function () {
+      const row = this.closest("tr");
+      const data = JSON.parse(row.dataset.product);
+      form.product_id.value = data.product_id;
+      form.product_name.value = data.product_name;
+      form.product_price.value = data.product_price;
+      form.product_quantity.value = data.product_quantity;
+      form.product_type.value = data.product_type;
+      form.product_design.value = data.product_design;
+      form.product_font.value = data.product_font;
+      modal.style.display = "block";
+    };
+  });
+</script>
 </body>
+=======
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="dashboard-staff.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <title>Staff</title>
+    </head>
+    <body>
+        <!--sidebar section start-->
+        
+        <div class="sidebar" >
+            <ul>
+                <li>
+                    <a href="#" class="logo">
+                        <span class="icon"><i class="fa-solid fa-users"></i></i></span>
+                        <span class="text">Staff</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard-staff.php">
+                        <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard-profile-staff.php" >
+                        <span class="icon"><i class="fas fa-user"></i></span>
+                        <span class="text">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard-product-staff.php">
+                        <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                 <li>
+                   <a href="order.html">
+                        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
+                        <span class="text">Order</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="login-administrator.php" class="logout">
+                        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></i></span>
+                        <span class="text">Log out</span>
+                    </a>
+                </li>
+            </ul>  
+        </div>
+
+        <!--sidebar section ends-->
+        
+        <div class="content" id="product">
+            <form method="POST" action="">
+                <h2 class="header">Product Registration</h2>
+                <table border="1" align="center">
+                    <tr>
+                        <td>Product Name</td>
+                        <td><input type="text" name="product_name" size="50" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Product Price (RM)</td>
+                        <td><input type="number" name="product_price" step="0.01" min="0.01" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Product Quantity</td>
+                        <td><input type="number" name="product_quantity" min="1" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Product Type</td>
+                        <td>
+                            <select name="product_type" required>
+                                    <option value="">-- Select Type --</option>
+                                    <option value="T-shirt">Acrylic tag</option>
+                                    <option value="Mug">Label</option>
+                                    <option value="Sticker">Pouch bag</option>
+                                    <option value="Other">Card</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Product Design</td>
+                        <td><input type="text" name="product_design" required /></td>
+                    </tr>
+                    <tr>
+                        <td>Product Font</td>
+                        <td><input type="text" name="product_font" required /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" name="btnsubmit" value="Submit" />
+                            <input type="reset" value="Reset" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+>>>>>>> 24b373321642d088cc3c22905636a7e1b95cc5a5
 </html>
