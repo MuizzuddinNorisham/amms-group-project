@@ -135,11 +135,11 @@ $dbc->close();
                 </a>
             </li>
             <li>
-                <a href="login-administrator.php" class="logout">
-                    <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
-                    <span class="text">Log out</span>
-                </a>
-            </li>
+    <a href="login-administrator.php" class="logout" onclick="confirmLogout(event)">
+        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+        <span class="text">Log out</span>
+    </a>
+</li>
         </ul>  
     </div>
     <!-- Sidebar section end -->
@@ -248,5 +248,18 @@ $dbc->close();
             </table>
         </div>
     </div>
+
+    <script>
+    function confirmLogout(e) {
+        e.preventDefault(); // Prevent default link behavior
+
+        // Show a popup confirmation
+        if (confirm("Are you sure you want to log out?")) {
+            // Show success message using alert or custom popup
+            alert("Logout successful!");
+            window.location.href = "login-administrator.php"; // Redirect after confirmation
+        }
+    }
+</script>
 </body>
 </html>

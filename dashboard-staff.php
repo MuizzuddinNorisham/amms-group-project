@@ -1,184 +1,104 @@
 <?php
-// Optional: Start session if you plan to use $_SESSION variables later
 session_start();
 
-// Check if the user is logged in and has staff privileges
+// Authentication check
 if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
     header("Location: login-administrator.php");
     exit();
 }
+
+// Database connection
+$dbc = new mysqli("localhost", "root", "", "acrylic");
+
+if ($dbc->connect_error) {
+    die("Connection failed: " . $dbc->connect_error);
+}
+
+// Fetch sales data
+$sql = "
+    SELECT p.product_name, 
+           SUM(c.cart_quantity) AS total_quantity, 
+           SUM(c.cart_total) AS total_sales
+    FROM cart c
+    JOIN product p ON c.product_id = p.product_id
+    WHERE c.cart_status = 'paid'
+    GROUP BY p.product_id
+";
+
+$result = $dbc->query($sql);
+
+$data = [];
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row;
+}
+
+$json_data = json_encode($data);
+$dbc->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link rel="stylesheet" href="dashboard-staff.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-        <title>Staff</title>
-    </head>
-    <body>
-        <!--sidebar section start-->
-        
-        <div class="sidebar" >
-            <ul>
-                <li>
-                    <a href="#" class="logo">
-                        <span class="icon"><i class="fa-solid fa-users"></i></i></span>
-                        <span class="text">Staff</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-staff.php">
-                        <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-profile-staff.php" >
-                        <span class="icon"><i class="fas fa-user"></i></span>
-                        <span class="text">Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-product-staff.php">
-                        <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
-                        <span class="text">Products</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="login-administrator.php" class="logout">
-                        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></i></span>
-                        <span class="text">Log out</span>
-                    </a>
-                </li>
-            </ul>  
-        </div>
-        <div class="content">
-            <h1 class="page-title">Dashboard</h1>
-        </div>
-
-        <!DOCTYPE html>
-<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="dashboard-admin.css">
-  <title>Dashboard</title>
-  <style>
-    /* Reset & base */
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-      background: #ffffff;
-      color: #000;
-    }
+    <meta charset="UTF-8">
+    <title>Product Sales Dashboard</title>
+    <link rel="stylesheet" href="dashboard-staff.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css "
+        crossorigin="anonymous" />
 
-    h1 {
-      font-weight: bold;
-      margin-bottom: 1.5rem;
-    }
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js "></script>
 
-    /* Dashboard container */
-    .dashboard {
-    margin-left: 200px;
-    padding: 2rem;
-    width: calc(100% - 200px);
-    background: #fff;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
 
-    /* Stats cards container */
-    .stats {
-      display: flex;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
 
-    /* Single card style */
-    .stat-item {
-      background: #dedede;
-      border-radius: 15px;
-      padding: 1rem 1.5rem;
-      flex: 1 1 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      min-width: 120px;
-    }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-    /* Card label */
-    .stat-item label {
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
+        .charts-container {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-    /* Card value blue text */
-    .stat-item .value {
-      font-size: 2.3rem;
-      font-weight: 400;
-      color: #0cb4c6;
-      letter-spacing: 0.05em;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+        .chart-container {
+            max-width: 500px;
+            width: 100%;
+            height: 300px;
+            background-color: #fff;
+            padding: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
 
-    /* Recent orders heading */
-    .recent-orders {
-      margin-bottom: 0.75rem;
-      font-weight: 700;
-      font-size: 1.125rem;
-    }
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
 
-    /* Recent orders table container */
-    .orders-table {
-      display: flex;
-      background: #dedede;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    /* Table column */
-    .order-column {
-      flex: 1;
-      min-width: 100px;
-      background: #fff;
-      margin: 10px;
-      border-radius: 8px;
-      box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Column header */
-    .order-column-header {
-      padding: 0.7rem;
-      font-size: 0.85rem;
-      color: #555;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-      user-select: none;
-      font-weight: 600;
-      background: #fafafa;
-    }
-
-    /* Empty content area below header */
-    .order-column-content {
-      flex-grow: 1;
-      padding: 0.7rem;
-      /* empty area, white background */
-    }
-
-  </style>
+        .no-data {
+            text-align: center;
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Sidebar Section -->
+<!-- Sidebar -->
 <div class="sidebar">
     <ul>
         <li>
@@ -194,7 +114,7 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
             </a>
         </li>
         <li>
-            <a href="dashboard-profile-staff.php" class="active">
+            <a href="dashboard-profile-staff.php">
                 <span class="icon"><i class="fas fa-user"></i></span>
                 <span class="text">Profile</span>
             </a>
@@ -206,64 +126,116 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'staff') {
             </a>
         </li>
         <li>
-            <a href="main-page.php" class="logout">
-                <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
-                <span class="text">Log out</span>
+            <a href="dashboard-order-staff.php" class="active">
+                <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
+                <span class="text">Order</span>
             </a>
+        </li>
+        <li>
+            <li>
+    <a href="login-administrator.php" class="logout" onclick="confirmLogout(event)">
+        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+        <span class="text">Log out</span>
+    </a>
+</li>
         </li>
     </ul>
 </div>
 
-  <section class="dashboard" aria-label="Dashboard overview">
+<!-- Main Content -->
+<div class="content">
+    <h2>Product Sales Overview</h2>
 
-    <div class="stats" role="list" aria-label="Key statistics">
-      <div class="stat-item" role="listitem" aria-label="Users count">
-        <label for="usersCount">Users</label>
-        <div id="usersCount" class="value" aria-live="polite" aria-atomic="true">000</div>
-      </div>
-      <div class="stat-item" role="listitem" aria-label="Total product sold">
-        <label for="productsSold">Total Product Sold</label>
-        <div id="productsSold" class="value" aria-live="polite" aria-atomic="true">000</div>
-      </div>
-      <div class="stat-item" role="listitem" aria-label="Total revenue">
-        <label for="totalRevenue">Total Revenue</label>
-        <div id="totalRevenue" class="value" aria-live="polite" aria-atomic="true">RM000</div>
-      </div>
-    </div>
+    <?php if (count($data) > 0): ?>
+        <div class="charts-container">
+            <!-- Bar Chart -->
+            <div class="chart-container">
+                <canvas id="salesChart"></canvas>
+            </div>
 
-    <div class="recent-orders" tabindex="0" aria-label="Recent Orders">
-      Recent Orders
-    </div>
+            <!-- Pie Chart -->
+            <div class="chart-container">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    <?php else: ?>
+        <p class="no-data">No sales data available.</p>
+    <?php endif; ?>
+</div>
 
-    <div class="orders-table" role="table" aria-label="Recent orders details">
-      <div class="order-column" role="columnheader">
-        <div class="order-column-header">Customer Name</div>
-        <div class="order-column-content" aria-readonly="true"></div>
-      </div>
-      <div class="order-column" role="columnheader">
-        <div class="order-column-header">Product Name</div>
-        <div class="order-column-content" aria-readonly="true"></div>
-      </div>
-      <div class="order-column" role="columnheader">
-        <div class="order-column-header">Quantity</div>
-        <div class="order-column-content" aria-readonly="true"></div>
-      </div>
-      <div class="order-column" role="columnheader">
-        <div class="order-column-header">Price (RM)</div>
-        <div class="order-column-content" aria-readonly="true"></div>
-      </div>
-      <div class="order-column" role="columnheader">
-        <div class="order-column-header">Type</div>
-        <div class="order-column-content" aria-readonly="true"></div>
-      </div>
-      <div class="order-column" role="columnheader">
-        <div class="order-column-header">Status</div>
-        <div class="order-column-content" aria-readonly="true"></div>
-      </div>
-    </div>
+<script>
+    const jsonData = <?= $json_data ?>;
 
-  </section>
+    const labels = jsonData.map(item => item.product_name);
+    const quantities = jsonData.map(item => parseInt(item.total_quantity));
+    const sales = jsonData.map(item => parseFloat(item.total_sales));
+
+    if (labels.length > 0) {
+        // BAR CHART - Units Sold & Total Sales
+        const ctxBar = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Units Sold',
+                        data: quantities,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                    },
+                    {
+                        label: 'Total Sales (RM)',
+                        data: sales,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Sales by Product' }
+                }
+            }
+        });
+
+        // PIE CHART - Quantity Distribution
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Sales Distribution',
+                    data: quantities,
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Sales Distribution by Product' }
+                }
+            }
+        });
+    }
+
+    function confirmLogout(e) {
+        e.preventDefault(); // Stop the link from navigating immediately
+
+        // Show confirmation dialog
+        const isConfirmed = confirm("Are you sure you want to log out?");
+
+        if (isConfirmed) {
+            alert("You have been logged out successfully.");
+            window.location.href = "login-administrator.php"; // Redirect to login page
+        }
+    }
+</script>
+
 </body>
-</html>
-    </body>
 </html>
