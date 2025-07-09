@@ -65,6 +65,7 @@ $products = $dbc->query("SELECT * FROM product");
       width: 100%;
     }
 
+    /* Sidebar Styles (Original kept) */
     .sidebar {
       position: fixed;
       top: 0;
@@ -72,22 +73,16 @@ $products = $dbc->query("SELECT * FROM product");
       height: 100%;
       width: 200px;
       background: #333;
+      overflow-x: hidden;
       padding-top: 10px;
-      overflow-y: auto;
+      transition: 0.6s ease;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
 
     .sidebar ul {
       list-style: none;
       padding: 0;
-    }
-
-    .sidebar ul li {
-      margin: 5px 0;
-    }
-
-    .sidebar ul li:hover {
-      background: #06e6e6;
+      margin: 0;
     }
 
     .sidebar ul li a {
@@ -96,6 +91,10 @@ $products = $dbc->query("SELECT * FROM product");
       color: #fff;
       text-decoration: none;
       padding: 12px;
+    }
+
+    .sidebar ul li:hover {
+      background: #06e6e6;
     }
 
     .sidebar ul li a .icon {
@@ -108,6 +107,7 @@ $products = $dbc->query("SELECT * FROM product");
       font-weight: 500;
     }
 
+    /* Main content */
     .content-wrapper {
       margin-left: 200px;
       padding: 20px;
@@ -243,7 +243,7 @@ $products = $dbc->query("SELECT * FROM product");
     </ul>
   </div>
 
-  <!-- Main Content -->
+  <!-- Content -->
   <div class="content-wrapper">
     <div class="container">
       <div class="header">
