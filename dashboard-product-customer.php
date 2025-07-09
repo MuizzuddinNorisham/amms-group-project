@@ -61,7 +61,7 @@ if (isset($_POST['add_to_cart'])) {
 
 // Fetch all products again
 $dbc = new mysqli("localhost", "root", "", "acrylic");
-$sql = "SELECT product_id, product_name, product_price FROM product";
+$sql = "SELECT product_id, product_name, product_price, product_image, product_quantity FROM product";
 $result = $dbc->query($sql);
 $dbc->close();
 ?>
@@ -81,11 +81,20 @@ $dbc->close();
     <link rel="stylesheet" href="dashboard-customer.css">
 
     <style>
+<<<<<<< HEAD
         .products-container {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
+=======
+    .products-container {
+        display: flex;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+>>>>>>> 36fea3ec0e1d5e2c7f0ecea77e0a00c3766a4f26
 
         .product-card {
             display: flex;
@@ -102,6 +111,7 @@ $dbc->close();
             flex-direction: column;
         }
 
+<<<<<<< HEAD
         .product-name {
             font-weight: bold;
             font-size: 1.1rem;
@@ -111,6 +121,26 @@ $dbc->close();
             color: green;
             font-size: 0.95rem;
         }
+=======
+    .product-name {
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+        color: #10b981;
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+
+    .product-quantity {
+        color:rgb(106, 106, 106);
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+>>>>>>> 36fea3ec0e1d5e2c7f0ecea77e0a00c3766a4f26
 
         .add-to-cart-btn {
             background-color: #007bff;
@@ -176,23 +206,26 @@ $dbc->close();
     <h1 class="page-title">Available Products</h1>
 
     <?php if ($result->num_rows > 0): ?>
-        <div class="products-container">
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <form method="POST" action="">
-                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
-                    <div class="product-card">
-                        <div class="product-info">
-                            <span class="product-name"><?= htmlspecialchars($row['product_name']) ?></span>
-                            <span class="product-price">RM <?= number_format($row['product_price'], 2) ?></span>
-                        </div>
-                        <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
+    <div class="products-container">
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <form method="POST" action="">
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($row['product_id']) ?>">
+                <div class="product-card">
+                    <div class="product-info">
+                        <img src="<?= htmlspecialchars($row['product_image']) ?>" width="220" >
+                        <span class="product-name"><?= htmlspecialchars($row['product_name']) ?></span>
+                        <span class="product-price">RM <?= number_format($row['product_price'], 2) ?></span>
+                        <span class="product-quantity"> <?= htmlspecialchars($row['product_quantity'], 2) ?>/1pack</span>
                     </div>
-                </form>
-            <?php endwhile; ?>
-        </div>
-    <?php else: ?>
-        <p>No products available at the moment.</p>
-    <?php endif; ?>
+                    <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </form>
+        <?php endwhile; ?>
+    </div>
+<?php else: ?>
+    <p>No products available at the moment.</p>
+<?php endif; ?>
+
 </div>
 
 </body>
