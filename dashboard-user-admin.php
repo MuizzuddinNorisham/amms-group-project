@@ -215,39 +215,46 @@ $dbc->close();
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <ul>
-        <li>
-            <a href="#" class="logo">
-                <span class="icon"><i class="fa-solid fa-user-shield"></i></span>
-                <span class="text">Admin</span>
+    <!-- Sidebar section start -->
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="#" class="logo">
+                    <span class="icon"><i class="fa-solid fa-user-shield"></i></span>
+                    <span class="text">Admin</span>
+                </a>
+            </li>
+            <li>
+                <a href="dashboard-admin.php">
+                    <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="dashboard-profile-admin.php">
+                    <span class="icon"><i class="fa-solid fa-user-shield"></i></span>
+                    <span class="text">Profile</span>
+                </a>
+            </li>
+            <li>
+                <a href="dashboard-user-admin.php">
+                    <span class="icon"><i class="fa-solid fa-user"></i></span>
+                    <span class="text">User </span>
+                </a>
+            </li>
+            <li>
+                <a href="dashboard-feedback-admin.php">
+                    <span class="icon"><i class="fa-solid fa-comment"></i></span>
+                    <span class="text">Feedback</span>
+                </a>
+            </li>
+            <li>
+            <a href="dashboard-order-admin.php">
+                <span class="icon"><i class="fa-solid fa-clipboard"></i></span>
+                <span class="text">Order</span>
             </a>
         </li>
-        <li>
-            <a href="dashboard-admin.php">
-                <span class="icon"><i class="fa-solid fa-table-columns"></i></span>
-                <span class="text">Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="dashboard-profile-admin.php" class="active">
-                <span class="icon"><i class="fas fa-user"></i></span>
-                <span class="text">Profile</span>
-            </a>
-        </li>
-        <li>
-            <a href="dashboard-user-admin.php">
-                <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
-                <span class="text">User </span>
-            </a>
-        </li>
-        <li>
-            <a href="dashboard-feedback-admin.php">
-                <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
-                <span class="text">Feedback</span>
-            </a>
-        </li>
-        <li>
+            <li>
     <a href="login-administrator.php" class="logout" onclick="confirmLogout(event)">
         <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
         <span class="text">Log out</span>
