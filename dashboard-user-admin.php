@@ -1,7 +1,6 @@
 <?php
 // Database connection
 $dbc = new mysqli("localhost", "root", "", "acrylic");
-
 if ($dbc->connect_error) {
     die("Connection failed: " . $dbc->connect_error);
 }
@@ -23,7 +22,7 @@ if ($action === 'add') {
         $sql = "INSERT INTO staff (staff_name, staff_email, staff_pass, staff_phone, staff_address)
                 VALUES ('$username', '$useremail', '$userpass', '$userphone', '$useraddress')";
         if ($dbc->query($sql)) {
-            $message = "User  added successfully.";
+            $message = "User added successfully.";
         } else {
             $message = "Error adding user: " . $dbc->error;
         }
@@ -36,7 +35,7 @@ if ($action === 'delete') {
     if ($useremail) {
         $sql = "DELETE FROM staff WHERE staff_email = '$useremail'";
         if ($dbc->query($sql)) {
-            $message = "User  deleted successfully.";
+            $message = "User deleted successfully.";
         } else {
             $message = "Error deleting user: " . $dbc->error;
         }
@@ -64,7 +63,7 @@ if ($action === 'update') {
                 WHERE staff_email = '$originalEmail'";
 
         if ($dbc->query($sql)) {
-            $message = "User  updated successfully.";
+            $message = "User updated successfully.";
         } else {
             $message = "Error updating user: " . $dbc->error;
         }
@@ -93,12 +92,92 @@ $dbc->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dashboard-admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-    integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Admin Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - User Management</title>
+  <link rel="stylesheet" href="dashboard-admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f0f0f0;
+      display: flex;
+    }
+
+    .content-wrapper {
+      margin-left: 200px;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #3cc;
+      color: white;
+    }
+
+    .edit-btn, .delete-btn {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background-color: green;
+    }
+
+    .delete-btn {
+      background-color: red;
+    }
+
+    .form-section {
+      margin-bottom: 40px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #3cc;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
     <!-- Sidebar section start -->
@@ -146,126 +225,88 @@ $dbc->close();
         <span class="text">Log out</span>
     </a>
 </li>
-        </ul>  
+    </ul>
+</div>
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="header">
+        <h2>User Management</h2>
+      </div>
+
+      <?php if (!empty($message)): ?>
+        <div class="message"> <?= htmlspecialchars($message) ?> </div>
+      <?php endif; ?>
+
+      <div class="form-section">
+        <form method="POST">
+          <input type="hidden" name="action" value="<?= isset($_GET['edit']) ? 'update' : 'add' ?>">
+          <?php if (isset($_GET['edit'])):
+            $user = array_filter($users, fn($u) => $u['staff_email'] == $_GET['edit']);
+            $user = reset($user); ?>
+            <input type="hidden" name="original_email" value="<?= htmlspecialchars($user['staff_email']) ?>">
+          <?php endif; ?>
+
+          <label>Name</label>
+          <input type="text" name="username" value="<?= isset($user) ? htmlspecialchars($user['staff_name']) : '' ?>" required>
+
+          <label>Email</label>
+          <input type="email" name="useremail" value="<?= isset($user) ? htmlspecialchars($user['staff_email']) : '' ?>" required>
+
+          <label>Password</label>
+          <input type="password" name="userpass" value="<?= isset($user) ? htmlspecialchars($user['staff_pass']) : '' ?>" required>
+
+          <label>Phone</label>
+          <input type="tel" name="userphone" value="<?= isset($user) ? htmlspecialchars($user['staff_phone']) : '' ?>">
+
+          <label>Address</label>
+          <textarea name="useraddress"><?= isset($user) ? htmlspecialchars($user['staff_address']) : '' ?></textarea>
+
+          <button type="submit"> <?= isset($_GET['edit']) ? 'Update' : 'Add' ?> User </button>
+        </form>
+      </div>
+
+      <h3>Staff List</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($users as $user): ?>
+            <tr>
+              <td><?= htmlspecialchars($user['staff_name']) ?></td>
+              <td><?= htmlspecialchars($user['staff_email']) ?></td>
+              <td><?= htmlspecialchars($user['staff_phone']) ?></td>
+              <td><?= htmlspecialchars($user['staff_address']) ?></td>
+              <td>
+                <a href="?edit=<?= urlencode($user['staff_email']) ?>" class="edit-btn">Edit</a>
+                <a href="?action=delete&email=<?= urlencode($user['staff_email']) ?>" onclick="return confirm('Are you sure?')" class="delete-btn">Delete</a>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+
+      <h3>Customer List</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th><th>Email</th><th>Phone</th><th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($customers as $customer): ?>
+            <tr>
+              <td><?= htmlspecialchars($customer['cust_name']) ?></td>
+              <td><?= htmlspecialchars($customer['cust_email']) ?></td>
+              <td><?= htmlspecialchars($customer['cust_phone']) ?></td>
+              <td><?= htmlspecialchars($customer['cust_address']) ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </div>
-    <!-- Sidebar section end -->
-
-    <div class="content">
-        <h1 class="page-title">Admin Dashboard</h1>
-
-        <div class="login-container">
-            <h2>Staff Form</h2>
-
-            <!-- Display Messages -->
-            <?php if (!empty($message)): ?>
-                <div class="message"><?= htmlspecialchars($message) ?></div>
-            <?php endif; ?>
-
-            <!-- Add/Edit Form in Table Format -->
-            <table>
-                <form method="post" action="">
-                    <input type="hidden" name="action" value="<?= isset($_GET['edit']) ? 'update' : 'add' ?>">
-                    
-                    <?php if (isset($_GET['edit'])):
-                        $user = array_filter($users, fn($u) => $u['staff_email'] == $_GET['edit']);
-                        $user = reset($user); ?>
-                        <input type="hidden" name="original_email" value="<?= htmlspecialchars($user['staff_email']) ?>">
-                    <?php endif; ?>
-
-                    <tr>
-                        <td><label for="name">Name</label></td>
-                        <td><input type="text" id="name" name="username" value="<?= isset($user) ? htmlspecialchars($user['staff_name']) : '' ?>" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="email">Email</label></td>
-                        <td><input type="email" id="email" name="useremail" value="<?= isset($user) ? htmlspecialchars($user['staff_email']) : '' ?>" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="password">Password</label></td>
-                        <td><input type="password" id="password" name="userpass" value="<?= isset($user) ? htmlspecialchars($user['staff_pass']) : '' ?>" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="phone">Phone</label></td>
-                        <td><input type="tel" id="phone" name="userphone" value="<?= isset($user) ? htmlspecialchars($user['staff_phone']) : '' ?>"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="address">Address</label></td>
-                        <td><input type="text" id="address" name="useraddress" value="<?= isset($user) ? htmlspecialchars($user['staff_address']) : '' ?>"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="submit"><?= isset($_GET['edit']) ? 'Update' : 'Add' ?> User</button></td>
-                    </tr>
-                </form>
-            </table>
-
-            <hr>
-
-            <!-- Staff List -->
-            <h3>Staff List</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($users as $user): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($user['staff_name']) ?></td>
-                            <td><?= htmlspecialchars($user['staff_email']) ?></td>
-                            <td><?= htmlspecialchars($user['staff_phone']) ?></td>
-                            <td><?= htmlspecialchars($user['staff_address']) ?></td>
-                            <td>
-                                <a href="?edit=<?= urlencode($user['staff_email']) ?>">Edit</a> |
-                                <a href="?action=delete&email=<?= urlencode($user['staff_email']) ?>" onclick="return confirm('Are you sure?')">Delete</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
-            <hr>
-
-            <!-- Customer List -->
-            <h3>Customer List</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($customers as $customer): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($customer['cust_name']) ?></td>
-                            <td><?= htmlspecialchars($customer['cust_email']) ?></td>
-                            <td><?= htmlspecialchars($customer['cust_phone']) ?></td>
-                            <td><?= htmlspecialchars($customer['cust_address']) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script>
-    function confirmLogout(e) {
-        e.preventDefault(); // Prevent default link behavior
-
-        // Show a popup confirmation
-        if (confirm("Are you sure you want to log out?")) {
-            // Show success message using alert or custom popup
-            alert("Logout successful!");
-            window.location.href = "login-administrator.php"; // Redirect after confirmation
-        }
-    }
-</script>
+  </div>
 </body>
 </html>

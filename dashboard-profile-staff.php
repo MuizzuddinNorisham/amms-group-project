@@ -70,7 +70,7 @@ $dbc->close();
         </li>
         <li>
             <a href="dashboard-order-staff.php">
-                <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+                <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
                 <span class="text">Order</span>
             </a>
         </li>
