@@ -10,7 +10,7 @@ if (!isset($_SESSION['cust_id'])) {
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
-    $rating = $_POST['rating'];
+    $rating = intval($_POST['rating']);
     $message = $_POST['message'];
 
     // Database connection
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         echo "<script>alert('Thank you for your feedback!'); window.location.href='dashboard-feedback-customer.php';</script>";
     } else {
-        echo "<script>alert('Error submitting feedback. Please try again.');</script>";
+        echo "<script>alert('Error submitting feedback. Please try again.'); window.location.href='dashboard-feedback-customer.php';</script>";
     }
 
     $stmt->close();
@@ -39,7 +39,7 @@ $conn = new mysqli("localhost", "root", "", "acrylic");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$sql = "SELECT feedback_id, feedback_name, feedback_rate, feedback_details FROM feedback";
+$sql = "SELECT feedback_name, feedback_rate, feedback_details FROM feedback ORDER BY feedback_id DESC";
 $result = $conn->query($sql);
 $conn->close();
 ?>
@@ -57,6 +57,118 @@ $conn->close();
 
     <!-- External CSS -->
     <link rel="stylesheet" href="dashboard-customer.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            margin-left: 220px;
+            padding: 2rem;
+        }
+
+        h1.page-title {
+            font-size: 2rem;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Feedback Form */
+        form {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.2rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Feedback Table */
+        .feedback-table {
+            width: 100%;
+            max-width: 800px;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .feedback-table thead th {
+            background-color: #f3f4f6;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-align: left;
+            padding: 1rem;
+        }
+
+        .feedback-table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .feedback-table td {
+            padding: 1rem;
+            vertical-align: top;
+            font-size: 0.95rem;
+            color: #1f2937;
+        }
+
+        .rating-star {
+            font-size: 1.2rem;
+        }
+
+        p {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -94,20 +206,20 @@ $conn->close();
             </a>
         </li>
         <li>
-            <a href="login-customer.php" class="logout">
-                <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
-                <span class="text">Log out</span>
-            </a>
-        </li>
+    <a href="#" onclick="confirmLogout(event)" class="logout">
+        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+        <span class="text">Log out</span>
+    </a>
+</li>
     </ul>
 </div>
 
 <!-- Main Content -->
 <div class="content">
-    <h1 class="page-title">Feedback</h1>
+    <h1 class="page-title">Customer Feedback</h1>
 
     <!-- Feedback Form -->
-    <h2>Leave Your Feedback</h2>
+    <h2 style="margin-bottom: 1rem;">Leave Your Feedback</h2>
     <form action="" method="POST">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" placeholder="Enter your full name" required>
@@ -128,8 +240,8 @@ $conn->close();
         <button type="submit" class="btn">Submit Feedback</button>
     </form>
 
-    <!-- Feedback Table -->
-    <?php if ($result->num_rows > 0): ?>
+    <!-- Previous Feedback -->
+    <?php if ($result && $result->num_rows > 0): ?>
         <h2>Previous Feedback</h2>
         <table class="feedback-table">
             <thead>
@@ -143,15 +255,7 @@ $conn->close();
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
                         <td><?= htmlspecialchars($row['feedback_name']) ?></td>
-                        <td>
-                            <?php
-                            $stars = '';
-                            for ($i = 0; $i < $row['feedback_rate']; $i++) {
-                                $stars .= '⭐';
-                            }
-                            echo "<span class='rating-star'>$stars</span>";
-                            ?>
-                        </td>
+                        <td><span class="rating-star"><?= str_repeat('⭐', $row['feedback_rate']) ?></span></td>
                         <td><?= nl2br(htmlspecialchars($row['feedback_details'])) ?></td>
                     </tr>
                 <?php endwhile; ?>
@@ -162,5 +266,14 @@ $conn->close();
     <?php endif; ?>
 </div>
 
+<script>
+    function confirmLogout(event) {
+        event.preventDefault(); // Prevent default link behavior
+
+        if (confirm("Are you sure you want to log out?")) {
+            window.location.href = "login-customer.php"; // Redirect to logout page
+        }
+    }
+</script>
 </body>
 </html>

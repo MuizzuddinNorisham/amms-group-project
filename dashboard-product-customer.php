@@ -235,11 +235,11 @@ $dbc->close();
             </a>
         </li>
         <li>
-            <a href="login-customer.php" class="logout">
-                <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
-                <span class="text">Log out</span>
-            </a>
-        </li>
+    <a href="#" onclick="confirmLogout(event)" class="logout">
+        <span class="icon"><i class="fa-solid fa-circle-arrow-left"></i></span>
+        <span class="text">Log out</span>
+    </a>
+</li>
     </ul>
 </div>
 
@@ -274,6 +274,16 @@ $dbc->close();
         <p>No products available at the moment.</p>
     <?php endif; ?>
 </div>
+
+<script>
+    function confirmLogout(event) {
+        event.preventDefault(); // Prevent default link behavior
+
+        if (confirm("Are you sure you want to log out?")) {
+            window.location.href = "login-customer.php"; // Redirect to logout page
+        }
+    }
+</script>
 
 </body>
 </html>
