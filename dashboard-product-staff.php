@@ -372,6 +372,16 @@ $products = $dbc->query("SELECT * FROM product");
     };
   });
 
+  // Functional search bar
+  const searchInput = document.querySelector('.search-container input[type="text"]');
+  searchInput.addEventListener('input', function() {
+    const filter = this.value.toLowerCase();
+    document.querySelectorAll("tbody tr").forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(filter) ? "" : "none";
+    });
+  });
+
   function confirmLogout(e) {
         e.preventDefault(); // Stop the link from navigating immediately
 
