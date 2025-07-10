@@ -161,9 +161,10 @@ $products = $dbc->query("SELECT * FROM product");
       z-index: 999;
       left: 0;
       top: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       background-color: rgba(0,0,0,0.4);
+      overflow-y: auto;
     }
 
     .modal-content {
@@ -174,6 +175,7 @@ $products = $dbc->query("SELECT * FROM product");
       max-width: 500px;
       border-radius: 10px;
       position: relative;
+      box-sizing: border-box;
     }
 
     .close {
