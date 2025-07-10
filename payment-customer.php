@@ -223,7 +223,7 @@ $dbc->close();
         <!-- Hidden Form -->
         <div class="inputFields" id="inputFields">
             <input type="text" name="accountNumber" placeholder="Enter Bank Account Number" required>
-            <input type="password" name="password" placeholder="Enter Customer Password" required>
+            <input type="password" name="password" placeholder="Enter Bank Password" required>
             <button type="submit" name="submit_payment" class="confirmButton">Submit Payment</button>
         </div>
     </form>
