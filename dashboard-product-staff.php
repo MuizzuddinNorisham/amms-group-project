@@ -267,7 +267,7 @@ $products = $dbc->query("SELECT * FROM product");
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Type</th><th>Design</th><th>Font</th><th>Action</th>
+            <th>ID</th><th>Name</th><th>Price</th><th>Quantity/Pack</th><th>Type</th><th>Design</th><th>Font</th><th>Action</th>
           </tr>
         </thead>
         <tbody>

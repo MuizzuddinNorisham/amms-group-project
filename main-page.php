@@ -27,8 +27,6 @@ session_start();
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#products">Products</a>
-      <a href="#review">Review</a>
-      <a href="#contact">Contact</a>
     </nav>
     <div class="icons">
       <div class="dropdown">
@@ -68,7 +66,7 @@ session_start();
       <div class="content">
         <h3>Why choose us?</h3>
         <p>At Bezora Smart Service, we believe every detail matters. We’re passionate about turning your ideas into beautifully crafted acrylic tags that leave a lasting impression. Whether it’s for personal gifts or branding, we bring creativity and quality together just for you.</p>
-        <a href="aboutpage.html" class="btn">Learn more</a>
+        
       </div>
     </div>
   </section>
@@ -171,28 +169,7 @@ session_start();
                         <div class="price">RM60.00</div>
                     </div>
                 </div>
-                <div class="box">
-                    <div class="image">
-                        <img src="asset/prod4.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>clear lettering black background</h3>
-                        <div class="price">RM45.00</div>
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="image">
-                        <img src="asset/prod4.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>clear lettering black background</h3>
-                        <div class="price">RM45.00</div>
-                    </div>
-                </div>
-            </div>
-            <div style="display: flex; justify-content: center; margin-top: 2rem;">
-                <a href="productlist.html" class="btn">More</a>
-            </div>     
+               
         </section>
 
         <!--products section ends-->
@@ -202,18 +179,7 @@ session_start();
         <!--review section ends-->
 
         <!-- Contact Section -->
-  <section class="contact" id="contact">
-    <h1 class="heading">Contact <span>Us</span></h1>
-    <div class="row">
-      <form action="">
-        <input type="text" placeholder="Name" class="box">
-        <input type="email" placeholder="Email" class="box">
-        <input type="number" placeholder="Number" class="box">
-        <textarea name="" class="box" placeholder="Message" cols="30" rows="10"></textarea>
-        <input type="submit" value="Send Message" class="btn">
-      </form>
-    </div>
-  </section>
+  
 
   <!-- JavaScript for Dropdown Menu -->
   <script>
