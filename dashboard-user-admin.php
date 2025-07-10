@@ -157,8 +157,43 @@ $dbc->close();
       background-color: red;
     }
 
-    .form-section {
-      margin-bottom: 40px;
+    .add-user {
+      padding: 10px 20px;
+      background-color: #3cc;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background: #fff;
+      margin: 50px auto;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #aaa;
     }
 
     input, textarea {
@@ -231,39 +266,12 @@ $dbc->close();
     <div class="container">
       <div class="header">
         <h2>User Management</h2>
+        <button class="add-user">Add User</button>
       </div>
 
       <?php if (!empty($message)): ?>
         <div class="message"> <?= htmlspecialchars($message) ?> </div>
       <?php endif; ?>
-
-      <div class="form-section">
-        <form method="POST">
-          <input type="hidden" name="action" value="<?= isset($_GET['edit']) ? 'update' : 'add' ?>">
-          <?php if (isset($_GET['edit'])):
-            $user = array_filter($users, fn($u) => $u['staff_email'] == $_GET['edit']);
-            $user = reset($user); ?>
-            <input type="hidden" name="original_email" value="<?= htmlspecialchars($user['staff_email']) ?>">
-          <?php endif; ?>
-
-          <label>Name</label>
-          <input type="text" name="username" value="<?= isset($user) ? htmlspecialchars($user['staff_name']) : '' ?>" required>
-
-          <label>Email</label>
-          <input type="email" name="useremail" value="<?= isset($user) ? htmlspecialchars($user['staff_email']) : '' ?>" required>
-
-          <label>Password</label>
-          <input type="password" name="userpass" value="<?= isset($user) ? htmlspecialchars($user['staff_pass']) : '' ?>" required>
-
-          <label>Phone</label>
-          <input type="tel" name="userphone" value="<?= isset($user) ? htmlspecialchars($user['staff_phone']) : '' ?>">
-
-          <label>Address</label>
-          <textarea name="useraddress"><?= isset($user) ? htmlspecialchars($user['staff_address']) : '' ?></textarea>
-
-          <button type="submit"> <?= isset($_GET['edit']) ? 'Update' : 'Add' ?> User </button>
-        </form>
-      </div>
 
       <h3>Staff List</h3>
       <table>
@@ -274,13 +282,13 @@ $dbc->close();
         </thead>
         <tbody>
           <?php foreach ($users as $user): ?>
-            <tr>
+            <tr data-user='<?= json_encode($user) ?>'>
               <td><?= htmlspecialchars($user['staff_name']) ?></td>
               <td><?= htmlspecialchars($user['staff_email']) ?></td>
               <td><?= htmlspecialchars($user['staff_phone']) ?></td>
               <td><?= htmlspecialchars($user['staff_address']) ?></td>
               <td>
-                <a href="?edit=<?= urlencode($user['staff_email']) ?>" class="edit-btn">Edit</a>
+                <button class="edit-btn">Edit</button>
                 <a href="?action=delete&email=<?= urlencode($user['staff_email']) ?>" onclick="return confirm('Are you sure?')" class="delete-btn">Delete</a>
               </td>
             </tr>
@@ -308,5 +316,64 @@ $dbc->close();
       </table>
     </div>
   </div>
+
+  <div id="userModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form method="POST">
+        <input type="hidden" name="action" value="add">
+        <input type="hidden" name="original_email" id="original_email">
+
+        <label>Name</label>
+        <input type="text" name="username" id="username" required>
+
+        <label>Email</label>
+        <input type="email" name="useremail" id="useremail" required>
+
+        <label>Password</label>
+        <input type="password" name="userpass" id="userpass" required>
+
+        <label>Phone</label>
+        <input type="tel" name="userphone" id="userphone">
+
+        <label>Address</label>
+        <textarea name="useraddress" id="useraddress"></textarea>
+
+        <button type="submit">Save</button>
+        <button type="reset" style="background-color:#aaa; margin-left:10px;">Reset</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("userModal");
+    const openBtn = document.querySelector(".add-user");
+    const closeBtn = document.querySelector(".close");
+    const form = modal.querySelector("form");
+
+    openBtn.onclick = () => {
+      form.reset();
+      form.action.value = 'add';
+      document.getElementById('original_email').value = '';
+      modal.style.display = "block";
+    };
+
+    closeBtn.onclick = () => modal.style.display = "none";
+    window.onclick = e => { if (e.target == modal) modal.style.display = "none"; };
+
+    document.querySelectorAll(".edit-btn").forEach(btn => {
+      btn.onclick = function () {
+        const data = JSON.parse(this.closest("tr").dataset.user);
+        form.action.value = 'update';
+        document.getElementById('original_email').value = data.staff_email;
+        document.getElementById('username').value = data.staff_name;
+        document.getElementById('useremail').value = data.staff_email;
+        document.getElementById('userpass').value = data.staff_pass;
+        document.getElementById('userphone').value = data.staff_phone;
+        document.getElementById('useraddress').value = data.staff_address;
+        modal.style.display = "block";
+      }
+    });
+  </script>
 </body>
 </html>
