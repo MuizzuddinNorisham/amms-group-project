@@ -224,43 +224,43 @@ $dbc->close();
     </div>
 
     <h2>Payment Table</h2>
-    <div class="table-wrapper">
-        <?php if ($payment_result && $payment_result->num_rows > 0): ?>
-            <table>
-                <thead>
+<div class="table-wrapper">
+    <?php if ($payment_result && $payment_result->num_rows > 0): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Method</th>
+                    <th>Amount (RM)</th>
+                    <th>Account No</th>
+                    <th>Cust ID</th>
+                    <!-- Removed: <th>Receipt ID</th> -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $payment_result->fetch_assoc()): ?>
                     <tr>
-                        <th>ID</th>
-                        <th>Method</th>
-                        <th>Amount (RM)</th>
-                        <th>Account No</th>
-                        <th>Cust ID</th>
-                        <th>Receipt ID</th>
-                        <th>Action</th>
+                        <td><?= htmlspecialchars($row['payment_id']) ?></td>
+                        <td><?= htmlspecialchars($row['payment_method']) ?></td>
+                        <td><?= number_format($row['payment_amount'], 2) ?></td>
+                        <td><?= htmlspecialchars($row['account_no']) ?></td>
+                        <td><?= htmlspecialchars($row['cust_id']) ?></td>
+                        <!-- Removed: <td><?= htmlspecialchars($row['receipt_id']) ?></td> -->
+                        <td>
+                            <form method="post" style="display:inline;">
+                                <input type="hidden" name="payment_id" value="<?= $row['payment_id'] ?>">
+                                <button type="submit" name="delete_payment" class="btn-delete">Delete</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $payment_result->fetch_assoc()): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($row['payment_id']) ?></td>
-                            <td><?= htmlspecialchars($row['payment_method']) ?></td>
-                            <td><?= number_format($row['payment_amount'], 2) ?></td>
-                            <td><?= htmlspecialchars($row['account_no']) ?></td>
-                            <td><?= htmlspecialchars($row['cust_id']) ?></td>
-                            <td><?= htmlspecialchars($row['receipt_id']) ?></td>
-                            <td>
-                                <form method="post" style="display:inline;">
-                                    <input type="hidden" name="payment_id" value="<?= $row['payment_id'] ?>">
-                                    <button type="submit" name="delete_payment" class="btn-delete">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p class="empty-message">No records found in the payment table.</p>
-        <?php endif; ?>
-    </div>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="empty-message">No records found in the payment table.</p>
+    <?php endif; ?>
+</div>
 </div>
 
 <!-- Logout Script -->
