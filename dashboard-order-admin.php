@@ -176,36 +176,36 @@ $payment_result = $dbc->query($payment_query);
         </div>
 
         <div class="table-wrapper">
-            <h2>Payment Table</h2>
-            <?php if ($payment_result && $payment_result->num_rows > 0): ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Method</th>
-                            <th>Amount (RM)</th>
-                            <th>Account No</th>
-                            <th>Cust ID</th>
-                            <th>Receipt ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $payment_result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($row['payment_id']) ?></td>
-                                <td><?= htmlspecialchars($row['payment_method']) ?></td>
-                                <td><?= number_format($row['payment_amount'], 2) ?></td>
-                                <td><?= htmlspecialchars($row['account_no']) ?></td>
-                                <td><?= htmlspecialchars($row['cust_id']) ?></td>
-                                <td><?= htmlspecialchars($row['receipt_id']) ?></td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <p>No records found in the payment table.</p>
-            <?php endif; ?>
-        </div>
+    <h2>Payment Table</h2>
+    <?php if ($payment_result && $payment_result->num_rows > 0): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Method</th>
+                    <th>Amount (RM)</th>
+                    <th>Account No</th>
+                    <th>Cust ID</th>
+                    <!-- Removed: <th>Receipt ID</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $payment_result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['payment_id']) ?></td>
+                        <td><?= htmlspecialchars($row['payment_method']) ?></td>
+                        <td><?= number_format($row['payment_amount'], 2) ?></td>
+                        <td><?= htmlspecialchars($row['account_no']) ?></td>
+                        <td><?= htmlspecialchars($row['cust_id']) ?></td>
+                        <!-- Removed: <td><?= htmlspecialchars($row['receipt_id']) ?></td> -->
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>No records found in the payment table.</p>
+    <?php endif; ?>
+</div>
     </div>
 </div>
 

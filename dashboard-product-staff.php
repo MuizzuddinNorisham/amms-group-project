@@ -8,11 +8,20 @@ if ($dbc->connect_error) {
 // Handle deletion
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_id'])) {
     $deleteId = $_POST['delete_id'];
+
+    // First delete any referencing rows in 'cart'
+    $stmt = $dbc->prepare("DELETE FROM cart WHERE product_id = ?");
+    $stmt->bind_param("i", $deleteId);
+    $stmt->execute();
+    $stmt->close();
+
+    // Now delete the product
     $stmt = $dbc->prepare("DELETE FROM product WHERE product_id = ?");
     $stmt->bind_param("i", $deleteId);
     $stmt->execute();
     $stmt->close();
-    echo "<script>alert('Product deleted successfully.'); window.location.href='dashboard-product-staff.php';</script>";
+
+    echo "<script>alert('Product and associated cart items deleted successfully.'); window.location.href='dashboard-product-staff.php';</script>";
     exit();
 }
 
@@ -339,7 +348,6 @@ $products = $dbc->query("SELECT * FROM product");
     </form>
   </div>
 </div>
-
 
 <!-- Script -->
 <script>
