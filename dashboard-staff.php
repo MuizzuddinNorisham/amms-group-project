@@ -61,7 +61,7 @@ $dbc->close();
             padding: 20px;
         }
 
-        h2 {
+        h3 {
             text-align: center;
             color: #333;
             margin-bottom: 20px;
@@ -144,7 +144,8 @@ $dbc->close();
 
 <!-- Main Content -->
 <div class="content">
-    <h2>Product Sales Overview</h2>
+<h2>Dashboard</h2>   
+<h3>Product Sales Overview</h3>
 
     <?php if (count($data) > 0): ?>
         <div class="charts-container">
