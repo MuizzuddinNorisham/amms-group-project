@@ -21,6 +21,7 @@ if (isset($_POST['delete_cart'])) {
     $stmt->bind_param("i", $cart_id);
     $stmt->execute();
     $stmt->close();
+    $_SESSION['success_message'] = "Cart record deleted successfully!";
     header("Location: dashboard-order-staff.php");
     exit();
 }
@@ -32,6 +33,7 @@ if (isset($_POST['delete_payment'])) {
     $stmt->bind_param("i", $payment_id);
     $stmt->execute();
     $stmt->close();
+    $_SESSION['success_message'] = "Payment record deleted successfully!";
     header("Location: dashboard-order-staff.php");
     exit();
 }
@@ -263,6 +265,14 @@ $dbc->close();
 </div>
 </div>
 
+<?php if (isset($_SESSION['success_message'])): ?>
+<script>
+    window.onload = function() {
+        alert("<?= $_SESSION['success_message'] ?>");
+    };
+</script>
+<?php unset($_SESSION['success_message']); endif; ?>
+
 <!-- Logout Script -->
 <script>
     function confirmLogout(e) {
@@ -275,6 +285,14 @@ $dbc->close();
             window.location.href = "login-administrator.php"; // Redirect to login page
         }
     }
+
+    document.querySelectorAll('.btn-delete').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            if (!confirm('Are you sure you want to delete this record?')) {
+                e.preventDefault();
+            }
+        });
+    });
 </script>
 
 </body>
